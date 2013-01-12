@@ -17,21 +17,15 @@
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CORE_INCLUDE_SCENENODECOMPONENT_H_
-#define CORE_INCLUDE_SCENENODECOMPONENT_H_
+#include "core/rendermanager.h"
 
-namespace kore {
-  class SceneNode;
-  class SceneNodeComponent {
-  public:
-    SceneNodeComponent(void);
-  virtual ~SceneNodeComponent(void);
-  SceneNode* getNode(void);
-  void attachTo(SceneNode* node);
-  int64_t getID(void);
-  private:
-    int64_t _id;
-    SceneNode* _node;
-  };
-};
-#endif  // CORE_INCLUDE_SCENENODECOMPONENT_H_
+kore::RenderManager* kore::RenderManager::getInstance(void) {
+  static kore::RenderManager theInstance;
+  return &theInstance;
+}
+
+kore::RenderManager::RenderManager(void) {
+}
+
+kore::RenderManager::~RenderManager(void) {
+}

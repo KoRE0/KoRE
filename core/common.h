@@ -16,26 +16,24 @@
   You should have received a copy of the GNU General Public License
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
+#ifndef CORE_COMMON_H_
+#define CORE_COMMON_H_
 
-#ifndef CORE_INCLUDE_SCENENODE_H_
-#define CORE_INCLUDE_SCENENODE_H_
+#define GLFW_INCLUDE_GL3
+#include <GL/glew.h>
+#include <GL/glfw.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_inverse.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
+#include <stdlib.h>
+#include <stdio.h>
 #include <vector>
-#include "./common.h"
-#include "./scenenodecomponent.h"
+#include <map>
+#include <string>
+#include <ctime>
 
-namespace kore {
-  class SceneNode {
-  public:
-    SceneNode(void);
-  virtual ~SceneNode(void);
-  SceneNode* getParent(void);
-  void setParent(SceneNode* parent);
-  int64_t getID(void);
-  private:
-    int64_t _id;
-    SceneNode* _parent;
-    std::vector<SceneNode*> _children;
-  };
-};
-#endif  // CORE_INCLUDE_SCENENODE_H_
+#include "core/log.h"
+
+#endif  // CORE_COMMON_H_

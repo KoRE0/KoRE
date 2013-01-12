@@ -1,5 +1,5 @@
 /*
-  Copyright ï¿½ 2012 The KoRE Project
+  Copyright © 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -17,15 +17,16 @@
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifndef CORE_KORE_H_
+#define CORE_KORE_H_
+
+#include "./common.h"
+#include "./log.h"
+#include "./rendermanager.h"
 #include "./ressourcemanager.h"
+#include "./scenemanager.h"
+#include "./scenenode.h"
+#include "./scenenodecomponent.h"
+#include "./shader.h"
 
-kore::RessourceManager* kore::RessourceManager::getInstance(void) {
-  static kore::RessourceManager theInstance;
-  return &theInstance;
-}
-
-kore::RessourceManager::RessourceManager(void) {
-}
-
-kore::RessourceManager::~RessourceManager(void) {
-}
+#endif  // CORE_KORE_H_

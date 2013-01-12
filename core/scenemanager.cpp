@@ -1,5 +1,5 @@
 /*
-  Copyright © 2012 The KoRE Project
+  Copyright ï¿½ 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -17,4 +17,16 @@
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "stdafx.h"
+#include "core/scenemanager.h"
+
+kore::SceneManager* kore::SceneManager::getInstance(void) {
+  static kore::SceneManager theInstance;
+  return &theInstance;
+}
+
+kore::SceneManager::SceneManager(void) {
+  _root = new kore::SceneNode();
+}
+
+kore::SceneManager::~SceneManager(void) {
+}

@@ -1,5 +1,5 @@
 /*
-  Copyright ï¿½ 2012 The KoRE Project
+  Copyright © 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -17,17 +17,21 @@
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "scenemanager.h"
+#ifndef CORE_SCENENODECOMPONENT_H_
+#define CORE_SCENENODECOMPONENT_H_
 
-kore::SceneManager* kore::SceneManager::getInstance(void) {
-  static kore::SceneManager theInstance;
-  return &theInstance;
-}
-
-kore::SceneManager::SceneManager(void) {
-  _root = new kore::SceneNode();
-}
-
-kore::SceneManager::~SceneManager(void) {
-
-}
+namespace kore {
+  class SceneNode;
+  class SceneNodeComponent {
+  public:
+    SceneNodeComponent(void);
+  virtual ~SceneNodeComponent(void);
+  SceneNode* getNode(void);
+  void attachTo(SceneNode* node);
+  int64_t getID(void);
+  private:
+    int64_t _id;
+    SceneNode* _node;
+  };
+};
+#endif  // CORE_SCENENODECOMPONENT_H_
