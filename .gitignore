@@ -8,8 +8,9 @@ KoRE.cbp
 CMakeLists.txt.user
 CMakeFiles
 CMakeCache.txt
+KoRE_Log.txt
 *.suo
 *.sdf
 *.opensdf
 project/Debug
-*.user
+project/Release

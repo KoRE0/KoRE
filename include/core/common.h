@@ -36,4 +36,16 @@
 
 #include "core/log.h"
 
+// Typedefs:
+typedef unsigned char uint8;
+typedef glm::half float16;
+typedef double float64;
+
+// Use this to indicate an invalid GL-handle of type GLuint
+#define GLUINT_HANDLE_INVALID 0xFFFFFFFF
+
+#define SAFE_DELETE(p) if (p) { delete p; p = NULL; }
+#define SAFE_DELETE_ARR(p) if (p[ 0 ]) delete[] p;
+#define BUFFER_OFFSET(i) ( (char*) NULL + (i) )
+
 #endif  // INCLUDE_CORE_COMMON_H_

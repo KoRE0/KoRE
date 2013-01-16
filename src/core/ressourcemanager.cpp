@@ -1,5 +1,5 @@
 /*
-  Copyright � 2012 The KoRE Project
+  Copyright @ 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -18,6 +18,13 @@
 */
 
 #include "core/ressourcemanager.h"
+#include <io.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <string>
+#include "core/Meshloader.h"
+#include "core/log.h"
+#include "core/mesh.h"
 
 kore::RessourceManager* kore::RessourceManager::getInstance(void) {
   static kore::RessourceManager theInstance;
@@ -28,4 +35,46 @@ kore::RessourceManager::RessourceManager(void) {
 }
 
 kore::RessourceManager::~RessourceManager(void) {
+}
+
+bool kore::RessourceManager::addPath(const std::string& path) {
+  if (_access(path.c_str(), 0) == 0) {
+    struct stat status;
+    stat(path.c_str(), &status);
+
+    if (status.st_mode & S_IFDIR) {
+      _ressource_paths.push_back(path);
+      kore::Log::getInstance()->write(
+        "[DEBUG] added ressource path: '%s'\n",
+        path.c_str());
+      return true;
+    } else {
+      kore::Log::getInstance()->write(
+        "[WARNING] ressource path not found: '%s'\n",
+        path.c_str());
+      return false;
+    }
+  } else {
+    kore::Log::getInstance()->write(
+      "[WARNING] ressource path not found: '%s'\n",
+      path.c_str());
+    return false;
+  }
+}
+
+std::shared_ptr<kore::Mesh>
+kore::RessourceManager::loadMesh(const std::string& filename) {
+  std::string currentpath;
+  for (unsigned int i = 0; i < _ressource_paths.size(); i++) {
+    currentpath = _ressource_paths[i] + filename;
+  }
+
+  std::shared_ptr<kore::Mesh> pNewMesh =
+      MeshLoader::getInstance()->loadMesh(filename);
+
+  if (pNewMesh) {
+     _meshes.push_back(pNewMesh);
+  }
+
+  return pNewMesh;
 }

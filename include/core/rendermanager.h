@@ -20,10 +20,15 @@
 #ifndef INCLUDE_CORE_RENDERMANAGER_H_
 #define INCLUDE_CORE_RENDERMANAGER_H_
 
+#include "core/Mesh.h"
+#include "core/Shader.h"
+
 namespace kore {
   class RenderManager {
   public:
     static RenderManager *getInstance(void);
+    void renderMesh(const std::shared_ptr<Mesh>& mesh,
+                    const std::shared_ptr<Shader>& shader);
   private:
     RenderManager(void);
     virtual ~RenderManager(void);

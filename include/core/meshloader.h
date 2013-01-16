@@ -17,17 +17,25 @@
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef INCLUDE_CORE_MESHRENDERCOMPONENT_H_
-#define INCLUDE_CORE_MESHRENDERCOMPONENT_H_
+#ifndef INCLUDE_CORE_MESHLOADER_H_
+#define INCLUDE_CORE_MESHLOADER_H_
 
 #include <string>
-#include "core/scenenodecomponent.h"
+
+#include "core/scenenode.h"
+#include "core/mesh.h"
+#include "assimp/Importer.hpp"
 
 namespace kore {
-  class MeshRenderComponent:public SceneNodeComponent {
-  public:
-    MeshRenderComponent(void);
-    virtual ~MeshRenderComponent(void);
-  };
-};
-#endif  // INCLUDE_CORE_MESHRENDERCOMPONENT_H_
+    class MeshLoader {
+        public:
+            static MeshLoader* getInstance();
+            ~MeshLoader();
+            std::shared_ptr<Mesh> loadMesh(const std::string& szMeshPath);
+        private:
+           MeshLoader();
+
+           Assimp::Importer _aiImporter;
+    };
+}
+#endif  // INCLUDE_CORE_MESHLOADER_H_

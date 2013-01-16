@@ -16,18 +16,23 @@
   You should have received a copy of the GNU General Public License
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
+#include "core/datatypes.h"
 
-#ifndef INCLUDE_CORE_MESHRENDERCOMPONENT_H_
-#define INCLUDE_CORE_MESHRENDERCOMPONENT_H_
-
-#include <string>
-#include "core/scenenodecomponent.h"
-
-namespace kore {
-  class MeshRenderComponent:public SceneNodeComponent {
-  public:
-    MeshRenderComponent(void);
-    virtual ~MeshRenderComponent(void);
-  };
-};
-#endif  // INCLUDE_CORE_MESHRENDERCOMPONENT_H_
+unsigned int kore::DatatypeUtil::getSizeFromGLdatatype(GLenum datatype) {
+    switch (datatype) {
+        case GL_FLOAT_VEC2:
+            return sizeof(glm::vec2);
+            break;
+        case GL_FLOAT_VEC3:
+            return sizeof(glm::vec3);
+            break;
+        case GL_FLOAT_VEC4:
+            return sizeof(glm::vec4);
+            break;
+        default:
+            Log::getInstance()->
+                write("[ERROR] No size for GL-datatype implemented!");
+                return 0;
+            break;
+        }
+}
