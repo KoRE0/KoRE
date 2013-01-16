@@ -57,6 +57,9 @@
     <ClInclude Include="..\include\core\meshloader.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\core\transform.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\core\log.cpp">
