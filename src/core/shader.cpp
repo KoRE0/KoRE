@@ -21,7 +21,9 @@
 #include "core/shader.h"
 
 
-kore::Shader::Shader(void) {
+kore::Shader::Shader(void)
+: _name(""),
+_shaderID(GLUINT_HANDLE_INVALID) {
   _attributes.clear();
   _uniforms.clear();
   _name.clear();
@@ -92,7 +94,7 @@ bool kore::Shader::initShader(void) {
     glShaderSource(geom_sh, 1, &tmp_prog, 0);
     glCompileShader(geom_sh);
     glAttachShader(_shaderID, geom_sh);
-    _geometry_prog.clear()
+    _geometry_prog.clear();
   }
   if (!_fragment_prog.empty()) {
     tmp_prog = _fragment_prog.c_str();
@@ -148,6 +150,14 @@ GLuint kore::Shader::getAttributeLocation(const std::string &name) {
   return 0;
 }
 
-GLuint getUniformLocation(const std::string &name) {
+GLuint kore::Shader::getUniformLocation(const std::string &name) {
   return glGetUniformLocation(_shaderID, name.c_str());
+}
+
+void kore::Shader::applyShader() {
+    glUseProgram(_shaderID);
+}
+
+GLuint kore::Shader::getProgramLocation() {
+    return _shaderID;
 }
