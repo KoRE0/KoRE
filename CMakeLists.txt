@@ -4,6 +4,10 @@ project(KoRE)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 
+if(CMAKE_COMPILER_IS_GNUCXX)
+    set(CMAKE_CXX_FLAGS "-std=c++0x")
+endif()
+
 file(GLOB_RECURSE SOURCES src/*.cpp)
 add_library(kore ${SOURCES})
 include_directories(include ext/include)
