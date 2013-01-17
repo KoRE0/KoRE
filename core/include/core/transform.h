@@ -17,20 +17,17 @@
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef INCLUDE_CORE_LOG_H_
-#define INCLUDE_CORE_LOG_H_
+#ifndef CORE_INCLUDE_CORE_TRANSFORM_H_
+#define CORE_INCLUDE_CORE_TRANSFORM_H_
 
-#include <string>
-
+#include <glm/glm.hpp>
 namespace kore {
-  class Log {
+  class Transform {
   public:
-    static Log *getInstance(void);
-    void write(const char* format, ...);
-  private:
-    Log(void);
-    virtual ~Log(void);
-    std::string _logname;
+    Transform(void) {}
+    virtual ~Transform(void) {}
+    glm::mat4 global;
+    glm::mat4 local;
   };
 };
-#endif  // INCLUDE_CORE_LOG_H_
+#endif  // CORE_INCLUDE_CORE_TRANSFORM_H_

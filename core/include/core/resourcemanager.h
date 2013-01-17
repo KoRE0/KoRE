@@ -1,5 +1,5 @@
 /*
-  Copyright © 2012 The KoRE Project
+  Copyright @ 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -17,32 +17,28 @@
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef INCLUDE_CORE_RENDERMANAGER_H_
-#define INCLUDE_CORE_RENDERMANAGER_H_
+#ifndef CORE_INCLUDE_CORE_RESOURCEMANAGER_H_
+#define CORE_INCLUDE_CORE_RESOURCEMANAGER_H_
 
 #include "core/common.h"
 
 #include "core/Mesh.h"
 #include "core/Shader.h"
-#include "core/camera.h"
+
 
 namespace kore {
-  class RenderManager {
+  class ResourceManager {
   public:
-    static RenderManager *getInstance(void);
-
-    void renderMesh(const std::shared_ptr<Mesh>& mesh,
-                    const std::shared_ptr<Shader>& shader,
-                    const std::shared_ptr<Camera>& camera );
-
-    const glm::ivec2& getRenderResolution() const;
-    void setRenderResolution(const glm::ivec2& newResolution);
+    static ResourceManager *getInstance(void);
+    bool addPath(const std::string& path);
+    std::shared_ptr<kore::Mesh> loadMesh(const std::string& filename);
   private:
-    RenderManager(void);
-    virtual ~RenderManager(void);
-    void resolutionChanged();
+    ResourceManager(void);
+    virtual ~ResourceManager(void);
 
-    glm::ivec2 _renderResolution;
+    std::vector<std::string> _resource_paths;
+    std::vector<std::shared_ptr<Mesh>> _meshes;
+    std::vector<std::shared_ptr<Shader>> _shader;
   };
 };
-#endif  // INCLUDE_CORE_RENDERMANAGER_H_
+#endif  // CORE_INCLUDE_CORE_RESOURCEMANAGER_H_
