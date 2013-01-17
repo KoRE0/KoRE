@@ -86,14 +86,19 @@ int main(void) {
 
   // load ressources
   
-  std::shared_ptr<kore::Mesh> pTestMesh = kore::ResourceManager::getInstance()->loadMesh("./assets/meshes/cube.dae");
+  std::shared_ptr<kore::Mesh> pTestMesh =
+      kore::ResourceManager::getInstance()->
+      loadMesh("./assets/meshes/cube.dae");
+
   std::shared_ptr<kore::Shader> pSimpleShader(new kore::Shader);
   pSimpleShader->loadShader( "./assets/shader/simple.vp", GL_VERTEX_SHADER);
   pSimpleShader->loadShader( "./assets/shader/simple.fp", GL_FRAGMENT_SHADER);
   pSimpleShader->initShader();
 
   std::shared_ptr<kore::Camera> pCamera(new kore::Camera);
-  pCamera->setView(glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+  pCamera->setView(glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f),
+                   glm::vec3(0.0f, 0.0f, 0.0f),
+                   glm::vec3(0.0f, 1.0f, 0.0f)));
   pCamera->setProjectionPersp(60.0f, 800.0f, 600.0f, 1.0f, 100.0f);
 
   // test git
@@ -103,7 +108,8 @@ int main(void) {
   // Main loop
   while (running) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    kore::RenderManager::getInstance()->renderMesh(pTestMesh, pSimpleShader, pCamera);
+    kore::RenderManager::getInstance()->renderMesh(pTestMesh,
+                                       pSimpleShader, pCamera);
     glfwSwapBuffers();
     // Check if ESC key was pressed or window was closed
     running = !glfwGetKey(GLFW_KEY_ESC) && glfwGetWindowParam(GLFW_OPENED);
