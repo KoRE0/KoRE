@@ -23,9 +23,7 @@
 #include <assimp/mesh.h>
 #include <assimp/Importer.hpp>
 
-#include <memory>
-#include <string>
-
+#include "core/common.h"
 
 #include "core/scenenode.h"
 #include "core/mesh.h"
