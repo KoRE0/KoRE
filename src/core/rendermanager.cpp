@@ -34,21 +34,58 @@ kore::RenderManager::~RenderManager(void) {
 }
 
 void kore::RenderManager::renderMesh
-(const std::shared_ptr<Mesh>& mesh, const std::shared_ptr<Shader>& shader) {
+(const std::shared_ptr<Mesh>& mesh,
+const std::shared_ptr<Shader>& shader,
+const std::shared_ptr<Camera>& camera) {
     const std::vector<Attribute>& vAttributes = mesh->getAttributes();
 
     for (unsigned int i = 0; i < vAttributes.size(); ++i) {
         const Attribute& att = vAttributes[i];
 
-        // Ger shader's attribute index
+        // Get shader's attribute index
         GLuint uAttLoc = 0;
 
         glEnableVertexAttribArray(uAttLoc);
-        glVertexAttribPointer(uAttLoc, att.size,
-                              att.type, GL_FALSE,
-                              att.type, att.data);
+        glVertexAttribPointer(uAttLoc, 3,
+                              GL_FLOAT, GL_FALSE,
+                              0, att.data);
     }
 
-    // shader->useShader();
-    glDrawArrays(GL_TRIANGLES, 0, mesh->getNumVertices());
+    shader->applyShader();
+    // Update uniforms
+    GLint iView =
+        glGetUniformLocation(shader->getProgramLocation(), "view");
+
+    GLint iProj =
+        glGetUniformLocation(shader->getProgramLocation(), "projection");
+
+    GLint iModel =
+        glGetUniformLocation(shader->getProgramLocation(), "model");
+
+    glUniformMatrix4fv(iView, 1, GL_FALSE, glm::value_ptr(camera->getView()));
+
+    glUniformMatrix4fv(iProj, 1, GL_FALSE,
+                        glm::value_ptr(camera->getProjection()));
+
+    glUniformMatrix4fv(iModel, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
+
+if (mesh->hasIndices()) {
+    glDrawElements(mesh->getPrimitiveType(), mesh->getIndices().size(), GL_UNSIGNED_INT, &mesh->getIndices()[0] );
+} else
+    glDrawArrays(mesh->getPrimitiveType(), 0, mesh->getNumVertices());
+}
+
+const glm::ivec2& kore::RenderManager::getRenderResolution() const {
+    return _renderResolution;
+}
+
+void kore::RenderManager::
+    setRenderResolution(const glm::ivec2& newResolution) {
+    _renderResolution = newResolution;
+    resolutionChanged();
+}
+
+void kore::RenderManager::resolutionChanged() {
+    // Update all resolution-dependant resources here
+    // (e.g. GBuffer-Textures...)
 }

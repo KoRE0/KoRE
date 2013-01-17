@@ -24,16 +24,25 @@
 
 #include "core/Mesh.h"
 #include "core/Shader.h"
+#include "core/camera.h"
 
 namespace kore {
   class RenderManager {
   public:
     static RenderManager *getInstance(void);
+
     void renderMesh(const std::shared_ptr<Mesh>& mesh,
-                    const std::shared_ptr<Shader>& shader);
+                    const std::shared_ptr<Shader>& shader,
+                    const std::shared_ptr<Camera>& camera );
+
+    const glm::ivec2& getRenderResolution() const;
+    void setRenderResolution(const glm::ivec2& newResolution);
   private:
     RenderManager(void);
     virtual ~RenderManager(void);
+    void resolutionChanged();
+
+    glm::ivec2 _renderResolution;
   };
 };
 #endif  // INCLUDE_CORE_RENDERMANAGER_H_

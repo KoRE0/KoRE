@@ -21,7 +21,7 @@
 #include <vector>
 
 #include "core/mesh.h"
-#include "core/ressourcemanager.h"
+#include "core/resourcemanager.h"
 #include "core/datatypes.h"
 
 
@@ -53,4 +53,16 @@ const std::vector<kore::Attribute>& kore::Mesh::getAttributes() const {
 
 const unsigned int kore::Mesh::getNumVertices() const {
     return _numVertices;
+}
+
+const std::string& kore::Mesh::getName() const {
+    return _name;
+}
+
+const GLenum kore::Mesh::getPrimitiveType() const {
+    return _primitiveType;
+}
+
+const bool kore::Mesh::hasIndices() const {
+    return _indices.size() > 0;
 }

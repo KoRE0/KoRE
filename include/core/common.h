@@ -38,7 +38,7 @@
 #include "core/log.h"
 
 // Typedefs:
-typedef unsigned char uint8;
+typedef uint64_t uint64;
 typedef glm::half float16;
 typedef double float64;
 
@@ -47,6 +47,6 @@ typedef double float64;
 
 #define SAFE_DELETE(p) if (p) { delete p; p = NULL; }
 #define SAFE_DELETE_ARR(p) if (p[ 0 ]) delete[] p;
-#define BUFFER_OFFSET(i) ( (char*) NULL + (i) )
+#define BUFFER_OFFSET(i) (reinterpret_cast<char*>(NULL + (i)))
 
 #endif  // INCLUDE_CORE_COMMON_H_
