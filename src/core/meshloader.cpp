@@ -37,7 +37,8 @@ kore::MeshLoader::~MeshLoader() {
 }
 
 std::shared_ptr<kore::Mesh>
-kore::MeshLoader::loadMesh(const std::string& szMeshPath) {
+kore::MeshLoader::loadMesh(const std::string& szMeshPath,
+                           const bool bUseBuffers) {
     const aiScene* pAiScene = _aiImporter.ReadFile(szMeshPath,
         aiProcess_JoinIdenticalVertices | aiProcess_Triangulate);
 
@@ -82,16 +83,16 @@ kore::MeshLoader::loadMesh(const std::string& szMeshPath) {
         loadVertexTangents(pAiMesh, pMesh);
     }
 
-    // Load all vertex color sets
-    unsigned int iColorSet = 0;
-    while (pAiMesh->HasVertexColors(iColorSet++)) {
-        loadVertexColors(pAiMesh, pMesh, iColorSet);
-    }
-
     // Load all texture coord-sets
     unsigned int iUVset = 0;
     while (pAiMesh->HasTextureCoords(iUVset++)) {
         loadVertexTextureCoords(pAiMesh, pMesh, iUVset);
+    }
+
+    // Load all vertex color sets
+    unsigned int iColorSet = 0;
+    while (pAiMesh->HasVertexColors(iColorSet++)) {
+        loadVertexColors(pAiMesh, pMesh, iColorSet);
     }
 
     if (pAiMesh->HasFaces()) {
@@ -110,7 +111,7 @@ void kore::MeshLoader::
            allocSize);
 
     kore::Attribute att;
-    att.name = "position";
+    att.name = "v_position";
     att.numValues = pAiMesh->mNumVertices;
     att.type = GL_FLOAT_VEC3;
     att.componentType = GL_FLOAT;
@@ -128,7 +129,7 @@ void kore::MeshLoader::
            allocSize);
 
     kore::Attribute att;
-    att.name = "normal";
+    att.name = "v_normal";
     att.numValues = pAiMesh->mNumVertices;
     att.type = GL_FLOAT_VEC3;
     att.componentType = GL_FLOAT;
@@ -146,7 +147,7 @@ void kore::MeshLoader::
            allocSize);
 
     kore::Attribute att;
-    att.name = "tangent";
+    att.name = "v_tangent";
     att.numValues = pAiMesh->mNumVertices;
     att.type = GL_FLOAT_VEC3;
     att.componentType = GL_FLOAT;
@@ -177,7 +178,7 @@ void kore::MeshLoader::
 
     kore::Attribute att;
     char szNameBuf[20];
-    sprintf(szNameBuf, "Color%i", iColorSet);
+    sprintf(szNameBuf, "v_color%i", iColorSet);
     att.name = std::string(&szNameBuf[0]);
     att.numValues = pAiMesh->mNumVertices;
 
@@ -212,7 +213,7 @@ void kore::MeshLoader::
 
     kore::Attribute att;
     char szNameBuf[20];
-    sprintf(szNameBuf, "UV%i", iUVset);
+    sprintf(szNameBuf, "v_uv%i", iUVset);
     att.name = std::string(&szNameBuf[0]);
     att.numValues = pAiMesh->mNumVertices;
 
