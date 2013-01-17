@@ -17,17 +17,23 @@
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef INCLUDE_CORE_TRANSFORM_H_
-#define INCLUDE_CORE_TRANSFORM_H_
+#ifndef CORE_INCLUDE_CORE_SCENEMANAGER_H_
+#define CORE_INCLUDE_CORE_SCENEMANAGER_H_
 
-#include <glm/glm.hpp>
+#include "core/scenenode.h"
+#include "core/common.h"
+
 namespace kore {
-  class Transform {
+  class SceneManager {
   public:
-    Transform(void) {}
-    virtual ~Transform(void) {}
-    glm::mat4 global;
-    glm::mat4 local;
+    static SceneManager *getInstance(void);
+    uint64 createID(void);
+    void update(void);
+  private:
+    SceneManager(void);
+    virtual ~SceneManager(void);
+    SceneNode* _root;
+    uint64 _idcount;
   };
 };
-#endif  // INCLUDE_CORE_TRANSFORM_H_
+#endif  // CORE_INCLUDE_CORE_SCENEMANAGER_H_

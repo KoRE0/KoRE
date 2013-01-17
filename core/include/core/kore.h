@@ -17,7 +17,19 @@
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef INCLUDE_CORE_STDAFX_H_
-#define INCLUDE_CORE_STDAFX_H_
+#ifndef CORE_INCLUDE_CORE_KORE_H_
+#define CORE_INCLUDE_CORE_KORE_H_
+
 #include "core/common.h"
-#endif  // INCLUDE_CORE_STDAFX_H_
+#include "core/datatypes.h"
+#include "core/log.h"
+#include "core/mesh.h"
+#include "core/meshrendercomponent.h"
+#include "core/rendermanager.h"
+#include "core/resourcemanager.h"
+#include "core/scenemanager.h"
+#include "core/scenenode.h"
+#include "core/scenenodecomponent.h"
+#include "core/shader.h"
+
+#endif  // CORE_INCLUDE_CORE_KORE_H_

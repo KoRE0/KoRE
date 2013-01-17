@@ -17,12 +17,11 @@
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef INCLUDE_CORE_RESOURCEMANAGER_H_
-#define INCLUDE_CORE_RESOURCEMANAGER_H_
+#ifndef CORE_INCLUDE_CORE_RESOURCEMANAGER_H_
+#define CORE_INCLUDE_CORE_RESOURCEMANAGER_H_
 
-#include <vector>
-#include <string>
-#include <memory>
+#include "core/common.h"
+
 #include "core/Mesh.h"
 #include "core/Shader.h"
 
@@ -42,4 +41,4 @@ namespace kore {
     std::vector<std::shared_ptr<Shader>> _shader;
   };
 };
-#endif  // INCLUDE_CORE_RESOURCEMANAGER_H_
+#endif  // CORE_INCLUDE_CORE_RESOURCEMANAGER_H_
