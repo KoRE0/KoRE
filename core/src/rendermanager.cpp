@@ -40,10 +40,10 @@ const std::shared_ptr<Camera>& camera) {
     const std::vector<kore::ShaderInput>& vAttributes = shader->getAttributes();
     for (unsigned int i = 0; i < vAttributes.size(); ++i) {
         const kore::ShaderInput& shaderAtt = vAttributes[i];
-        const kore::MeshAttributeArray* meshAtt = 
+        const kore::MeshAttributeArray* meshAtt =
             mesh->getAttributeByName(shaderAtt.name);
 
-        if(!meshAtt) {
+        if (!meshAtt) {
             Log::getInstance()->write("[ERROR] Mesh %s does not have an"
                                       "Attribute %s",
                                       mesh->getName().c_str(),
@@ -79,7 +79,8 @@ const std::shared_ptr<Camera>& camera) {
 //    glDrawElements(mesh->getPrimitiveType(), mesh->getIndices().size(),
 //        GL_UNSIGNED_INT, &mesh->getIndices()[0]);
 // } else
-    glDrawArrays(mesh->getPrimitiveType(), 0, mesh->getNumVertices());
+      glDrawArrays(mesh->getPrimitiveType(), 0, mesh->getNumVertices());
+    }
 }
 
 const glm::ivec2& kore::RenderManager::getRenderResolution() const {
@@ -90,6 +91,12 @@ void kore::RenderManager::
     setRenderResolution(const glm::ivec2& newResolution) {
     _renderResolution = newResolution;
     resolutionChanged();
+}
+
+void kore::RenderManager::renderFrame(void) {
+  for (unsigned int i = 0; i < _operations.size(); i++) {
+    _operations[i]->execute();
+  }
 }
 
 void kore::RenderManager::resolutionChanged() {

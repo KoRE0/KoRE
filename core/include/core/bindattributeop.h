@@ -1,5 +1,5 @@
 /*
-  Copyright @ 2012 The KoRE Project
+  Copyright © 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -17,29 +17,20 @@
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CORE_INCLUDE_CORE_RESOURCEMANAGER_H_
-#define CORE_INCLUDE_CORE_RESOURCEMANAGER_H_
+#ifndef CORE_INCLUDE_CORE_BINDATTRIBUTEOP_H_
+#define CORE_INCLUDE_CORE_BINDATTRIBUTEOP_H_
 
-#include <string>
-#include <vector>
-#include "core/common.h"
-#include "core/Mesh.h"
-#include "core/Shader.h"
-
+#include "core/operation.h"
+#include "core/mesh.h"
 
 namespace kore {
-  class ResourceManager {
+  class BindAttributeOp: public Operation {
   public:
-    static ResourceManager *getInstance(void);
-    bool addPath(const std::string& path);
-    std::shared_ptr<kore::Mesh> loadMesh(const std::string& filename);
+    BindAttributeOp(void);
+    virtual BindAttributeOp(void);
+    virtual void execute(void);
+    bool connect(void*a, void*b);
   private:
-    ResourceManager(void);
-    virtual ~ResourceManager(void);
-
-    std::vector<std::string> _resource_paths;
-    std::vector<std::shared_ptr<Mesh>> _meshes;
-    std::vector<std::shared_ptr<Shader>> _shader;
-  };
+  }
 };
-#endif  // CORE_INCLUDE_CORE_RESOURCEMANAGER_H_
+#endif  // CORE_INCLUDE_CORE_BINDATTRIBUTEOP_H_
