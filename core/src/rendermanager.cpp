@@ -57,7 +57,7 @@ void kore::RenderManager::resolutionChanged() {
 }
 
 void kore::RenderManager::addOperation(const OperationPtr& op) {
-    if(!hasOperation(op)) {
+    if (!hasOperation(op)) {
        _operations.push_back(op);
     }
 }
@@ -65,11 +65,11 @@ void kore::RenderManager::addOperation(const OperationPtr& op) {
 void kore::RenderManager::addOperation(const OperationPtr& op,
                                        const OperationPtr& targetOp,
                                        const EOpInsertPos insertPos) {
-     if(!hasOperation(targetOp) || hasOperation(op)) {
+     if (!hasOperation(targetOp) || hasOperation(op)) {
             return;
      }
 
-     OperationList::const_iterator it = 
+     OperationList::const_iterator it =
          std::find(_operations.begin(), _operations.end(), targetOp);
 
      switch (insertPos) {
@@ -77,7 +77,7 @@ void kore::RenderManager::addOperation(const OperationPtr& op,
          _operations.insert(it, op);
          break;
      case INSERT_BEFORE:
-         _operations.insert(--it,op);
+         _operations.insert(--it, op);
          break;
      }
 }
