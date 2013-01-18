@@ -40,7 +40,8 @@ std::shared_ptr<kore::Mesh>
 kore::MeshLoader::loadMesh(const std::string& szMeshPath,
                            const bool bUseBuffers) {
     const aiScene* pAiScene = _aiImporter.ReadFile(szMeshPath,
-        aiProcess_JoinIdenticalVertices | aiProcess_Triangulate);
+        aiProcess_JoinIdenticalVertices | aiProcess_Triangulate |
+aiProcess_JoinIdenticalVertices);
 
     if (!pAiScene) {
         Log::getInstance()->write("[ERROR] Mesh-file could not be loaded: %s",
@@ -64,7 +65,7 @@ kore::MeshLoader::loadMesh(const std::string& szMeshPath,
 
     std::shared_ptr<kore::Mesh> pMesh(new kore::Mesh);
     aiMesh* pAiMesh = pAiScene->mMeshes[ 0 ];
-    pMesh->_numVertices = pAiMesh->mNumVertices / 3;
+    pMesh->_numVertices = pAiMesh->mNumVertices;
 
     // TODO(dlazarek): Make more flexible here:
     pMesh->_primitiveType = GL_TRIANGLES;
@@ -112,7 +113,8 @@ void kore::MeshLoader::
 
     kore::MeshAttributeArray att;
     att.name = "v_position";
-    att.numValues = pAiMesh->mNumVertices;
+    att.numValues = pAiMesh->mNumVertices * 3;
+    att.numComponents = 3;
     att.type = GL_FLOAT_VEC3;
     att.componentType = GL_FLOAT;
     att.byteSize = kore::DatatypeUtil::getSizeFromGLdatatype(att.type);
@@ -130,7 +132,8 @@ void kore::MeshLoader::
 
     kore::MeshAttributeArray att;
     att.name = "v_normal";
-    att.numValues = pAiMesh->mNumVertices;
+    att.numValues = pAiMesh->mNumVertices * 3;
+    att.numComponents = 3;
     att.type = GL_FLOAT_VEC3;
     att.componentType = GL_FLOAT;
     att.byteSize = kore::DatatypeUtil::getSizeFromGLdatatype(att.type);
@@ -148,7 +151,8 @@ void kore::MeshLoader::
 
     kore::MeshAttributeArray att;
     att.name = "v_tangent";
-    att.numValues = pAiMesh->mNumVertices;
+    att.numValues = pAiMesh->mNumVertices * 3;
+    att.numComponents = 3;
     att.type = GL_FLOAT_VEC3;
     att.componentType = GL_FLOAT;
     att.byteSize = kore::DatatypeUtil::getSizeFromGLdatatype(att.type);
@@ -180,7 +184,8 @@ void kore::MeshLoader::
     char szNameBuf[20];
     sprintf(szNameBuf, "v_color%i", iColorSet);
     att.name = std::string(&szNameBuf[0]);
-    att.numValues = pAiMesh->mNumVertices;
+    att.numValues = pAiMesh->mNumVertices * pAiMesh->GetNumColorChannels();
+    att.numComponents = pAiMesh->GetNumColorChannels();
 
     if (pAiMesh->GetNumColorChannels() == 2) {
         att.type = GL_FLOAT_VEC2;
@@ -215,7 +220,8 @@ void kore::MeshLoader::
     char szNameBuf[20];
     sprintf(szNameBuf, "v_uv%i", iUVset);
     att.name = std::string(&szNameBuf[0]);
-    att.numValues = pAiMesh->mNumVertices;
+    att.numValues = pAiMesh->mNumVertices * pAiMesh->GetNumUVChannels();
+    att.numComponents = pAiMesh->GetNumUVChannels();
 
     if (pAiMesh->GetNumUVChannels() == 2) {
         att.type = GL_FLOAT_VEC2;
