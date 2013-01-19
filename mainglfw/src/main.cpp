@@ -86,7 +86,7 @@ int main(void) {
   // kore::ResourceManager::getInstance()->addPath("./assets/meshes/");
 
   // load ressources
-  kore::MeshPtr pTestMesh =
+  kore::MeshPtr pTestMesh = 
       kore::ResourceManager::getInstance()->
       loadMesh("./assets/meshes/cube.dae");
 
