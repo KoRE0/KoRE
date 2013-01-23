@@ -37,11 +37,11 @@ kore::SceneNode::SceneNode(void)
 kore::SceneNode::~SceneNode(void) {
 }
 
-const kore::SceneNode* kore::SceneNode::getParent(void) const {
+const kore::SceneNodePtr& kore::SceneNode::getParent(void) const {
   return _parent;
 }
 
-const std::vector<kore::SceneNode*> kore::SceneNode::getChildren() const {
+const std::vector<kore::SceneNodePtr>& kore::SceneNode::getChildren() const {
   return _children;
 }
 
@@ -62,7 +62,7 @@ const kore::Transform* kore::SceneNode::getTransform(void) const {
   return &_transform;
 }
 
-void kore::SceneNode::setParent(SceneNode* parent) {
+void kore::SceneNode::setParent(const SceneNodePtr& parent) {
   _parent = parent;
 }
 
@@ -99,4 +99,15 @@ void kore::SceneNode::rotate(const GLfloat& angle, const glm::vec3& axis) {
 
 void kore::SceneNode::scale(const glm::vec3& dim) {
   _dirty = true;
+}
+
+void kore::SceneNode::getSceneNodesWithTag( const uint tag,
+                                          std::vector<SceneNodePtr>& vNodes ) {
+    for (uint iChild = 0; iChild < _children.size(); ++iChild) {
+        // If there is at least one bit set in both tags, the child is added
+        if ((_children[iChild]->getTag() & tag) != 0) {
+            vNodes.push_back(_children[iChild]);
+            _children[iChild]->getSceneNodesWithTag(tag, vNodes);
+        }
+    }
 }
