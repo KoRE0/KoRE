@@ -24,7 +24,8 @@ endif()
 
 
 if(MSVC)
-  include(ext/include)
+  include("ext/include")
+  message("Hello MSVC")
 endif()
 
 add_custom_target(style
