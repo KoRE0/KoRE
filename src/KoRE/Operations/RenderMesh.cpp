@@ -1,5 +1,5 @@
 /*
-  Copyright © 2012 The KoRE Project
+  Copyright Â© 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -17,7 +17,7 @@
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "core/operations/rendermesh.h"
+#include "KoRE/operations/rendermesh.h"
 #include <vector>
 
 kore::RenderMesh::RenderMesh(void)

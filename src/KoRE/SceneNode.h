@@ -1,5 +1,5 @@
 /*
-  Copyright © 2012 The KoRE Project
+  Copyright Â© 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -22,9 +22,9 @@
 
 #include <vector>
 #include <string>
-#include "core/common.h"
-#include "core/components/scenenodecomponent.h"
-#include "core/transform.h"
+#include "KoRE/Common.h"
+#include "KoRE/Components/SceneNodeComponent.h"
+#include "KoRE/Transform.h"
 
 namespace kore {
     typedef std::shared_ptr<SceneNode> SceneNodePtr;

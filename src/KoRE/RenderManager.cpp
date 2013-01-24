@@ -1,5 +1,5 @@
 /*
-  Copyright © 2012 The KoRE Project
+  Copyright Â© 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -20,8 +20,8 @@
 #include <vector>
 #include <algorithm>
 
-#include "core/rendermanager.h"
-#include "core/log.h"
+#include "KoRE/RenderManager.h"
+#include "KoRE/Log.h"
 
 kore::RenderManager* kore::RenderManager::getInstance(void) {
   static kore::RenderManager theInstance;

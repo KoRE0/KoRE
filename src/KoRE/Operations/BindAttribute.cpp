@@ -1,5 +1,5 @@
 /*
-  Copyright © 2012 The KoRE Project
+  Copyright Â© 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -16,7 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "core/operations/bindattribute.h"
+#include "KoRE/operations/bindattribute.h"
 
 kore::BindAttribute::BindAttribute(void) : _meshAttPtr(NULL),
                                                _shaderInput(NULL),

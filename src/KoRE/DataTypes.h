@@ -1,5 +1,5 @@
 /*
-  Copyright © 2012 The KoRE Project
+  Copyright Â© 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -21,8 +21,8 @@
 #define CORE_INCLUDE_CORE_DATATYPES_H_
 
 #include <string>
-#include "core/common.h"
-#include "core/log.h"
+#include "KoRE/Common.h"
+#include "KoRE/Log.h"
 
 namespace kore {
   class DatatypeUtil {

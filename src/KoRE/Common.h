@@ -1,5 +1,5 @@
 /*
-  Copyright © 2012 The KoRE Project
+  Copyright Â© 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -35,7 +35,7 @@
 #include <ctime>
 #include <memory>
 
-#include "core/log.h"
+#include "KoRE//Log.h"
 
 // Typedefs:
 typedef unsigned int uint;

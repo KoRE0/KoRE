@@ -1,5 +1,5 @@
 /*
-  Copyright © 2012 The KoRE Project
+  Copyright Â© 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -16,7 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "core/datatypes.h"
+#include "KoRE/DataTypes.h"
 
 unsigned int kore::DatatypeUtil::getSizeFromGLdatatype(GLenum datatype) {
     switch (datatype) {

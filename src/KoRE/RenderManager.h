@@ -1,5 +1,5 @@
 /*
-  Copyright © 2012 The KoRE Project
+  Copyright Â© 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -21,11 +21,11 @@
 #define CORE_INCLUDE_CORE_RENDERMANAGER_H_
 
 #include <list>
-#include "core/common.h"
-#include "core/operations/operation.h"
-#include "core/components/mesh.h"
-#include "core/components/camera.h"
-#include "core/shader.h"
+#include "KoRE/Common.h"
+#include "KoRE/Operations/Operation.h"
+#include "KoRE/Components/Mesh.h"
+#include "KoRE/Components/Camera.h"
+#include "KoRE/Shader.h"
 
 namespace kore {
   enum EOpInsertPos {

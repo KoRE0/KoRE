@@ -1,5 +1,5 @@
 /*
-  Copyright © 2012 The KoRE Project
+  Copyright Â© 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -23,8 +23,8 @@
 #include <map>
 #include <string>
 #include <vector>
-#include "core/scenenode.h"
-#include "core/common.h"
+#include "KoRE/SceneNode.h"
+#include "KoRE/Common.h"
 
 namespace kore {
   class SceneManager {

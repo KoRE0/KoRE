@@ -1,5 +1,5 @@
 /*
-  Copyright � 2012 The KoRE Project
+  Copyright ï¿œ 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -17,7 +17,7 @@
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "core/scenemanager.h"
+#include "KoRE/scenemanager.h"
 #include <vector>
 #include <string>
 #include <utility>

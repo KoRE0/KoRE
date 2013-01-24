@@ -1,5 +1,5 @@
 /*
-  Copyright © 2012 The KoRE Project
+  Copyright Â© 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -22,8 +22,8 @@
 
 #include <string>
 #include <vector>
-#include "core/datatypes.h"
-#include "core/common.h"
+#include "KoRE/DataTypes.h"
+#include "KoRE/Common.h"
 
 namespace kore {
   class Shader {

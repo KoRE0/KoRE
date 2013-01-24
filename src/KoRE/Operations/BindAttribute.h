@@ -1,5 +1,5 @@
 /*
-  Copyright © 2012 The KoRE Project
+  Copyright Â© 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -20,9 +20,9 @@
 #ifndef CORE_INCLUDE_CORE_BINDATTRIBUTEOP_H_
 #define CORE_INCLUDE_CORE_BINDATTRIBUTEOP_H_
 
-#include "core/operations/operation.h"
-#include "core/components/mesh.h"
-#include "core/shader.h"
+#include "KoRE/operations/operation.h"
+#include "KoRE/components/mesh.h"
+#include "KoRE/shader.h"
 
 namespace kore {
   class BindAttribute: public Operation {

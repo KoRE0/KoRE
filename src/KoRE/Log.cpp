@@ -1,5 +1,5 @@
 /*
-  Copyright © 2012 The KoRE Project
+  Copyright Â© 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -26,7 +26,7 @@
 #include <time.h>
 #include <string>
 
-#include "core/log.h"
+#include "KoRE/Log.h"
 
 kore::Log* kore::Log::getInstance(void) {
   static kore::Log theInstance;
