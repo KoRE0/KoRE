@@ -22,6 +22,11 @@ else()
     set(PYTHON_VER "python")
 endif()
 
+
+if(MSVC)
+  include(ext/include)
+endif()
+
 add_custom_target(style
   COMMAND ${PYTHON_VER} scripts/cpplint.py --filter=${IGNORE} ${SOURCES}
 )
