@@ -24,7 +24,7 @@ endif()
 
 
 if(MSVC)
-  include("ext/include")
+  include(${CMAKE_SOURCE_DIR}/ext/include)
   message("Hello MSVC")
 endif()
 
