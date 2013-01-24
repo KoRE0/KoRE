@@ -8,8 +8,9 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS "-std=c++0x")
 endif()
 
-file(GLOB_RECURSE SOURCES src/*.cpp)
-add_library(kore ${SOURCES})
+file(GLOB_RECURSE SOURCES src/KoRE/*.cpp)
+file(GLOB_RECURSE HEADER src/KoRE/*.h)
+add_library(KoRE ${SOURCES} ${HEADER})
 include_directories(src ext/include)
 
 set(IGNORE "-build/include")
@@ -24,3 +25,5 @@ endif()
 add_custom_target(style
   COMMAND ${PYTHON_VER} scripts/cpplint.py --filter=${IGNORE} ${SOURCES}
 )
+
+ADD_SUBDIRECTORY(demos)

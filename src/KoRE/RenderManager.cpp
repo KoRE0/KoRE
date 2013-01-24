@@ -69,7 +69,7 @@ void kore::RenderManager::addOperation(const OperationPtr& op,
             return;
      }
 
-     OperationList::const_iterator it =
+     OperationList::iterator it =
          std::find(_operations.begin(), _operations.end(), targetOp);
 
      switch (insertPos) {
