@@ -24,7 +24,11 @@ endif()
 
 
 if(MSVC)
+<<<<<<< HEAD
   include_directories(${CMAKE_SOURCE_DIR}/ext/include)
+=======
+  INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/ext/include)
+>>>>>>> 17b0ded909c84cc2461c25ff2016d800a4b19e44
   message("Hello MSVC")
 endif()
 
