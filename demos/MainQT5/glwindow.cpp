@@ -40,7 +40,7 @@ GLWindow::GLWindow(QScreen* screen)
     : QWindow(screen)
 {
     setSurfaceType(OpenGLSurface);
-
+   
     QSurfaceFormat sformat;
     sformat.setDepthBufferSize(24);
     sformat.setMajorVersion(4);
@@ -54,14 +54,24 @@ GLWindow::GLWindow(QScreen* screen)
 
     _context = new QOpenGLContext;
     _context->setFormat(sformat);
-    _context->create();
-
-    glewInit();
+    _context->create();   
 
     initializeGL();
     connect(this,SIGNAL(widthChanged(int)), this, SLOT(resizeGL()));
     connect(this,SIGNAL(heightChanged(int)), this, SLOT(resizeGL()));
     resizeGL();
+   
+    
+    // load resources
+    kore::SceneNodePtr pTestScene =
+    kore::ResourceManager::getInstance()->
+        loadScene("./assets/meshes/Test_LightCamera.dae");
+
+    // load shader
+    kore::ShaderPtr pSimpleShader(new kore::Shader);
+    pSimpleShader->loadShader( "./assets/shader/simple.vp", GL_VERTEX_SHADER);
+    pSimpleShader->loadShader( "./assets/shader/simple.fp", GL_FRAGMENT_SHADER);
+    pSimpleShader->initShader();
 
     QTimer* timer = new QTimer(this);
     connect( timer, SIGNAL( timeout() ), this, SLOT( updateScene() ) );
@@ -76,6 +86,9 @@ GLWindow::~GLWindow()
 void GLWindow::initializeGL()
 {
     _context->makeCurrent(this);  
+   
+    glewInit();
+    
     glClearColor(1,1,1,1);
     kore::Log::getInstance()->write(                                            
         "Render Device: %s\n",
