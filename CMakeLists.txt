@@ -1,9 +1,8 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.9)
 project(KoRE)
 
 # For custom cmake modules.
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-
 include(GetOpenGLHeaders)
 
 if(WIN32 AND NOT EXISTS ${CMAKE_SOURCE_DIR}/ext)
