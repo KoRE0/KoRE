@@ -95,7 +95,8 @@ GLWindow::GLWindow(QScreen* screen)
         pTestMesh->getAttributeByName("v_position"),
         pSimpleShader->getAttributeByName("v_position"));
 
-   /* kore::BindUniformPtr pViewBind(new kore::BindUniform);
+/*
+    kore::BindUniformPtr pViewBind(new kore::BindUniform);
     pViewBind->connect(pCamera->getShaderInput("view Matrix").get(),
         pSimpleShader->getProgramLocation(),
         pSimpleShader->getUniformByName("view"));
@@ -110,14 +111,11 @@ GLWindow::GLWindow(QScreen* screen)
     pOp->setMesh(pTestMesh);
     pOp->setShader(pSimpleShader);
 
-
-/*
-    kore::RenderManager::getInstance()->addOperation(pViewBind);
-    kore::RenderManager::getInstance()->addOperation(pProjBind);*/
+    //kore::RenderManager::getInstance()->addOperation(pViewBind);
+    //kore::RenderManager::getInstance()->addOperation(pProjBind);
     kore::RenderManager::getInstance()->addOperation(pPosAttBind);
     kore::RenderManager::getInstance()->addOperation(pOp);
 
-    
     QTimer* timer = new QTimer(this);
     connect( timer, SIGNAL( timeout() ), this, SLOT( updateScene() ) );
     timer->start();
@@ -158,6 +156,7 @@ void GLWindow::resizeGL()
    
     //kore::Log::getInstance()->write(
     //   "resolution: w: %i h: %i \n",width(),height());        
+    //    "resolution: w: %i h: %i \n",width(),height());        
     //resize scene(width(),height());
 }
 
