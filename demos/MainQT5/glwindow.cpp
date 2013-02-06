@@ -30,6 +30,11 @@
 #include <QTimer>
 #include <string>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_inverse.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "KoRE/Shader.h"
 #include "KoRE/Components/Mesh.h"
 #include "KoRE/Operations/RenderMesh.h"
@@ -90,7 +95,7 @@ GLWindow::GLWindow(QScreen* screen)
         pTestMesh->getAttributeByName("v_position"),
         pSimpleShader->getAttributeByName("v_position"));
 
-    kore::BindUniformPtr pViewBind(new kore::BindUniform);
+   /* kore::BindUniformPtr pViewBind(new kore::BindUniform);
     pViewBind->connect(pCamera->getShaderInput("view Matrix").get(),
         pSimpleShader->getProgramLocation(),
         pSimpleShader->getUniformByName("view"));
@@ -98,15 +103,17 @@ GLWindow::GLWindow(QScreen* screen)
     kore::BindUniformPtr pProjBind(new kore::BindUniform);
     pProjBind->connect(pCamera->getShaderInput("projection Matrix").get(),
         pSimpleShader->getProgramLocation(),
-        pSimpleShader->getUniformByName("projection"));
+        pSimpleShader->getUniformByName("projection"));*/
 
     kore::RenderMeshOpPtr pOp(new kore::RenderMesh);
     pOp->setCamera(pCamera);
     pOp->setMesh(pTestMesh);
     pOp->setShader(pSimpleShader);
 
+
+/*
     kore::RenderManager::getInstance()->addOperation(pViewBind);
-    kore::RenderManager::getInstance()->addOperation(pProjBind);
+    kore::RenderManager::getInstance()->addOperation(pProjBind);*/
     kore::RenderManager::getInstance()->addOperation(pPosAttBind);
     kore::RenderManager::getInstance()->addOperation(pOp);
 
