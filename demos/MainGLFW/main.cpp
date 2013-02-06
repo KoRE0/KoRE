@@ -88,12 +88,12 @@ int main(void) {
   // load resources
   kore::MeshPtr pTestMesh =
       kore::ResourceManager::getInstance()->
-      loadSingleMesh("./assets/meshes/cube.dae", kore::USE_BUFFERS);
+      loadSingleMesh("../../assets/meshes/cube.dae", kore::USE_BUFFERS);
 
   // load shader
   kore::ShaderPtr pSimpleShader(new kore::Shader);
-  pSimpleShader->loadShader( "./assets/shader/simple.vp", GL_VERTEX_SHADER);
-  pSimpleShader->loadShader( "./assets/shader/simple.fp", GL_FRAGMENT_SHADER);
+  pSimpleShader->loadShader( "../../assets/shader/simple.vp", GL_VERTEX_SHADER);
+  pSimpleShader->loadShader( "../../assets/shader/simple.fp", GL_FRAGMENT_SHADER);
   pSimpleShader->initShader();
 
   kore::CameraPtr pCamera(new kore::Camera);
