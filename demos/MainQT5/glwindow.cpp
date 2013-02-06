@@ -65,12 +65,14 @@ GLWindow::GLWindow(QScreen* screen)
     // load resources
     kore::SceneNodePtr pTestScene =
     kore::ResourceManager::getInstance()->
-        loadScene("./assets/meshes/Test_LightCamera.dae");
+        loadScene("../../assets/meshes/Test_LightCamera.dae");
 
     // load shader
     kore::ShaderPtr pSimpleShader(new kore::Shader);
-    pSimpleShader->loadShader( "./assets/shader/simple.vp", GL_VERTEX_SHADER);
-    pSimpleShader->loadShader( "./assets/shader/simple.fp", GL_FRAGMENT_SHADER);
+    pSimpleShader->loadShader( "../../assets/shader/simple.vp",
+        GL_VERTEX_SHADER);
+    pSimpleShader->loadShader( "../../assets/shader/simple.fp", 
+        GL_FRAGMENT_SHADER);
     pSimpleShader->initShader();
 
     QTimer* timer = new QTimer(this);
@@ -112,7 +114,7 @@ void GLWindow::resizeGL()
         glm::ivec2(width(),height()));
    
     //kore::Log::getInstance()->write(
-    //    "resolution: w: %i h: %i \n",width(),height());        
+    //   "resolution: w: %i h: %i \n",width(),height());        
     //resize scene(width(),height());
 }
 
