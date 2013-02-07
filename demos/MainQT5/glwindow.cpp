@@ -30,9 +30,16 @@
 #include <QTimer>
 #include <string>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_inverse.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "KoRE/Shader.h"
 #include "KoRE/Components/Mesh.h"
 #include "KoRE/Operations/RenderMesh.h"
+#include "KoRE/Operations/BindAttribute.h"
+#include "KoRE/Operations/BindUniform.h"
 #include "KoRE/ResourceManager.h"
 #include "KoRE/RenderManager.h"
 
@@ -44,10 +51,10 @@ GLWindow::GLWindow(QScreen* screen)
     QSurfaceFormat sformat;
     sformat.setDepthBufferSize(24);
     sformat.setMajorVersion(4);
-    sformat.setMinorVersion(3);
+    sformat.setMinorVersion(2);
     //sformat.setSamples(4);        MSAA
     sformat.setProfile(QSurfaceFormat::CoreProfile);
-
+    
     resize(800,600);
     setFormat(sformat);
     create();
@@ -63,19 +70,59 @@ GLWindow::GLWindow(QScreen* screen)
    
     
     // load resources
-    kore::SceneNodePtr pTestScene =
-    kore::ResourceManager::getInstance()->
-        loadScene("./assets/meshes/Test_LightCamera.dae");
+    kore::MeshPtr pTestMesh =
+        kore::ResourceManager::getInstance()->
+        loadSingleMesh("../../assets/meshes/cube.dae", kore::USE_BUFFERS);
 
     // load shader
     kore::ShaderPtr pSimpleShader(new kore::Shader);
-    pSimpleShader->loadShader( "./assets/shader/simple.vp", GL_VERTEX_SHADER);
-    pSimpleShader->loadShader( "./assets/shader/simple.fp", GL_FRAGMENT_SHADER);
+    pSimpleShader->loadShader( "../../assets/shader/simple.vp", 
+        GL_VERTEX_SHADER);
+    pSimpleShader->loadShader( "../../assets/shader/simple.fp", 
+        GL_FRAGMENT_SHADER);
     pSimpleShader->initShader();
+
+    kore::CameraPtr pCamera(new kore::Camera);
+    pCamera->setView(glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f),
+        glm::vec3(0.0f, 0.0f, 0.0f),
+        glm::vec3(0.0f, 1.0f, 0.0f)));
+    pCamera->setProjectionPersp(60.0f, 800.0f, 600.0f, 1.0f, 100.0f);
+
+    // Bind Uniform-Ops
+    // Bind Attribute-Ops
+    kore::BindAttributePtr pPosAttBind (new kore::BindAttribute);
+    pPosAttBind->connect(pTestMesh,
+        pTestMesh->getAttributeByName("v_position"),
+        pSimpleShader->getAttributeByName("v_position"));
+
+
+    kore::BindUniformPtr pViewBind(new kore::BindUniform);
+    pViewBind->connect(pCamera->getShaderInput("view Matrix").get(),
+        pSimpleShader->getProgramLocation(),
+        pSimpleShader->getUniformByName("view"));
+
+    kore::BindUniformPtr pProjBind(new kore::BindUniform);
+    pProjBind->connect(pCamera->getShaderInput("projection Matrix").get(),
+        pSimpleShader->getProgramLocation(),
+        pSimpleShader->getUniformByName("projection"));
+
+    kore::RenderMeshOpPtr pOp(new kore::RenderMesh);
+    pOp->setCamera(pCamera);
+    pOp->setMesh(pTestMesh);
+    pOp->setShader(pSimpleShader);
+
+    kore::RenderManager::getInstance()->addOperation(pViewBind);
+    kore::RenderManager::getInstance()->addOperation(pProjBind);
+    kore::RenderManager::getInstance()->addOperation(pPosAttBind);
+    kore::RenderManager::getInstance()->addOperation(pOp);
+
+
 
     QTimer* timer = new QTimer(this);
     connect( timer, SIGNAL( timeout() ), this, SLOT( updateScene() ) );
     timer->start();
+
+    
 }
 
 GLWindow::~GLWindow()
@@ -110,8 +157,11 @@ void GLWindow::resizeGL()
     _context->makeCurrent(this);
     kore::RenderManager::getInstance()->setRenderResolution(
         glm::ivec2(width(),height()));
+
+    glViewport(0, 0, width(), height());
    
     //kore::Log::getInstance()->write(
+    //   "resolution: w: %i h: %i \n",width(),height());        
     //    "resolution: w: %i h: %i \n",width(),height());        
     //resize scene(width(),height());
 }
@@ -130,9 +180,9 @@ void GLWindow::updateScene()
 {
     //update scene
     
-    //glClearColor(rand()/(float)RAND_MAX,
-    //             rand()/(float)RAND_MAX,
-    //             rand()/(float)RAND_MAX,1);
+    /*glClearColor(rand()/(float)RAND_MAX,
+                rand()/(float)RAND_MAX,
+                rand()/(float)RAND_MAX,1);*/
     paintGL();
 }
 
