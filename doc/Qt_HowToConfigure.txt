@@ -1,0 +1,1 @@
+configure -debug-and-release -opengl desktop -no-angle -opensource -confirm-license -platform win32-msvc2012 -nomake tests -nomake examples
