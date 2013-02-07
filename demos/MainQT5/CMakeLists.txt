@@ -17,7 +17,7 @@ if(WIN32)
         OpenGL32.lib
         #${CMAKE_SOURCE_DIR}/lib/$(Configuration)/KoRE.lib
         ${EXT_LIBS}/glew32.lib
-        ${EXT_LIBS}/assimp_debug-dll_win32/assimp.lib
+        ${EXT_LIBS}/assimp_release-dll_win32/assimp.lib
       )
     else()
     #MinGW

@@ -72,7 +72,7 @@ GLWindow::GLWindow(QScreen* screen)
     // load resources
     kore::MeshPtr pTestMesh =
         kore::ResourceManager::getInstance()->
-        loadSingleMesh("../../assets/meshes/cube.dae", kore::USE_BUFFERS);
+        loadSingleMesh("../../assets/meshes/cube.dae", 0);
 
     // load shader
     kore::ShaderPtr pSimpleShader(new kore::Shader);
@@ -95,7 +95,7 @@ GLWindow::GLWindow(QScreen* screen)
         pTestMesh->getAttributeByName("v_position"),
         pSimpleShader->getAttributeByName("v_position"));
 
-/*
+
     kore::BindUniformPtr pViewBind(new kore::BindUniform);
     pViewBind->connect(pCamera->getShaderInput("view Matrix").get(),
         pSimpleShader->getProgramLocation(),
@@ -104,15 +104,15 @@ GLWindow::GLWindow(QScreen* screen)
     kore::BindUniformPtr pProjBind(new kore::BindUniform);
     pProjBind->connect(pCamera->getShaderInput("projection Matrix").get(),
         pSimpleShader->getProgramLocation(),
-        pSimpleShader->getUniformByName("projection"));*/
+        pSimpleShader->getUniformByName("projection"));
 
     kore::RenderMeshOpPtr pOp(new kore::RenderMesh);
     pOp->setCamera(pCamera);
     pOp->setMesh(pTestMesh);
     pOp->setShader(pSimpleShader);
 
-    //kore::RenderManager::getInstance()->addOperation(pViewBind);
-    //kore::RenderManager::getInstance()->addOperation(pProjBind);
+    kore::RenderManager::getInstance()->addOperation(pViewBind);
+    kore::RenderManager::getInstance()->addOperation(pProjBind);
     kore::RenderManager::getInstance()->addOperation(pPosAttBind);
     kore::RenderManager::getInstance()->addOperation(pOp);
 
@@ -174,9 +174,9 @@ void GLWindow::updateScene()
 {
     //update scene
     
-    //glClearColor(rand()/(float)RAND_MAX,
-    //             rand()/(float)RAND_MAX,
-    //             rand()/(float)RAND_MAX,1);
+    glClearColor(rand()/(float)RAND_MAX,
+                rand()/(float)RAND_MAX,
+                rand()/(float)RAND_MAX,1);
     paintGL();
 }
 
