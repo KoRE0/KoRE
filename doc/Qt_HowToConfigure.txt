@@ -1,1 +1,9 @@
-configure -debug-and-release -opengl desktop -no-angle -opensource -confirm-license -platform win32-msvc2012 -nomake tests -nomake examples
+- Download Qt5.0.1 sources (http://qt-project.org/downloads)
+  - for windows download the zip file (http://releases.qt-project.org/qt5/5.0.1/single/qt-everywhere-opensource-src-5.0.1.zip)
+
+- Open Shell at Qt dir
+	- for visual studio build use visual studio command line tool
+
+- enter "configure -debug-and-release -opengl desktop -no-angle -opensource -confirm-license -platform win32-msvc2012 -nomake tests -nomake examples"
+	- platform parameter HAS TO BE changed to your target platform
+		
