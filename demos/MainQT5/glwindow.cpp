@@ -51,10 +51,10 @@ GLWindow::GLWindow(QScreen* screen)
     QSurfaceFormat sformat;
     sformat.setDepthBufferSize(24);
     sformat.setMajorVersion(4);
-    sformat.setMinorVersion(3);
+    sformat.setMinorVersion(2);
     //sformat.setSamples(4);        MSAA
     sformat.setProfile(QSurfaceFormat::CoreProfile);
-
+    
     resize(800,600);
     setFormat(sformat);
     create();
@@ -72,7 +72,7 @@ GLWindow::GLWindow(QScreen* screen)
     // load resources
     kore::MeshPtr pTestMesh =
         kore::ResourceManager::getInstance()->
-        loadSingleMesh("../../assets/meshes/cube.dae", 0);
+        loadSingleMesh("../../assets/meshes/cube.dae", kore::USE_BUFFERS);
 
     // load shader
     kore::ShaderPtr pSimpleShader(new kore::Shader);
@@ -116,9 +116,13 @@ GLWindow::GLWindow(QScreen* screen)
     kore::RenderManager::getInstance()->addOperation(pPosAttBind);
     kore::RenderManager::getInstance()->addOperation(pOp);
 
+
+
     QTimer* timer = new QTimer(this);
     connect( timer, SIGNAL( timeout() ), this, SLOT( updateScene() ) );
     timer->start();
+
+    
 }
 
 GLWindow::~GLWindow()
@@ -153,6 +157,8 @@ void GLWindow::resizeGL()
     _context->makeCurrent(this);
     kore::RenderManager::getInstance()->setRenderResolution(
         glm::ivec2(width(),height()));
+
+    glViewport(0, 0, width(), height());
    
     //kore::Log::getInstance()->write(
     //   "resolution: w: %i h: %i \n",width(),height());        
@@ -174,9 +180,9 @@ void GLWindow::updateScene()
 {
     //update scene
     
-    glClearColor(rand()/(float)RAND_MAX,
+    /*glClearColor(rand()/(float)RAND_MAX,
                 rand()/(float)RAND_MAX,
-                rand()/(float)RAND_MAX,1);
+                rand()/(float)RAND_MAX,1);*/
     paintGL();
 }
 
