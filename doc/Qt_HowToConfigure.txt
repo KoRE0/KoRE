@@ -6,4 +6,9 @@
 
 - enter "configure -debug-and-release -opengl desktop -no-angle -opensource -confirm-license -platform win32-msvc2012 -nomake tests -nomake examples"
 	- platform parameter HAS TO BE changed to your target platform
+
+- make and wait :)
+
+
+Cmake needs the path to qtbase in Pathvariable CMAKE_PREFIX_PATH (...\Qt5.0.1\qtbase)
 		
