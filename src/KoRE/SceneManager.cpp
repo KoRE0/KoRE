@@ -1,5 +1,5 @@
 /*
-  Copyright ï¿œ 2012 The KoRE Project
+  Copyright (c) 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -31,7 +31,8 @@ kore::SceneManager::SceneManager(void)
                            :_idcount(0),
                             _tagcount(0) {
   addTag("DEFAULT");
-  _root = new kore::SceneNode();
+  _root = SceneNodePtr(new SceneNode());
+  _root->setName("ROOT");
 }
 
 kore::SceneManager::~SceneManager(void) {
@@ -53,7 +54,7 @@ void kore::SceneManager::addTag(const std::string& name) {
 
 const uint kore::SceneManager::getTag(const std::string& name) {
   return (_tagmap.find(name) !=
-    _tagmap.end())?_tagmap.find(name)->second:TAG_INVALID;
+    _tagmap.end())?_tagmap.find(name)->second:KORE_TAG_INVALID;
 }
 
 void kore::SceneManager::
@@ -65,7 +66,7 @@ void kore::SceneManager::
 void kore::SceneManager::getSceneNodesByTag(const std::string& name,
                                      std::vector<SceneNodePtr>& vSceneNodes) {
   const uint uTag = getTag(name);
-  if (uTag != TAG_INVALID) {
+  if (uTag != KORE_TAG_INVALID) {
       getSceneNodesByTag(uTag, vSceneNodes);
   }
 }
@@ -74,4 +75,24 @@ void kore::SceneManager::
   getSceneNodesByName(const std::string& name,
                       std::vector<SceneNodePtr>& vSceneNodes) {
   _root->getSceneNodesByName(name, vSceneNodes);
+}
+
+void kore::SceneManager::
+getSceneNodesByComponent(const EComponentType componentType,
+                           std::vector<SceneNodePtr>& vSceneNodes) {
+  _root->getSceneNodesByComponent(componentType, vSceneNodes);
+}
+
+kore::SceneNodePtr kore::SceneManager::
+  getSceneNodeByComponent(const EComponentType componentType) {
+    std::vector<SceneNodePtr> vNodes;
+    getSceneNodesByComponent(componentType, vNodes);
+    if (vNodes.size() > 0) {
+      return vNodes[0];
+    }
+    return SceneNodePtr(NULL);
+}
+
+kore::SceneNodePtr kore::SceneManager::getRootNode() {
+  return _root;
 }

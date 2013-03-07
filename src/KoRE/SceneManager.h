@@ -29,22 +29,28 @@
 namespace kore {
   class SceneManager {
   public:
+    friend class ProjectLoader;
     static SceneManager *getInstance(void);
     uint64 createID(void);
     void update(void);
     void addTag(const std::string& name);
     const uint getTag(const std::string& name);
+    SceneNodePtr getRootNode(void);
     void getSceneNodesByTag(const uint tag,
                             std::vector<SceneNodePtr>& vSceneNodes);
     void getSceneNodesByTag(const std::string& name,
                             std::vector<SceneNodePtr>& vSceneNodes);
     void getSceneNodesByName(const std::string& name,
                              std::vector<SceneNodePtr>& vSceneNodes);
+    void getSceneNodesByComponent(const EComponentType componentType,
+                                    std::vector<SceneNodePtr>& vSceneNodes);
+    /// Returns the first sceneNode found with the given component
+    SceneNodePtr getSceneNodeByComponent(const EComponentType componentType);
   private:
   private:
     SceneManager(void);
     virtual ~SceneManager(void);
-    SceneNode* _root;
+    SceneNodePtr _root;
     uint64 _idcount;
     uint _tagcount;
     std::map<std::string, uint> _tagmap;

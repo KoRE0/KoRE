@@ -22,8 +22,8 @@
 
 #include <string>
 #include <vector>
-#include "core/datatypes.h"
-#include "core/scenenodecomponent.h"
+#include "KoRE/DataTypes.h"
+#include "KoRE/Components/SceneNodeComponent.h"
 
 namespace kore {
   class Values : public SceneNodeComponent {
@@ -38,7 +38,6 @@ namespace kore {
 
   private:
     std::string _name;
-    std::vector<ShaderInput> _values;
   };
 };
 #endif  // CORE_INCLUDE_CORE_VALUES_H_

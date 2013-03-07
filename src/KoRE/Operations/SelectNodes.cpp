@@ -18,18 +18,21 @@
 */
 
 #include "KoRE/Operations/SelectNodes.h"
+#include "KoRE/RenderManager.h"
 
 kore::SelectNodes::SelectNodes(const uint tag,
                                const SceneNodePtr& root,
-                               SortingType type) {
+                               ESortingType type) {
+  _type = OP_SELECTNODES;
   append(root, tag);
   // TODO(someone): sorting
 }
 
 kore::SelectNodes::SelectNodes(const std::string& name,
                                const SceneNodePtr& root,
-                               SortingType type,
+                               ESortingType type,
                                bool partial_match) {
+  _type = OP_SELECTNODES;
   append(root, name);
   // TODO(someone): sorting
 }
@@ -41,6 +44,10 @@ void kore::SelectNodes::execute() {}
 void kore::SelectNodes::update() {}
 
 void kore::SelectNodes::reset() {}
+
+bool kore::SelectNodes::isValid(void) {
+  return false;
+}
 
 void kore::SelectNodes::append(const SceneNodePtr& root, const uint tag) {
   // TODO(someone): tag matching
@@ -59,4 +66,12 @@ void kore::SelectNodes::append(const SceneNodePtr& root, const std::string& name
   for (unsigned int i = 0; root->getChildren().size(); ++i) {
     append(root->getChildren()[i], name);
   }
+}
+
+void kore::SelectNodes::destroy() {
+  _renderManager->removeOperation(this);
+}
+
+bool kore::SelectNodes::dependsOn(const void* thing) {
+  return false;
 }

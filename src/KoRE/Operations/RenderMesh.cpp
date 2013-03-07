@@ -18,99 +18,93 @@
 */
 
 #include "KoRE/Operations/RenderMesh.h"
+#include "KoRE/RenderManager.h"
+#include "KoRE/GLerror.h"
 #include <vector>
 
 kore::RenderMesh::RenderMesh(void)
-  : _mesh(NULL),
-    _camera(NULL),
+  : _meshComponent(NULL),
     _shader(NULL),
     kore::Operation() {
+      _type = OP_RENDERMESH;
 }
 
-kore::RenderMesh::RenderMesh(const kore::MeshPtr& mesh,
-                                 const kore::CameraPtr& camera,
-                                 const kore::ShaderPtr& shader)
-                                 : _mesh(mesh),
-                                 _camera(camera),
-                                 _shader(shader),
+kore::RenderMesh::RenderMesh(const kore::MeshComponentPtr& mesh,
+                             const kore::ShaderPtr& shader)
+                                 : _meshComponent(NULL),
                                  kore::Operation() {
+  _type = OP_RENDERMESH;
+  connect(mesh, shader);
 }
 
 kore::RenderMesh::~RenderMesh(void) {
 }
 
+
+void kore::RenderMesh::connect(const kore::MeshComponentPtr& mesh,
+                               const kore::ShaderPtr& shader) {
+  _meshComponent = mesh;
+  _shader = shader;
+}
+
 void kore::RenderMesh::execute(void) {
-    const std::vector<kore::ShaderInput>& vAttributes =
-                                                    _shader->getAttributes();
+    GLerror::gl_ErrorCheckStart();
+    const MeshPtr mesh = _meshComponent->getMesh();
 
-    for (unsigned int i = 0; i < vAttributes.size(); ++i) {
-        const kore::ShaderInput& shaderAtt = vAttributes[i];
-        const kore::MeshAttributeArray* meshAtt =
-            _mesh->getAttributeByName(shaderAtt.name);
-
-        if (!meshAtt) {
-            Log::getInstance()->write("[ERROR] Mesh %s does not have an"
-                "Attribute %s",
-                _mesh->getName().c_str(),
-                shaderAtt.name.c_str());
-            return;
-        }
-
-        glEnableVertexAttribArray(shaderAtt.location);
-        glVertexAttribPointer(shaderAtt.location, meshAtt->numComponents,
-            meshAtt->componentType, GL_FALSE,
-            0, meshAtt->data);
+    if (mesh == NULL) {
+      return;
     }
 
-    _shader->applyShader();
-    // Update uniforms
-    GLint iView =
-        glGetUniformLocation(_shader->getProgramLocation(), "view");
+    // Note: Normally, this call is already handled by an an "UseShaderProgram"
+    // operation. You can uncomment the line below to ensure that the correct
+    // shader is bound, but it shouldn't be neccesary.
+    // _renderManager->useShaderProgram(_shader->getProgramLocation());
 
-    GLint iProj =
-        glGetUniformLocation(_shader->getProgramLocation(), "projection");
+    _renderManager->bindVBO(mesh->getVBO());
 
-    GLint iModel =
-        glGetUniformLocation(_shader->getProgramLocation(), "model");
-
-    glUniformMatrix4fv(iView, 1, GL_FALSE, glm::value_ptr(_camera->getView()));
-
-    glUniformMatrix4fv(iProj, 1, GL_FALSE,
-        glm::value_ptr(_camera->getProjection()));
-
-    glUniformMatrix4fv(iModel, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
-
-    if (_mesh->hasIndices()) {
-        glDrawElements(_mesh->getPrimitiveType(), _mesh->getIndices().size(),
-            GL_UNSIGNED_INT, &_mesh->getIndices()[0]);
+    if (mesh->usesIBO()) {
+      _renderManager->bindIBO(mesh->getIBO());
     } else {
-        glDrawArrays(_mesh->getPrimitiveType(), 0, _mesh->getNumVertices());
+      _renderManager->bindIBO(0);
     }
 
-  setExecuted(true);
+    // Indices but no IBO
+    if (mesh->hasIndices() && !mesh->usesIBO()) {
+      glDrawElements(mesh->getPrimitiveType(), mesh->getIndices().size(),
+                     GL_UNSIGNED_INT, &mesh->getIndices()[0]);
+    }
+
+    // Indices with IBO
+    else if (mesh->hasIndices() && mesh->usesIBO()) {
+      glDrawElements(mesh->getPrimitiveType(), mesh->getIndices().size(),
+                     GL_UNSIGNED_INT, KORE_BUFFER_OFFSET(0));
+    }
+
+    // No Indices
+    else if (!mesh->hasIndices()) {
+      glDrawArrays(mesh->getPrimitiveType(), 0,
+                   mesh->getNumVertices());
+    }
+
+  GLerror::gl_ErrorCheckFinish("RenderMeshOperation " + mesh->getName());
 }
 
 void kore::RenderMesh::update(void) {
 }
 
 void kore::RenderMesh::reset(void) {
-  setExecuted(false);
 }
 
-const kore::MeshPtr& kore::RenderMesh::getMesh() const {
-    return _mesh;
+bool kore::RenderMesh::isValid(void) {
+  return false;
 }
 
-void kore::RenderMesh::setMesh(const kore::MeshPtr& mesh) {
-    _mesh = mesh;
+const kore::MeshComponentPtr& kore::RenderMesh::getMesh() const {
+    return _meshComponent;
 }
 
-const kore::CameraPtr& kore::RenderMesh::getCamera() const {
-    return _camera;
-}
-
-void kore::RenderMesh::setCamera(const kore::CameraPtr& camera) {
-    _camera = camera;
+void kore::RenderMesh::setMesh(const kore::MeshComponentPtr& mesh) {
+    _meshComponent = mesh;
 }
 
 const kore::ShaderPtr& kore::RenderMesh::getShader() const {
@@ -119,4 +113,9 @@ const kore::ShaderPtr& kore::RenderMesh::getShader() const {
 
 void kore::RenderMesh::setShader(const kore::ShaderPtr& shader) {
     _shader = shader;
+}
+
+bool kore::RenderMesh::dependsOn(const void* thing) {
+  return thing == _meshComponent.get() 
+       || thing == _shader.get();
 }

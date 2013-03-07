@@ -21,36 +21,35 @@
 #define CORE_INCLUDE_CORE_RENDERMESHOP_H_
 
 #include "KoRE/Operations/Operation.h"
-#include "KoRE/Components/Mesh.h"
+#include "KoRE/Components/MeshComponent.h"
 #include "KoRE/Components/Camera.h"
-#include "KoRE/Shader.h"
+#include "KoRE/ShaderProgram.h"
 
 namespace kore {
   class RenderMesh: public Operation {
   public:
     explicit RenderMesh(void);
-    explicit RenderMesh(const kore::MeshPtr& mesh,
-                          const kore::CameraPtr& camera,
-                          const kore::ShaderPtr& shader);
+    explicit RenderMesh(const kore::MeshComponentPtr& mesh,
+                        const kore::ShaderPtr& shader);
 
     virtual ~RenderMesh(void);
     virtual void execute(void);
     virtual void update(void);
     virtual void reset(void);
+    virtual bool isValid(void);
+    virtual bool dependsOn(const void* thing);
 
-    const kore::MeshPtr& getMesh() const;
-    void setMesh(const kore::MeshPtr& mesh);
+    void connect(const kore::MeshComponentPtr& mesh,
+                 const kore::ShaderPtr& shader);
 
-    const kore::CameraPtr& getCamera() const;
-    void setCamera(const kore::CameraPtr& camera);
+    const kore::MeshComponentPtr& getMesh() const;
+    void setMesh(const kore::MeshComponentPtr& mesh);
 
     const kore::ShaderPtr& getShader() const;
     void setShader(const kore::ShaderPtr& shader);
 
   private:
-    kore::MeshPtr _mesh;
-
-    kore::CameraPtr _camera;
+    kore::MeshComponentPtr _meshComponent;
     kore::ShaderPtr _shader;
   };
   typedef std::shared_ptr<RenderMesh> RenderMeshOpPtr;

@@ -18,31 +18,40 @@
 */
 
 #include "KoRE/Components/SceneNodeComponent.h"
+#include "KoRE/Components/Transform.h"
 #include "KoRE/SceneNode.h"
 
 kore::SceneNodeComponent::SceneNodeComponent()
-  : _id(UINT_INVALID),
-  _node(NULL) {
+  : _id(KORE_UINT_INVALID),
+    _sceneNode(NULL),
+    _type(COMPONENT_UNKNOWN) {
 }
 
 kore::SceneNodeComponent::~SceneNodeComponent() {
 }
 
 void kore::SceneNodeComponent::attachTo(kore::SceneNodePtr& node) {
+  _sceneNode = node;
 }
 
-const kore::SceneNodePtr&
-kore::SceneNodeComponent::getNode(void) const {
-    return _node;
-}
-
-void kore::SceneNodeComponent::setNode(const kore::SceneNodePtr& node) {
-}
-
-const kore::ComponentType kore::SceneNodeComponent::getType(void) const {
+const kore::EComponentType kore::SceneNodeComponent::getType(void) const {
   return _type;
+}
+
+void 
+kore::SceneNodeComponent::transformChanged(const TransformPtr& newTransform) {
 }
 
 uint kore::SceneNodeComponent::getID(void) const {
   return _id;
+}
+
+const kore::ShaderData* kore::SceneNodeComponent::
+  getShaderData(const std::string& name) const {
+    for (uint i = 0; i < _shaderData.size(); ++i) {
+      if(_shaderData[i].name == name ) {
+        return &_shaderData[i];
+      }
+    }
+    return NULL;
 }

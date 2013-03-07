@@ -18,19 +18,12 @@
 */
 
 #include "KoRE/Operations/Operation.h"
+#include "Kore/RenderManager.h"
 
-kore::Operation::Operation(void)
-  : _executed(false),
-    _executeOnce(false) {
+kore::Operation::Operation(void) : _type(OP_UNDEFINED) {
+  _renderManager = RenderManager::getInstance();
 }
 
 kore::Operation::~Operation(void) {
-}
-
-bool kore::Operation::getExecuted(void) {
-  return _executed;
-}
-
-void kore::Operation::setExecuted(bool flag) {
-  _executed = flag;
+  _renderManager->removeOperation(this);
 }

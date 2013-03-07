@@ -31,15 +31,15 @@ kore::SceneNode::SceneNode(void)
                         _parent(NULL),
                         _dirty(true) {
   _id = kore::SceneManager::getInstance()->createID();
-  _transform.global = glm::mat4(1.0f);
-  _transform.local = glm::mat4(1.0f);
+  _transform = TransformPtr(new Transform());
+  _components.push_back(_transform);
 }
 
 kore::SceneNode::~SceneNode(void) {
 }
 
 
-bool kore::SceneNode::isCompatibleWith(const SceneNode& otherNode) const {
+/*bool kore::SceneNode::isCompatibleWith(const SceneNode& otherNode) const {
   if (_components.size() != otherNode._components.size()) {
     return false;
   }
@@ -60,10 +60,24 @@ bool kore::SceneNode::isCompatibleWith(const SceneNode& otherNode) const {
 }
 
 bool kore::SceneNode::isCompatibleWith(const SceneNode& otherNode,
-                                       const ComponentType types) const {
-  // TODO(dominik) Implement multiple type comparison
-  return false;
-}
+                                       const EComponentType types) const {
+  bool bCompatible = false;
+  for (uint iComponent = 0; iComponent < _components.size(); ++iComponent) {
+    // TODO(dospelt) check if type comparison with && is correct
+    if (_components[iComponent] && types != 0) {
+      for (uint iOtherCompoent = 0;
+        iOtherCompoent < otherNode._components.size();
+        ++iOtherCompoent) {
+          bCompatible = _components[iComponent]->
+            isCompatibleWith(*(otherNode._components[iOtherCompoent]));
+          if (bCompatible) {
+            break;
+          }
+      }
+    }
+  }
+  return bCompatible;
+}*/
 
 
 const kore::SceneNodePtr& kore::SceneNode::getParent(void) const {
@@ -79,11 +93,16 @@ const std::vector<kore::SceneNodeComponentPtr>
     return _components;
 }
 
-const kore::SceneNodeComponentPtr kore::SceneNode::getComponent(ComponentType type) const {
+const kore::SceneNodeComponentPtr
+kore::SceneNode::getComponent(EComponentType type) const {
   for (unsigned int i = 0; i < _components.size(); ++i) {
     if (_components[i]->getType() == type) return _components[i];
   }
   return NULL;
+}
+
+const kore::TransformPtr kore::SceneNode::getTransform() const {
+  return _transform;
 }
 
 const uint64 kore::SceneNode::getID(void) const {
@@ -98,13 +117,17 @@ const std::string kore::SceneNode::getName(void) const {
   return _name;
 }
 
-
-const kore::Transform* kore::SceneNode::getTransform(void) const {
-  return &_transform;
-}
-
 void kore::SceneNode::setParent(const SceneNodePtr& parent) {
   _parent = parent;
+}
+
+void kore::SceneNode::addChild(const SceneNodePtr& child) {
+  _children.push_back(child);
+}
+
+void kore::SceneNode::addComponent(const SceneNodeComponentPtr& component) {
+  _components.push_back(component);
+  component->attachTo(SceneNodePtr(this));
 }
 
 void kore::SceneNode::setTag(const std::string& tagname) {
@@ -122,27 +145,103 @@ const bool kore::SceneNode::needsUpdate(void) const {
 void kore::SceneNode::update(void) {
   if (needsUpdate()) {
     if (_parent) {
-      _transform.global = _parent->getTransform()->global * _transform.local;
+      _transform->setGlobal(_parent->getTransform()->getGlobal() *
+                            _transform->getLocal());
     } else {
-      _transform.global = _transform.local;
+      _transform->setGlobal(_transform->getLocal());
+    }
+    for (uint iComp = 0; iComp < _components.size(); ++iComp) {
+      _components[iComp]->transformChanged(_transform);
     }
   }
-  for (unsigned int i = 0; i < _children.size(); i++) {
+  for (unsigned int i = 0; i < _children.size(); ++i) {
     _children[i]->update();
   }
   _dirty = false;
 }
 
-void kore::SceneNode::translate(const glm::vec3& dir) {
-  _transform.local = glm::translate(_transform.local, dir);
+ 
+void
+ kore::SceneNode::translate(const glm::vec3& dir,
+                          const ETransfpomSpace relativeTo /*=SPACE_LOCAL*/) {
+  if (relativeTo == SPACE_WORLD) {
+    glm::vec4 v4Dir(dir, 0.0f);
+    v4Dir = glm::inverse(_transform->getGlobal()) * v4Dir;
+    _transform->setLocal(glm::translate(_transform->getLocal(),
+                                        glm::vec3(v4Dir)));
+  } else {
+    _transform->setLocal(glm::translate(_transform->getLocal(), dir));
+  }
+
   _dirty = true;
 }
 
-void kore::SceneNode::rotate(const GLfloat& angle, const glm::vec3& axis) {
+void kore::SceneNode::
+  setTranslation(const glm::vec3& position,
+                 const ETransfpomSpace relativeTo /*= SPACE_LOCAL*/) {
+   glm::mat4 local = _transform->getLocal();
+  if (relativeTo == SPACE_WORLD) {
+    glm::vec3 localPos = glm::vec3(glm::inverse(_transform->getGlobal()) *
+                                   glm::vec4(position, 1.0f));
+    local[3] = glm::vec4(localPos, 1.0f);
+  } else {
+    local[3] = glm::vec4(position, 1.0f);
+  }
+  _transform->setLocal(local);
   _dirty = true;
 }
 
-void kore::SceneNode::scale(const glm::vec3& dim) {
+
+
+void kore::SceneNode::rotate(const GLfloat& angle, const glm::vec3& axis,
+                          const ETransfpomSpace relativeTo /*=SPACE_LOCAL*/) {
+   if (relativeTo == SPACE_WORLD) {
+    glm::vec4 v4Axis(axis, 0.0f);
+    v4Axis = glm::inverse(_transform->getGlobal()) * v4Axis;
+    _transform->setLocal(glm::rotate(_transform->getLocal(),
+                                      angle,
+                                      glm::vec3(v4Axis)));
+   } else {
+     _transform->setLocal(glm::rotate(_transform->getLocal(), angle, axis));
+   }
+
+  _dirty = true;
+}
+
+// TODO(dlazarek): Implement space-changes
+void kore::SceneNode::scale(const glm::vec3& dim,
+                          const ETransfpomSpace relativeTo /*=SPACE_LOCAL*/) {
+  _dirty = true;
+}
+
+void kore::SceneNode::setOrientation(const glm::vec3& v3Side,
+                                     const glm::vec3& v3Up,
+                                     const glm::vec3& v3Forward,
+                        const ETransfpomSpace relativeTo /*= SPACE_LOCAL*/ ) {
+  glm::mat4 newMat;
+  if (relativeTo == SPACE_WORLD) {
+    glm::mat4 matGlobalI =
+      glm::inverse(_transform->getGlobal());
+
+    glm::vec3 localSide =
+      glm::normalize(glm::vec3(matGlobalI * glm::vec4(v3Side, 0.0f)));
+
+    glm::vec3 localUp =
+      glm::normalize(glm::vec3(matGlobalI * glm::vec4(v3Up, 0.0f)));
+
+    glm::vec3 localForward =
+      glm::normalize(glm::vec3(matGlobalI * glm::vec4(v3Forward, 0.0f)));
+
+    newMat[0] = glm::vec4(localSide, newMat[0][3]);
+    newMat[1] = glm::vec4(localUp, newMat[1][3]);
+    newMat[2] = glm::vec4(localForward, newMat[2][3]);
+
+  } else {
+    newMat[0] = glm::vec4(v3Side, newMat[0][3]);
+    newMat[1] = glm::vec4(v3Up, newMat[1][3]);
+    newMat[2] = glm::vec4(v3Forward, newMat[2][3]);
+  }
+  _transform->setLocal(newMat);
   _dirty = true;
 }
 
@@ -157,13 +256,28 @@ void kore::SceneNode::getSceneNodesByTag(const uint tag,
   }
 }
 
-void kore::SceneNode::getSceneNodesByName(const std::string name,
+void kore::SceneNode::getSceneNodesByName(const std::string& name,
                                           std::vector<SceneNodePtr>& vNodes) {
+  if (_name == name) {
+    // TODO(dlazarek) Dangerous: Assuming 'this' is on heap
+    vNodes.push_back(SceneNodePtr(this));
+  }
+
   for (uint iChild = 0; iChild < _children.size(); ++iChild) {
     // If there is at least one bit set in both tags, the child is added
-    if (_children[iChild]->getName() == name) {
-      vNodes.push_back(_children[iChild]);
-      _children[iChild]->getSceneNodesByName(name, vNodes);
-    }
+    _children[iChild]->getSceneNodesByName(name, vNodes);
+  }
+}
+
+void kore::SceneNode::
+getSceneNodesByComponent(const EComponentType componentType,
+                         std::vector<SceneNodePtr>& vNodes ) {
+  if (getComponent(componentType) != NULL) {
+    // TODO(dlazarek) Dangerous: Assuming 'this' is on heap
+    vNodes.push_back(SceneNodePtr(this));
+  }
+
+  for (uint iChild = 0; iChild < _children.size(); ++iChild) {
+    _children[iChild]->getSceneNodesByComponent(componentType, vNodes);
   }
 }

@@ -17,17 +17,19 @@
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "KoRE/DataTypes.h"
+#include "KoRE/Common.h"
+// GLUINT_HANDLE_INVALID
 
 unsigned int kore::DatatypeUtil::getSizeFromGLdatatype(GLenum datatype) {
     switch (datatype) {
         case GL_FLOAT_VEC2:
-            return sizeof(glm::vec2);
+            return 8;  // sizeof(glm::vec2)
             break;
         case GL_FLOAT_VEC3:
-            return sizeof(glm::vec3);
+            return 12;  // sizeof(glm::vec3)
             break;
         case GL_FLOAT_VEC4:
-            return sizeof(glm::vec4);
+            return 16;  // sizeof(glm::vec4)
             break;
         default:
             Log::getInstance()->
@@ -35,4 +37,17 @@ unsigned int kore::DatatypeUtil::getSizeFromGLdatatype(GLenum datatype) {
                 return 0;
             break;
         }
+}
+
+const std::string kore::DatatypeUtil::typeToString(GLenum datatype) const {
+  switch (datatype) {
+  default:
+    return "GL_INVALID_ENUM";
+  }
+}
+
+const GLenum kore::DatatypeUtil::stringToType(const std::string& type) const {
+  if (type == "GL_INVALID_ENUM") return GL_INVALID_ENUM;
+  // [...] TODO(dospelt)
+  return GL_INVALID_ENUM;
 }

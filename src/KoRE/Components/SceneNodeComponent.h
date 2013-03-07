@@ -21,33 +21,44 @@
 #define CORE_INCLUDE_CORE_SCENENODECOMPONENT_H_
 
 #include "KoRE/Common.h"
+#include "KoRE/ShaderData.h"
+#include "KoRE/Operations/Operation.h"
 
 namespace kore {
-  enum ComponentType {
-    COMPONENT_UNKNOWN,
-    COMPONENT_MESH,
-    COMPONENT_CAMERA,
-    COMPONENT_VALUES
+  enum EComponentType {
+    COMPONENT_UNKNOWN     = 0,
+    COMPONENT_TRANSFORM   = 1 << 0,
+    COMPONENT_MESH        = 1 << 1,
+    COMPONENT_CAMERA      = 1 << 2,
+    COMPONENT_VALUES      = 1 << 3,
+    COMPONENT_LIGHT       = 1 << 4
   };
 
   class SceneNode;
   typedef std::shared_ptr<SceneNode> SceneNodePtr;
+  class Transform;
+  typedef std::shared_ptr<Transform> TransformPtr;
   class SceneNodeComponent {
   public:
     explicit SceneNodeComponent(void);
     virtual ~SceneNodeComponent(void);
-     /// Checks if this component is of the same type as the other component
-    virtual bool isCompatibleWith(const SceneNodeComponent& otherComponent) = 0;
+
     virtual void attachTo(SceneNodePtr& node);
-    void setNode(const SceneNodePtr& node);
-    const SceneNodePtr& getNode(void) const;
-    const ComponentType getType(void) const;
+    virtual void transformChanged(const TransformPtr& newTransform);
+
+    const EComponentType getType(void) const;
+    const ShaderData* getShaderData(const std::string& name) const;
+
+    inline const std::vector<ShaderData>&
+    getShaderData() const {return _shaderData;};
     uint getID(void) const;
 
   protected:
+    std::string name;
     uint _id;
-    SceneNodePtr _node;
-    ComponentType _type;
+    SceneNodePtr _sceneNode;
+    EComponentType _type;
+    std::vector<ShaderData> _shaderData;
   };
   typedef std::shared_ptr<SceneNodeComponent> SceneNodeComponentPtr;
 };

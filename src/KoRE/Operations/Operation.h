@@ -23,6 +23,19 @@
 #include <memory>
 
 namespace kore {
+  enum EOperationType {
+    OP_UNDEFINED,
+
+    OP_BINDATTRIBUTE,
+    OP_BINDUNIFORM,
+    OP_BINDTEXTURE,
+    OP_RENDERMESH,
+    OP_SELECTNODES
+  };
+
+  class SceneNodeComponent;
+  class Shader;
+  class RenderManager;
   class Operation {
   public:
     Operation(void);
@@ -30,12 +43,14 @@ namespace kore {
     virtual void execute(void) = 0;
     virtual void update(void) = 0;
     virtual void reset(void) = 0;
-    void setExecuted(bool flag);
-    bool getExecuted(void);
+    virtual bool isValid(void) = 0;
+    virtual bool dependsOn(const void* thing) = 0;
 
-  private:
-    bool _executeOnce;
-    bool _executed;
+    inline const EOperationType getType() const {return _type;}
+
+  protected:
+    EOperationType _type;
+    RenderManager* _renderManager;
   };
   typedef std::shared_ptr<Operation> OperationPtr;
 }

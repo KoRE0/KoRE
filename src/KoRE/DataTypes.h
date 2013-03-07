@@ -28,15 +28,8 @@ namespace kore {
   class DatatypeUtil {
   public:
     static unsigned int getSizeFromGLdatatype(GLenum datatype);
+    const std::string typeToString(GLenum datatype) const;
+    const GLenum stringToType(const std::string& type) const; 
   };
-
-  struct ShaderInput {
-    GLuint componentType;        // e.g. GL_FLOAT
-    GLenum type;                 // e.g. GL_VEC3
-    GLuint size;                 // number of components in units of type
-                                 // (currently this is always 1)
-    GLint location;
-    std::string name;
-  };
-};
+}
 #endif  // CORE_INCLUDE_CORE_DATATYPES_H_
