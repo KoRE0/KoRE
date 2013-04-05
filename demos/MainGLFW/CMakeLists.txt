@@ -40,7 +40,7 @@ if(WIN32)
 	    #OpenGL32
 	    #glaux
 	    #glu32
-	    #assimp
+	    assimp
 	    opengl32
 	    glfw
 	    glew32
@@ -56,6 +56,6 @@ else()
   set(KoRE_LIBS glfw GL GLEW KoRE assimp)
 endif(WIN32)
 
-target_link_libraries(MainGLFW tinyxml)
+#target_link_libraries(MainGLFW tinyxml)
 target_link_libraries(MainGLFW ${KoRE_LIBS})
 
