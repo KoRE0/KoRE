@@ -1,19 +1,25 @@
 cmake_minimum_required(VERSION 2.8)
 project(KoRE)
 
+if(MSVC10)	
+    message("Compiler is MSVC.")    
+endif()
+if(CMAKE_COMPILER_IS_GNUCXX)
+    message("Compiler is GNU++")
+endif()
+
 # For custom cmake modules.
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 LINK_DIRECTORIES(${CMAKE_SOURCE_DIR}/lib)
 
 include(GetOpenGLHeaders)
 
-if(WIN32 AND NOT EXISTS ${CMAKE_SOURCE_DIR}/ext)
-  message("No ext dir. Will make one.")
-  #execute_process(COMMAND ${PYTHON_VER} scripts/updateExt.py)
-  execute_process(COMMAND sh scripts/updateExt.msys)
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/ext OR NOT EXISTS ${CMAKE_SOURCE_DIR}/bin)
+  message( FATAL_ERROR "No dependencies found. Please extract dependencies according to your build environment.")
 endif()
 
-execute_process(COMMAND sh mkdir lib)
+# create library directory
+file(MAKE_DIRECTORY lib)
 
 check_gl_headers()
 
@@ -51,9 +57,8 @@ include_directories(src)
 #SET_TARGET_PROPERTIES(p2t PROPERTIES LINKER_LANGUAGE C)
 
 
-
-######### 
-# Link external libraries to KoRE
+if(CMAKE_COMPILER_IS_GNUCXX)
+#Link external libraries to KoRE
 link_directories(${CMAKE_LIBRARY_PATH})
 include_directories(${CMAKE_LIBRARY_PATH})
 
@@ -78,11 +83,7 @@ set_target_properties( assimp PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBRARY_PATH}
 target_link_libraries(KoRE assimp) 
 
 target_link_libraries(KoRE opengl32) 
-target_link_libraries(KoRE clipper) 
-target_link_libraries(KoRE p2t) 
-
- 
-##########
+endif() 
 
 set(IGNORE "-build/include")
 
