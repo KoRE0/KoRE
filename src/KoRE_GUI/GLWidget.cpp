@@ -50,7 +50,7 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent) {
 
     QTimer* timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(paintGL()));
-    timer->start(1);
+    timer->start(60);
 }
 
 GLWidget::~GLWidget() {

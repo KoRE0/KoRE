@@ -29,7 +29,7 @@
 #include "ui_ShaderEditor.h"
 
 #include "KoRE/ShaderProgram.h"
-#include "KoRE_GUI/ShaderProgramItem.h"
+#include "KoRE_GUI/ShaderPassItem.h"
 
 namespace koregui {
   class ShaderEditor : public QWidget
@@ -37,7 +37,7 @@ namespace koregui {
     Q_OBJECT
 
   public:
-    ShaderEditor(ShaderProgramItem* pass, QWidget *parent = 0);
+    ShaderEditor(ShaderPassItem* pass, QWidget *parent = 0);
     ~ShaderEditor();
 
     public slots:
@@ -57,7 +57,7 @@ namespace koregui {
     QSignalMapper _loadmapper;
     QSignalMapper _delmapper;
     kore::ShaderProgram* _currentprogram;
-    ShaderProgramItem* _currentitem;
+    ShaderPassItem* _currentitem;
   };
 }
 

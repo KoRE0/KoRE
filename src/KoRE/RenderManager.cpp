@@ -236,6 +236,15 @@ void kore::RenderManager::addFramebufferStage(FrameBufferStage* stage) {
   _frameBufferStages.push_back(stage);
 }
 
+void kore::RenderManager::swapFramebufferStage(FrameBufferStage* which,
+                                               FrameBufferStage* towhere) {
+  auto it = std::find(_frameBufferStages.begin(),
+                      _frameBufferStages.end(), which);
+  auto it2 = std::find(_frameBufferStages.begin(),
+                       _frameBufferStages.end(), towhere);
+  std::iter_swap(it,it2);
+}
+
 /*
 void kore::RenderManager::removeOperation(const Operation* operation) {
   for (uint ifbo = 0; ifbo < _frameBufferStages.size(); ++ifbo) {

@@ -75,6 +75,8 @@ namespace kore {
     void renderFrame(void);
     
     void addFramebufferStage(FrameBufferStage* stage);
+    void swapFramebufferStage(FrameBufferStage* which,
+                              FrameBufferStage* towhere);
     void onRemoveComponent(const SceneNodeComponent* comp);
 
     // The OpenGL-State wrapper functions go here:

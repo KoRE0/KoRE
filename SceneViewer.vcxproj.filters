@@ -50,20 +50,17 @@
     <ClInclude Include="src\KoRE_GUI\BindPathItem.h">
       <Filter>Header Dateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\KoRE_GUI\ShaderProgramItem.h">
-      <Filter>Header Dateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\KoRE_GUI\FrameBufferItem.h">
-      <Filter>Header Dateien</Filter>
-    </ClInclude>
-    <ClInclude Include="SelectionWidget.h">
-      <Filter>Header Dateien</Filter>
-    </ClInclude>
     <ClInclude Include="src\KoRE_GUI\GeneratedFiles\ui_FrameBufferEditor.h">
       <Filter>Generierte Dateien</Filter>
     </ClInclude>
     <ClInclude Include="src\KoRE_GUI\GeneratedFiles\ui_ShaderEditor.h">
       <Filter>Generierte Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE_GUI\ShaderPassItem.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE_GUI\FrameBufferStageItem.h">
+      <Filter>Header Dateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -132,13 +129,7 @@
     <ClCompile Include="src\KoRE_GUI\ShaderInputItem.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\KoRE_GUI\ShaderProgramItem.cpp">
-      <Filter>Source Dateien</Filter>
-    </ClCompile>
     <ClCompile Include="src\KoRE_GUI\BindPathItem.cpp">
-      <Filter>Source Dateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\KoRE_GUI\FrameBufferItem.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
     <ClCompile Include="src\KoRE_GUI\GeneratedFiles\Debug\moc_ResourceViewer.cpp">
@@ -185,6 +176,12 @@
     </ClCompile>
     <ClCompile Include="src\KoRE_GUI\GeneratedFiles\Release\moc_ShaderEditor.cpp">
       <Filter>Generierte Dateien\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE_GUI\ShaderPassItem.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE_GUI\FrameBufferStageItem.cpp">
+      <Filter>Source Dateien</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

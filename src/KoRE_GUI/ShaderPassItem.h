@@ -21,22 +21,24 @@
 /* \author Dominik Ospelt                                               */
 /************************************************************************/
 
-#ifndef SHADERPROGRAMITEM_H_
-#define SHADERPROGRAMITEM_H_
+#ifndef SHADERPASSITEM_H_
+#define SHADERPASSITEM_H_
 
 #include <QGraphicsItem>
 #include "KoRE/ShaderProgram.h"
 #include "KoRE_GUI/ShaderInputItem.h"
+#include "KoRE/Passes/ShaderProgramPass.h"
 
 namespace koregui {
-  class ShaderProgramItem : public QGraphicsItem {
+  class ShaderPassItem : public QGraphicsItem {
   public:
-    ShaderProgramItem(QGraphicsItem* parent = 0);
-    ~ShaderProgramItem(void);
+    ShaderPassItem(QGraphicsItem* parent = 0);
+    ~ShaderPassItem(void);
 
     void refresh(void);
     inline int getHeight(void) {return _shaderheight;};
     inline int getWidth(void) {return _shaderwidth;};
+    inline kore::ShaderProgramPass* getProgramPass(void) {return _programpass;}
     void setShaderProgram(kore::ShaderProgram* prog);
 
   protected:
@@ -45,8 +47,11 @@ namespace koregui {
       const QStyleOptionGraphicsItem* option,
       QWidget* widget);
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
   private:
+    kore::ShaderProgramPass* _programpass;
     kore::ShaderProgram* _shader;
     std::vector<ShaderInputItem*> _attributes;
     std::vector<ShaderInputItem*> _uniforms;
@@ -56,4 +61,4 @@ namespace koregui {
     std::string _name;
   };
 }
-#endif  // SHADERPROGRAMITEM_H_
+#endif  // SHADERPASSITEM_H_
