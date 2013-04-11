@@ -157,8 +157,17 @@
     <ClCompile Include="src\KoRE\IndexedBuffer.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\KoRE\Operations\EnableDisableOp.cpp">
+      <Filter>src\Operations</Filter>
+    </ClCompile>
     <ClCompile Include="src\KoRE\Shader.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE\Operations\ColorMaskOp.cpp">
+      <Filter>src\Operations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE\Operations\ViewportOp.cpp">
+      <Filter>src\Operations</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -332,6 +341,15 @@
     </ClInclude>
     <ClInclude Include="src\KoRE\Shader.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\Operations\EnableDisableOp.h">
+      <Filter>src\Operations</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\Operations\ColorMaskOp.h">
+      <Filter>src\Operations</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\Operations\ViewportOp.h">
+      <Filter>src\Operations</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -101,6 +101,7 @@ namespace kore {
                                        const std::string& name);
 
     static bool isSamplerType(const GLuint uniformType);
+
     static bool isImageType(const GLuint uniformType);
     static bool isAtomicCounterType(const GLuint uniformType);
 
@@ -118,9 +119,6 @@ namespace kore {
     std::vector<ShaderInput> _uniforms;
     std::vector<ShaderOutput> _outputs;
     std::vector<GLuint> _imgAccessParams;
-
-    std::vector<GLuint> _atomicCounters;
-    std::vector<GLuint> _atomicCounterBindingPoints;
 
     std::vector<const TextureSampler*> _vSamplers;
 
