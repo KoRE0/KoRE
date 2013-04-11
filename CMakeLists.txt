@@ -20,7 +20,7 @@ add_custom_target(clean-dependencies
    COMMENT "Deleting all platform specific Kore dependencies"
 )
 add_custom_target(clean-all
-   #COMMAND ${CMAKE_COMMAND} -P ${CMAKE_MODULE_PATH}/clean-dependencies.cmake
+   COMMAND ${CMAKE_COMMAND} -P ${CMAKE_MODULE_PATH}/clean-dependencies.cmake
    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_MODULE_PATH}/clean-all.cmake
    COMMENT "Deleting all cmake generated files and KoRE dependencies"
 )
