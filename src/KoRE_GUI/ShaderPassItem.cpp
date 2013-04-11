@@ -38,7 +38,7 @@ koregui::ShaderPassItem::ShaderPassItem(QGraphicsItem* parent)
                               : _shader(NULL),
                                 _name("<empty>"),
                                 QGraphicsItem(parent) {
-  _shaderpass = new kore::ShaderProgramPass();
+  _programpass = new kore::ShaderProgramPass();
   setData(0, "SHADERPROGRAM");
   setFlag(QGraphicsItem::ItemIsSelectable, true);
   setFlag(QGraphicsItem::ItemIsMovable, true);

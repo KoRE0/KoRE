@@ -42,7 +42,7 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent) {
 
     QGLFormat cformat;
     cformat.setDepthBufferSize(24);
-    cformat.setVersion(4,2);
+    cformat.setVersion(5,8);
     cformat.setProfile(QGLFormat::CoreProfile);
 
     this->setFormat(cformat);
