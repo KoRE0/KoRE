@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 project(KoRE)
 
+
+
 if(MSVC10)	
     message("Compiler is MSVC.")    
 endif()
@@ -13,6 +15,17 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 LINK_DIRECTORIES(${CMAKE_SOURCE_DIR}/lib)
 
 include(GetOpenGLHeaders)
+add_custom_target(clean-dependencies
+   COMMAND ${CMAKE_COMMAND} -P ${CMAKE_MODULE_PATH}/clean-dependencies.cmake
+   COMMENT "Deleting all platform specific Kore dependencies"
+)
+add_custom_target(clean-all
+   #COMMAND ${CMAKE_COMMAND} -P ${CMAKE_MODULE_PATH}/clean-dependencies.cmake
+   COMMAND ${CMAKE_COMMAND} -P ${CMAKE_MODULE_PATH}/clean-all.cmake
+   COMMENT "Deleting all cmake generated files and KoRE dependencies"
+)
+
+
 
 if(NOT EXISTS ${CMAKE_SOURCE_DIR}/ext OR NOT EXISTS ${CMAKE_SOURCE_DIR}/bin)
   message( FATAL_ERROR "No dependencies found. Please extract dependencies according to your build environment.")
