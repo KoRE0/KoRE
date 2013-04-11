@@ -242,7 +242,9 @@ void kore::RenderManager::swapFramebufferStage(FrameBufferStage* which,
                       _frameBufferStages.end(), which);
   auto it2 = std::find(_frameBufferStages.begin(),
                        _frameBufferStages.end(), towhere);
-  std::iter_swap(it,it2);
+  if(it != _frameBufferStages.end() && it2 != _frameBufferStages.end()) {
+    std::iter_swap(it,it2);
+  }
 }
 
 /*
@@ -306,8 +308,6 @@ void kore::RenderManager::
    auto it =
     std::find(_frameBufferStages.begin(), _frameBufferStages.end(), fboStage);
       if (it != _frameBufferStages.end()) {
-        FrameBufferStage* pFboStage = (*it);
-        //KORE_SAFE_DELETE(pFboStage);
         _frameBufferStages.erase(it);
       }
 }

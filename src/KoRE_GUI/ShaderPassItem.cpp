@@ -102,6 +102,7 @@ void koregui::ShaderPassItem::refresh(void) {
   _shaderheight += 30 * _sampler.size();
 
   _shaderwidth = 200;
+  static_cast<koregui::FrameBufferStageItem*>(parentItem())->refresh();
 }
 
 QRectF koregui::ShaderPassItem::boundingRect() const {

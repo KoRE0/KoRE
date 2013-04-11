@@ -44,6 +44,11 @@ namespace kore {
 
     void addProgramPass(ShaderProgramPass* progPass);
 
+    void removeProgramPass(ShaderProgramPass* progPass);
+
+    void swapPasses(ShaderProgramPass* which,
+                    ShaderProgramPass* towhere);
+
   private:
     const FrameBuffer* _frameBuffer;
     std::vector<Operation*> _startupOperations;

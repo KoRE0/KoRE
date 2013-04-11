@@ -187,7 +187,6 @@ void koregui::ShaderEditor::pathButtonPressed(int row) {
       "./assets/",
       tr("Shader (*.vp *.vert *.fp *.frag *.gp *.geom *.shader)"));
    QString s = QDir::currentPath();
-   
    QLineEdit* led = static_cast<QLineEdit*>(ui.shaderTable->cellWidget(row,1));
    if (fileName != "") led->setText(fileName);
 }
