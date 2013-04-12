@@ -29,7 +29,6 @@
 #include "KoRE/ResourceManager.h"
 #include "KoRE/RenderManager.h"
 
-#include "KoRE_GUI/KoRE_GUIStyle.h"
 #include "KoRE_GUI/SceneViewer.h"
 #include "KoRE_GUI/RenderViewer.h"
 #include "KoRE_GUI/ResourceViewer.h"

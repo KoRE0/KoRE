@@ -81,7 +81,7 @@ void GLWidget::initializeGL() {
 }
 
 void GLWidget::resizeGL(int x, int y) {
-    kore::RenderManager::getInstance()->setRenderResolution(glm::ivec2(width(), height()));
+    //kore::RenderManager::getInstance()->setRenderResolution(glm::ivec2(width(), height()));
     glViewport(0, 0, width(), height());
     paintGL();
 }

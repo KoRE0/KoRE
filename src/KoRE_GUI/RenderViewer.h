@@ -40,6 +40,7 @@ namespace koregui {
 
     void addSelection(const std::vector<NodeItem*>& nodes);
     void createNode(kore::SceneNode* sourcenode, int x, int y);
+    void framebufferMoved(FrameBufferStageItem* bufferstage);
 
 
   public slots:
@@ -72,6 +73,8 @@ namespace koregui {
       QGraphicsScene _scene;
       BindPathItem* _currentpath;
       FrameBufferStageItem* _currentframebuffer;
+      QPoint _lastpos;
+      std::vector<FrameBufferStageItem*> _framebufferStages;
       ShaderInputItem* _bindTarget;
   };
 }
