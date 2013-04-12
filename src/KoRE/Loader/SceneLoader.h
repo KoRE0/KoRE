@@ -32,7 +32,7 @@
 #include "KoRE/Components/LightComponent.h"
 #include "KoRE/Components/Material.h"
 #include "KoRE/Components/TexturesComponent.h"
-#include "Kore/ResourceManager.h"
+#include "KoRE/ResourceManager.h"
 
 
 namespace kore {

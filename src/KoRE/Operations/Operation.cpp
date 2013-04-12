@@ -18,7 +18,7 @@
 */
 
 #include "KoRE/Operations/Operation.h"
-#include "Kore/RenderManager.h"
+#include "KoRE/RenderManager.h"
 
 kore::Operation::Operation(void) : _type(OP_UNDEFINED) {
   _renderManager = RenderManager::getInstance();

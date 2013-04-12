@@ -25,7 +25,7 @@
 #include "KoRE/SceneNode.h"
 #include "KoRE/Common.h"
 #include "KoRE/SceneManager.h"
-#include "Kore/IDManager.h"
+#include "KoRE/IDManager.h"
 
 kore::SceneNode::SceneNode(void)
                        :_tag(0),

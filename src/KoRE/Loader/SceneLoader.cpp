@@ -24,7 +24,7 @@
 
 #include "KoRE/ResourceManager.h"
 #include "KoRE/Loader/MeshLoader.h"
-#include "Kore/Loader/TextureLoader.h"
+#include "KoRE/Loader/TextureLoader.h"
 #include "KoRE/Components/Transform.h"
 #include "KoRE/Components/Camera.h"
 #include "KoRE/Components/LightComponent.h"
