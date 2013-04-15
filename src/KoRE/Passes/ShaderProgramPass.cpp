@@ -60,11 +60,28 @@ void kore::ShaderProgramPass::setShaderProgram(const ShaderProgram* program) {
   _startupOperations.push_back(pUseProgram);
 }
 
-void kore::ShaderProgramPass::addNodePass(NodePass* node) {
-  if (std::find(_nodePasses.begin(), _nodePasses.end(), node)
+void kore::ShaderProgramPass::addNodePass(NodePass* pass) {
+  if (std::find(_nodePasses.begin(), _nodePasses.end(), pass)
       != _nodePasses.end()) {
     return;
   }
+  _nodePasses.push_back(pass);
+}
 
-  _nodePasses.push_back(node);
+void kore::ShaderProgramPass::removeNodePass(NodePass* pass) {
+  auto it = std::find(_nodePasses.begin(), _nodePasses.end(), pass);
+  if (it == _nodePasses.end()) {
+      return;
+  } else {
+    _nodePasses.erase(it);
+  }
+}
+
+void kore::ShaderProgramPass
+  ::swapNodePass(NodePass* which, NodePass* towhere) {
+  auto it = std::find(_nodePasses.begin(), _nodePasses.end(), which);
+  auto it2 = std::find(_nodePasses.begin(), _nodePasses.end(), towhere);
+  if(it != _nodePasses.end() && it2 != _nodePasses.end()) {
+  std::iter_swap(it, it2);
+  }
 }

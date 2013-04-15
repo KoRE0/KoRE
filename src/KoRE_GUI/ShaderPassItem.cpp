@@ -47,7 +47,8 @@ koregui::ShaderPassItem::ShaderPassItem(QGraphicsItem* parent)
 }
 
 koregui::ShaderPassItem::~ShaderPassItem(void) {
-  FrameBufferStageItem * fbs = static_cast<koregui::FrameBufferStageItem*>(parentItem());
+  koregui::FrameBufferStageItem * fbs
+    = static_cast<koregui::FrameBufferStageItem*>(parentItem());
   fbs->removeShaderPass(this);
 }
 

@@ -43,6 +43,8 @@ namespace kore {
     void setShaderProgram(const ShaderProgram* program);
 
     void addNodePass(NodePass* pass);
+    void removeNodePass(NodePass* pass);
+    void swapNodePass(NodePass* which, NodePass* towhere);
 
   private:
     uint64 _id;

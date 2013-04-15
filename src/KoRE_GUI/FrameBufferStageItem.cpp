@@ -136,6 +136,7 @@ void koregui::FrameBufferStageItem
     if (*it == pass) {
       _bufferstage->removeProgramPass((*it)->getProgramPass());
       _programs.erase(it);
+      return;
     }
   }
 }
