@@ -39,7 +39,7 @@ koregui::ShaderPassItem::ShaderPassItem(QGraphicsItem* parent)
                                 _name("<empty>"),
                                 QGraphicsItem(parent) {
   _programpass = new kore::ShaderProgramPass();
-  setData(0, "SHADERPROGRAM");
+  setData(0, "SHADERPROGRAMPASS");
   setFlag(QGraphicsItem::ItemIsSelectable, true);
   setFlag(QGraphicsItem::ItemIsMovable, true);
   setCursor(QCursor(Qt::CursorShape::ArrowCursor));
@@ -47,6 +47,8 @@ koregui::ShaderPassItem::ShaderPassItem(QGraphicsItem* parent)
 }
 
 koregui::ShaderPassItem::~ShaderPassItem(void) {
+  FrameBufferStageItem * fbs = static_cast<koregui::FrameBufferStageItem*>(parentItem());
+  fbs->removeShaderPass(this);
 }
 
 void koregui::ShaderPassItem::setShaderProgram(kore::ShaderProgram* prog) {

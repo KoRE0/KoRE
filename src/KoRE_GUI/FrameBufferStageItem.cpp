@@ -27,9 +27,11 @@
 #include <QCursor>
 #include <QStaticText>
 #include <QMenu>
+#include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 
 #include "KoRE_GUI/FrameBufferEditor.h"
+#include "KoRE_GUI/RenderViewer.h"
 
 #include "KoRE/RenderManager.h"
 
@@ -37,7 +39,7 @@ koregui::FrameBufferStageItem::FrameBufferStageItem(QGraphicsItem* parent)
                                           : _frameBuffer(NULL),
                                             _name("<empty>"),
                                             QGraphicsItem(parent) {
-  setData(0, "FRAMEBUFFER");
+  setData(0, "FRAMEBUFFERSTAGE");
   setFlag(QGraphicsItem::ItemIsMovable, true);
   setFlag(QGraphicsItem::ItemIsSelectable, true);
   setCursor(QCursor(Qt::CursorShape::ArrowCursor));
@@ -47,6 +49,7 @@ koregui::FrameBufferStageItem::FrameBufferStageItem(QGraphicsItem* parent)
 }
 
 koregui::FrameBufferStageItem::~FrameBufferStageItem(void){
+  kore::RenderManager::getInstance()->removeFrameBufferStage(_bufferstage);
 }
 
 void koregui::FrameBufferStageItem::refresh(void){
@@ -107,6 +110,14 @@ void koregui::FrameBufferStageItem
 }
 
 void koregui::FrameBufferStageItem
+  ::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
+  koregui::RenderViewer* rview
+    = static_cast<koregui::RenderViewer*>(scene()->parent());
+  rview->framebufferMoved(this);
+  QGraphicsItem::mouseMoveEvent(event);
+}
+
+void koregui::FrameBufferStageItem
   ::setFrameBuffer(kore::FrameBuffer* framebuffer) {
   _frameBuffer = framebuffer;
   refresh();
@@ -123,6 +134,7 @@ void koregui::FrameBufferStageItem
   ::removeShaderPass(koregui::ShaderPassItem* pass) {
   for (auto it = _programs.begin();  it != _programs.end(); it++) {
     if (*it == pass) {
+      _bufferstage->removeProgramPass((*it)->getProgramPass());
       _programs.erase(it);
     }
   }
@@ -132,22 +144,27 @@ void koregui::FrameBufferStageItem
   ::shaderMoved(koregui::ShaderPassItem* pass) {
   uint i = 0;
   bool change = false;
+  // find program index
   for (i; i < _programs.size(); i++) {
     if (_programs[i] == pass) {
       break;
     }
   }
-  //compare to previous shaderPass, if any
+  // compare to previous shaderPass, if any
   if (i > 0) {
     if( _programs[i]->pos().y() < _programs[i-1]->pos().y()) {
       std::swap(_programs[i],_programs[i-1]);
+      _bufferstage->swapPasses(_programs[i]->getProgramPass(),
+                               _programs[i-1]->getProgramPass());
       change = true;
     }
   }
-  //compare to next shaderPass, if any
+  // compare to next shaderPass, if any
   if( i < (_programs.size() - 1)) {
     if( _programs[i]->pos().y() > _programs[i+1]->pos().y()) {
       std::swap(_programs[i],_programs[i+1]);
+      _bufferstage->swapPasses(_programs[i]->getProgramPass(),
+                               _programs[i+1]->getProgramPass());
       change = true;
     }
   }

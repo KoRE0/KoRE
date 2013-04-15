@@ -43,6 +43,7 @@ namespace koregui {
                const QStyleOptionGraphicsItem* option,
                QWidget* widget);
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
     inline int getHeight(void) {return _bufferheight;};
     inline int getWidth(void) {return _bufferwidth;};
