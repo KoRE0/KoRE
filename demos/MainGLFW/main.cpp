@@ -47,11 +47,11 @@
 #include "KoRE/Timer.h"
 #include "KoRE/Texture.h"
 #include "KoRE/FrameBuffer.h"
-#include "Kore/Passes/FrameBufferStage.h"
-#include "Kore/Passes/ShaderProgramPass.h"
+#include "KoRE/Passes/FrameBufferStage.h"
+#include "KoRE/Passes/ShaderProgramPass.h"
 #include "KoRE/Passes/NodePass.h"
 #include "KoRE/Events.h"
-#include "Kore/Operations/OperationFactory.h"
+#include "KoRE/Operations/OperationFactory.h"
 
 kore::SceneNode* rotationNode;
 kore::SceneNode* lightNode;

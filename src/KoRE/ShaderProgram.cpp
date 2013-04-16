@@ -23,7 +23,7 @@
 #include "KoRE/Log.h"
 #include "KoRE/Operations/Operation.h"
 #include "KoRE/ResourceManager.h"
-#include "Kore/RenderManager.h"
+#include "KoRE/RenderManager.h"
 #include "KoRE/IndexedBuffer.h"
 
 const unsigned int BUFSIZE = 100;  // Buffer length for shader-element names

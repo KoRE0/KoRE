@@ -17,7 +17,7 @@
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "KoRE/Passes/ShaderProgrampass.h"
+#include "KoRE/Passes/ShaderProgramPass.h"
 #include "KoRE/Operations/UseShaderProgram.h"
 #include "KoRE/Log.h"
 
