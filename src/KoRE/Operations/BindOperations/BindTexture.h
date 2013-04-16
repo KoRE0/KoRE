@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
   Copyright ? 2012 The KoRE Project
+=======
+  Copyright (c) 2012 The KoRE Project
+>>>>>>> hax
 
   This file is part of KoRE.
 
@@ -29,6 +33,7 @@ namespace kore {
   class BindTexture: public BindOperation {
   public:
     BindTexture(void);
+<<<<<<< HEAD
     BindTexture(const ShaderData* texData,
                 const ShaderInput* shaderInput);
 
@@ -45,5 +50,19 @@ namespace kore {
     void init();
   };
   typedef std::shared_ptr<BindTexture> BindTexturePtr;
+=======
+    explicit BindTexture(const ShaderData* texData,
+                const ShaderInput* shaderInput);
+
+    virtual ~BindTexture(void);
+    virtual void update(void);
+    virtual void reset(void);
+    void connect(const ShaderData* texData,
+                 const ShaderInput* shaderInput);
+  private:
+    void init();
+    virtual void doExecute(void) const;
+  };
+>>>>>>> hax
 };
 #endif  // CORE_INCLUDE_CORE_BINDTEXTUREOP_H_

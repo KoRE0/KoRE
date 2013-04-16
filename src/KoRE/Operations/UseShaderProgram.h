@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 /*
   Copyright © 2012 The KoRE Project
+=======
+ï»¿/*
+  Copyright ï¿½ 2012 The KoRE Project
+>>>>>>> hax
 
   This file is part of KoRE.
 
@@ -31,18 +36,31 @@ namespace kore {
     explicit UseShaderProgram(const ShaderProgram* program);
     virtual ~UseShaderProgram();
 
+<<<<<<< HEAD
     virtual void execute(void);
     virtual void update(void);
     virtual void reset(void);
     virtual bool isValid(void);
     virtual bool dependsOn(const void* thing);
+=======
+    virtual void update(void);
+    virtual void reset(void);
+    virtual bool isValid(void) const;
+    virtual bool dependsOn(const void* thing) const;
+>>>>>>> hax
 
     void connect(const ShaderProgram* program);
 
   private:
     const ShaderProgram* _program;
+<<<<<<< HEAD
   };
   typedef std::shared_ptr<UseShaderProgram> UseShaderProgramPtr;
+=======
+
+    virtual void doExecute(void) const;
+  };
+>>>>>>> hax
 }
 
 

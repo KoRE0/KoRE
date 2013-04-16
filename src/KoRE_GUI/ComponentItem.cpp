@@ -34,12 +34,20 @@ koregui::ComponentItem::ComponentItem(kore::SceneNodeComponent* component,
                                       QGraphicsItem* parent) 
                                     : _component(component),
                                       QGraphicsItem(parent) {
+<<<<<<< HEAD
+=======
+  setData(0, "COMPONENT");
+>>>>>>> hax
   std::vector<kore::ShaderData> sdata = _component->getShaderData();
   for (uint i = 0; i < sdata.size(); i++) {
     const kore::ShaderData* tmp = _component->getShaderData(sdata[i].name);
     ShaderDataItem* dataitem =  new ShaderDataItem(tmp, this);
     _shaderDataItems.push_back(dataitem);
+<<<<<<< HEAD
     dataitem->setVisible(true);
+=======
+    dataitem->setVisible(false);
+>>>>>>> hax
     dataitem->setPos(192, 30 + 30 * i);
   }
   _expanded = false;

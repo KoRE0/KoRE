@@ -23,6 +23,10 @@
 #include "KoRE/Common.h"
 #include "KoRE/ShaderData.h"
 #include "KoRE/Operations/Operation.h"
+<<<<<<< HEAD
+=======
+#include "KoRE/BaseResource.h"
+>>>>>>> hax
 
 namespace kore {
   enum EComponentType {
@@ -31,6 +35,7 @@ namespace kore {
     COMPONENT_MESH        = 1 << 1,
     COMPONENT_CAMERA      = 1 << 2,
     COMPONENT_VALUES      = 1 << 3,
+<<<<<<< HEAD
     COMPONENT_LIGHT       = 1 << 4
   };
 
@@ -39,27 +44,47 @@ namespace kore {
   class Transform;
   typedef std::shared_ptr<Transform> TransformPtr;
   class SceneNodeComponent {
+=======
+    COMPONENT_LIGHT       = 1 << 4,
+    COMPONENT_MATERIAL    = 1 << 5
+  };
+
+  class SceneNode;
+  class Transform;
+  class SceneNodeComponent : public BaseResource {
+>>>>>>> hax
   public:
     explicit SceneNodeComponent(void);
     virtual ~SceneNodeComponent(void);
 
+<<<<<<< HEAD
     virtual void attachTo(SceneNodePtr& node);
     virtual void transformChanged(const TransformPtr& newTransform);
+=======
+    virtual void attachTo(SceneNode* node);
+    virtual void transformChanged(const Transform* newTransform);
+>>>>>>> hax
 
     const EComponentType getType(void) const;
     const ShaderData* getShaderData(const std::string& name) const;
 
     inline const std::vector<ShaderData>&
     getShaderData() const {return _shaderData;};
+<<<<<<< HEAD
     uint getID(void) const;
 
   protected:
     std::string name;
     uint _id;
     SceneNodePtr _sceneNode;
+=======
+
+  protected:
+    std::string name;
+    SceneNode* _sceneNode;
+>>>>>>> hax
     EComponentType _type;
     std::vector<ShaderData> _shaderData;
   };
-  typedef std::shared_ptr<SceneNodeComponent> SceneNodeComponentPtr;
 };
 #endif  // CORE_INCLUDE_CORE_SCENENODECOMPONENT_H_

@@ -23,13 +23,22 @@
 #include "KoRE/RenderManager.h"
 #include "KoRE/Log.h"
 #include "KoRE/GLerror.h"
+<<<<<<< HEAD
+=======
+#include "KoRE/Optimization/SimpleOptimizer.h"
+>>>>>>> hax
 
 kore::RenderManager* kore::RenderManager::getInstance(void) {
   static kore::RenderManager theInstance;
   return &theInstance;
 }
 
+<<<<<<< HEAD
 kore::RenderManager::RenderManager(void) {
+=======
+kore::RenderManager::RenderManager(void)
+  : _optimizer(NULL) {
+>>>>>>> hax
   _vTexTargetMap[GL_TEXTURE_1D] =                   TEXTURE_1D;
   _vTexTargetMap[GL_TEXTURE_2D] =                   TEXTURE_2D;
   _vTexTargetMap[GL_TEXTURE_3D] =                   TEXTURE_3D;
@@ -42,6 +51,7 @@ kore::RenderManager::RenderManager(void) {
   _vTexTargetMap[GL_TEXTURE_2D_MULTISAMPLE] =       TEXTURE_2D_MULTISAMPLE;
   _vTexTargetMap[GL_TEXTURE_2D_MULTISAMPLE_ARRAY] =
                                                 TEXTURE_2D_MULTISAMPLE_ARRAY;
+<<<<<<< HEAD
 
   if (_vTexTargetMap.size() != NUM_TEXTURE_TARGETS) {
     Log::getInstance()->write("[ERROR] Not all texture targets where"
@@ -64,6 +74,38 @@ kore::RenderManager::RenderManager(void) {
 }
 
 kore::RenderManager::~RenderManager(void) {
+=======
+
+  if (_vTexTargetMap.size() != NUM_TEXTURE_TARGETS) {
+    Log::getInstance()->write("[ERROR] Not all texture targets where"
+                              " added into the textureTargetMap");
+  }
+
+  memset(_boundTextures, 0, sizeof(GLuint) *
+                            GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS *
+                            NUM_TEXTURE_TARGETS);
+  memset(_boundSamplers, 0, sizeof(GLuint) * 
+                            GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS);
+
+  memset(_boundFrameBuffers, 0, sizeof(GLuint) * 2);
+
+  memset(_drawBuffers, 0, sizeof(bool) * 
+                          KORE_MAX_FRAMEBUFFER_COUNT *
+                          GL_MAX_DRAW_BUFFERS);
+
+  memset(_boundAtomicBuffers, 0, sizeof(GLuint) *
+                                 GL_MAX_COMBINED_ATOMIC_COUNTERS);
+
+  activeTexture(GL_TEXTURE0);  // Activate texture unit 0 by default
+}
+
+kore::RenderManager::~RenderManager(void) {
+  KORE_SAFE_DELETE(_optimizer);
+
+  for (uint i = 0; i < _frameBufferStages.size(); ++i) {
+    KORE_SAFE_DELETE(_frameBufferStages[i]);
+  }
+>>>>>>> hax
 }
 
 const glm::ivec2& kore::RenderManager::getRenderResolution() const {
@@ -95,8 +137,15 @@ void kore::RenderManager::addShaderProgram(const std::string& name,
 }
 
 void kore::RenderManager::renderFrame(void) {
-    OperationList::const_iterator it;
-    for (it = _operations.begin(); it != _operations.end(); ++it) {
+  if (_optimizer == NULL) {
+    setOptimizer(new SimpleOptimizer);
+  }
+
+  // For now, just optimize every frame... later do this only on changes
+  // in operations.
+  _optimizer->optimize(_frameBufferStages, _operations);
+
+    for (auto it = _operations.begin(); it != _operations.end(); ++it) {
         (*it)->execute();
     }
 }
@@ -106,32 +155,65 @@ void kore::RenderManager::resolutionChanged() {
     // (e.g. GBuffer-Textures...)
 }
 
-void kore::RenderManager::addOperation(const OperationPtr& op) {
-    if (!hasOperation(op)) {
-       _operations.push_back(op);
+
+void kore::RenderManager::setOptimizer(const Optimizer* optimizer) {
+  if (_optimizer != NULL) {
+    KORE_SAFE_DELETE(_optimizer);
+  }
+
+  _optimizer = optimizer;
+}
+
+
+void kore::RenderManager::onRemoveComponent(const SceneNodeComponent* comp) {
+  for (auto iter = _operations.begin(); iter != _operations.end(); ++iter) {
+    if ((*iter)->dependsOn(static_cast<const void*>(comp))) {
+      _operations.erase(iter);
     }
+  }
 }
 
-void kore::RenderManager::addOperation(const OperationPtr& op,
-                                       const OperationPtr& targetOp,
-                                       const EOpInsertPos insertPos) {
-     if (!hasOperation(targetOp) || hasOperation(op)) {
-            return;
-     }
-
-     OperationList::iterator it =
-         std::find(_operations.begin(), _operations.end(), targetOp);
-
-     switch (insertPos) {
-     case INSERT_AFTER:
-         _operations.insert(it, op);
-         break;
-     case INSERT_BEFORE:
-         _operations.insert(--it, op);
-         break;
-     }
+// OpenGL-Wrappers:
+void kore::RenderManager::bindVBO(const GLuint vbo) {
+  if (_vbo != vbo) {
+    _vbo = vbo;
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  }
 }
 
+void kore::RenderManager::bindVAO(const GLuint vao) {
+  if (_vao != vao) {
+      _vao = vao;
+      glBindVertexArray(vao);
+  }
+}
+
+void kore::RenderManager::bindIBO( const GLuint ibo ) {
+  if (_ibo != ibo) {
+    _ibo = ibo;
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+  }
+}
+
+void kore::RenderManager::useShaderProgram(const GLuint shaderProgram) {
+  if (_shaderProgram != shaderProgram) {
+    _shaderProgram = shaderProgram;
+    glUseProgram(shaderProgram);
+  }
+}
+
+void kore::RenderManager::bindTexture(const GLuint textureUnit,
+                                      const GLuint textureTarget,
+                                      const GLuint textureHandle) {
+  uint uTexTargetIndex = _vTexTargetMap[textureTarget];
+  if (_boundTextures[textureUnit][uTexTargetIndex] != textureHandle) {
+    activeTexture(textureUnit);
+    glBindTexture(textureTarget, textureHandle);
+    _boundTextures[textureUnit][uTexTargetIndex] = textureHandle;
+  }
+}
+
+<<<<<<< HEAD
 bool kore::RenderManager::hasOperation(const OperationPtr& op) {
   return std::find(_operations.begin(),
                    _operations.end(), op)
@@ -203,6 +285,8 @@ void kore::RenderManager::bindTexture(const GLuint textureUnit,
   }
 }
 
+=======
+>>>>>>> hax
 void kore::RenderManager::bindTexture(const GLuint textureTarget,
                                       const GLuint textureHandle) {
   bindTexture(_activeTextureUnitIndex, textureTarget, textureHandle);
@@ -270,4 +354,101 @@ void kore::RenderManager::drawBuffers(const GLuint fboHandle,
   if (different) {
     glDrawBuffers(num, buffers);
   }
+<<<<<<< HEAD
+=======
+}
+
+void kore::RenderManager::addFramebufferStage(FrameBufferStage* stage) {
+  _frameBufferStages.push_back(stage);
+}
+
+/*
+void kore::RenderManager::removeOperation(const Operation* operation) {
+  for (uint ifbo = 0; ifbo < _frameBufferStages.size(); ++ifbo) {
+    std::vector<ShaderProgramPass*>& progPasses =
+      _frameBufferStages[ifbo]->getShaderProgramPasses();
+    for (uint iProg = 0; iProg < progPasses.size(); ++iProg) {
+      std::vector<NodePass*>& nodePasses =
+        progPasses[iProg]->getNodePasses();
+      for (uint iNode = 0; iNode < nodePasses.size(); ++iNode) {
+        std::vector<Operation*>& operations =
+          nodePasses[iNode]->getOperations();
+        auto it = std::find(operations.begin(), operations.end(), operation);
+        if (it != operations.end()) {
+          Operation* pOp = (*it);
+          //KORE_SAFE_DELETE(pOp);
+          operations.erase(it);
+        }
+      }  // Node Passes
+    }  // program passes
+  }  // fbo Passes
+}
+
+void kore::RenderManager::
+  removeShaderProgramPass(const ShaderProgramPass* progPass) {
+    for (uint ifbo = 0; ifbo < _frameBufferStages.size(); ++ifbo) {
+      std::vector<ShaderProgramPass*>& progPasses =
+        _frameBufferStages[ifbo]->getShaderProgramPasses();
+
+      auto it = std::find(progPasses.begin(), progPasses.end(), progPass);
+      if (it != progPasses.end()) {
+        ShaderProgramPass* pProgPass = (*it);
+        //KORE_SAFE_DELETE(pProgPass);
+        progPasses.erase(it);
+      }
+    }
+}
+
+void kore::RenderManager::removeNodePass(const NodePass* nodePass) {
+  for (uint ifbo = 0; ifbo < _frameBufferStages.size(); ++ifbo) {
+    std::vector<ShaderProgramPass*>& progPasses =
+      _frameBufferStages[ifbo]->getShaderProgramPasses();
+    for (uint iProg = 0; iProg < progPasses.size(); ++iProg) {
+      std::vector<NodePass*>& nodePasses =
+        progPasses[iProg]->getNodePasses();
+
+      auto it = std::find(nodePasses.begin(), nodePasses.end(), nodePass);
+      if (it != nodePasses.end()) {
+        NodePass* pNodePass = (*it);
+        //KORE_SAFE_DELETE(pNodePass);
+        nodePasses.erase(it);
+      }
+    }
+  }
+}
+*/
+
+void kore::RenderManager::
+  removeFrameBufferStage(const FrameBufferStage* fboStage) {
+   auto it =
+    std::find(_frameBufferStages.begin(), _frameBufferStages.end(), fboStage);
+      if (it != _frameBufferStages.end()) {
+        FrameBufferStage* pFboStage = (*it);
+        //KORE_SAFE_DELETE(pFboStage);
+        _frameBufferStages.erase(it);
+      }
+}
+
+void kore::RenderManager::bindBufferBase(const GLenum indexedBufferTarget,
+                                         const uint bindingPoint,
+                                         const GLuint bufferHandle) {
+  switch (indexedBufferTarget) {
+    case GL_ATOMIC_COUNTER_BUFFER: 
+      if (bindingPoint < GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS) {
+        if (_boundAtomicBuffers[bindingPoint] != bufferHandle) {
+          _boundAtomicBuffers[bindingPoint] = bufferHandle;
+          glBindBufferBase(indexedBufferTarget, bindingPoint, bufferHandle);
+        }
+      }
+    break;
+
+    // TODO(dlazarek): Implement for GL_UNIFORM_BUFFER,
+    //                               GL_TRANSFORM_FEEDBACK_BUFFER, etc...
+
+    default:
+      Log::getInstance()->write("[ERROR] RenderManager::bindBufferBase - "
+        "The requested indexedBufferTarget is not implemented or is invalid");
+    break;
+  }
+>>>>>>> hax
 }

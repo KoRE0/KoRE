@@ -30,6 +30,12 @@
 #include "KoRE/SceneNode.h"
 #include "KoRE/Components/MeshComponent.h"
 #include "KoRE/Components/LightComponent.h"
+<<<<<<< HEAD
+=======
+#include "KoRE/Components/Material.h"
+#include "KoRE/Components/TexturesComponent.h"
+#include "KoRE/ResourceManager.h"
+>>>>>>> hax
 
 
 namespace kore {
@@ -39,13 +45,20 @@ namespace kore {
     virtual ~SceneLoader();
 
     void loadScene(const std::string& szScenePath,
+<<<<<<< HEAD
                            SceneNodePtr parent);
     void loadRessources(const std::string& szScenePath);
+=======
+                           SceneNode* parent);
+    void loadResources(const std::string& szScenePath,
+                       const aiScene* pAiScene = NULL);
+>>>>>>> hax
   private:
     SceneLoader();
     const aiScene* readScene(const std::string& szScenePath);
 
     void loadSceneGraph(const aiNode* ainode,
+<<<<<<< HEAD
                         SceneNodePtr& node,
                         const aiScene* aiscene,
                         const std::string& szScenePath);
@@ -55,6 +68,54 @@ namespace kore {
     std::string getLightName(const aiLight* pAiLight,
                               const uint uLightSceneIndex);
 
+=======
+                        SceneNode* node,
+                        const aiScene* aiscene,
+                        const std::string& szScenePath);
+    glm::mat4 glmMatFromAiMat(const aiMatrix4x4& aiMat) const;
+
+    void loadMaterialProperties(Material* koreMat, const aiMaterial* aiMat);
+
+    /// Loads the textures defined in the aiMaterial and stores them in the
+    /// ResourceManager.
+    void loadMatTextures(ResourceManager* resourceMgr,
+                         const aiMaterial* aiMat);
+
+    void loadTexType(ResourceManager* resourceMgr,
+                     aiTextureType aiTexType,
+                     const aiMaterial* aiMat);
+
+    /*! \brief Retrieves the loaded textures defined in the aiMaterial from the
+    *          ResourceManager and adds them to a new texturesComponent.
+               Returns NULL if no textures are defined in the aiMaterial or if
+               The textures are not present in the resourceManager.
+    */
+    TexturesComponent* genTexComponentFromTextures(const aiMaterial* aiMat);
+
+    void addTexTypeToTexList(aiTextureType aiTexType, const aiMaterial* aiMat,
+                             std::vector<Texture*>& textures);
+
+    inline std::string meshName(const aiMesh* mesh)
+      {return "mesh_" + std::string(mesh->mName.C_Str());}
+
+    inline std::string cameraName(const aiCamera* cam)
+    {return "camera_" + std::string(cam->mName.C_Str());}
+
+    inline std::string lightName(const aiLight* light)
+    {return "light_" + std::string(light->mName.C_Str());}
+
+    inline std::string nodeName(const aiNode* node)
+      {return "node_" + std::string(node->mName.C_Str());}
+
+    inline std::string materialName()
+    {return "material_";}
+
+    std::map<uint, uint64> _loadedMeshIDs;
+    std::map<uint, uint64> _loadedMaterialIDs;
+    std::map<uint, uint64> _loadedCameraIDs;
+    std::map<uint, uint64> _loadedLightIDs;
+    
+>>>>>>> hax
     Assimp::Importer _aiImporter;
     uint _nodecount, _cameracount, _meshcount, _lightcount;
   };

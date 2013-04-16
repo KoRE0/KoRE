@@ -37,6 +37,7 @@ namespace kore {
     virtual ~MeshLoader();
 
     /*
+<<<<<<< HEAD
     SceneNodePtr loadScene(const std::string& szScenePath,
                            const bool bUseBuffers);
     MeshPtr loadSingleMesh(const std::string& szMeshPath,
@@ -48,12 +49,26 @@ namespace kore {
 
     std::string getMeshName(const aiMesh* paiMesh,
                             const uint uMeshIdx);
+=======
+    SceneNode* loadScene(const std::string& szScenePath,
+                           const bool bUseBuffers);
+    Mesh* loadSingleMesh(const std::string& szMeshPath,
+                           const bool bUseBuffers);
+    */
+
+    kore::Mesh* loadMesh(const aiScene* paiScene,
+                           const uint uMeshIdx);
+
+    std::string getMeshName(uint meshSceneIdx,
+                            const aiScene* paiScene);
+>>>>>>> hax
 
     std::string getCameraName(const aiCamera* paiCamera,
                               const uint uSceneCameraIdx);
 
   private:
     MeshLoader();
+<<<<<<< HEAD
     const aiScene* readScene(const std::string& szScenePath);
 
     void loadChildNode(const aiScene* paiScene,
@@ -79,6 +94,27 @@ namespace kore {
 
     void loadVertexColors(const aiMesh* pAiMesh,
                           kore::MeshPtr& pMesh,
+=======
+
+    void loadVertexPositions(const aiMesh* pAiMesh,
+                             kore::Mesh* pMesh);
+
+    void loadVertexNormals(const aiMesh* pAiMesh,
+                           kore::Mesh* pMesh);
+
+    void loadVertexTangents(const aiMesh* pAiMesh,
+                            kore::Mesh* pMesh);
+
+    void loadFaceIndices(const aiMesh* pAiMesh,
+                         kore::Mesh* pMesh);
+
+    void loadVertexTextureCoords(const aiMesh* pAiMesh,
+                                 kore::Mesh* pMesh,
+                                 const unsigned int iUVset);
+
+    void loadVertexColors(const aiMesh* pAiMesh,
+                          kore::Mesh* pMesh,
+>>>>>>> hax
                           const unsigned int iColorSet);
 
     glm::mat4 glmMatFromAiMat(const aiMatrix4x4& aiMat);

@@ -1,3 +1,26 @@
+<<<<<<< HEAD
+=======
+/*
+  Copyright (c) 2012 The KoRE Project
+
+  This file is part of KoRE.
+
+  KoRE is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KoRE is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+>>>>>>> hax
 #include "KoRE/Operations/BindOperations/BindTexture.h"
 #include "KoRE/GLerror.h"
 
@@ -22,6 +45,7 @@ kore::BindTexture::~BindTexture(void) {
 
 void kore::BindTexture::connect(const kore::ShaderData* texData,
                                 const kore::ShaderInput* shaderInput) {
+<<<<<<< HEAD
   _componentUniform = texData;
   _shaderUniform = shaderInput;
   _shaderProgramLoc = shaderInput->programHandle;
@@ -38,6 +62,29 @@ void kore::BindTexture::execute(void) {
   STextureInfo* pTexInfo = static_cast<STextureInfo*>(_componentUniform->data);
   const TextureSampler* pSampler =
     _shader->getSampler(_shaderUniform->texUnit);
+=======
+  if (!texData || !shaderInput) {
+    // Make invalid:
+    _shaderUniform = NULL;
+    _componentUniform = NULL;
+    return;
+  }
+
+  _componentUniform = texData;
+  _shaderUniform = shaderInput;
+}
+
+void kore::BindTexture::doExecute(void) const {
+  GLerror::gl_ErrorCheckStart();
+  _renderManager->
+    useShaderProgram(_shaderUniform->shader->getProgramLocation());
+  _renderManager->activeTexture(_shaderUniform->texUnit);
+  glUniform1i(_shaderUniform->location,
+              static_cast<GLint>(_shaderUniform->texUnit));
+  STextureInfo* pTexInfo = static_cast<STextureInfo*>(_componentUniform->data);
+  const TextureSampler* pSampler =
+    _shaderUniform->shader->getSampler(_shaderUniform->texUnit);
+>>>>>>> hax
 
   if (!pSampler) {
     Log::getInstance()->write("[ERROR] BindTexture: No textureSampler"
@@ -58,7 +105,10 @@ void kore::BindTexture::update(void) {
 
 void kore::BindTexture::reset(void) {
 }
+<<<<<<< HEAD
 
 bool kore::BindTexture::isValid(void) {
   return false;
 }
+=======
+>>>>>>> hax

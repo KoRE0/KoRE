@@ -40,8 +40,12 @@ void kore::ProjectLoader::saveProject(const std::string& path) const {
 
   // Textures
   TiXmlElement* texture;
+<<<<<<< HEAD
   std::map<std::string, TexturePtr>::iterator texIt;
   for(texIt = ResMgr->_textures.begin();
+=======
+  for(auto texIt = ResMgr->_textures.begin();
+>>>>>>> hax
       texIt != ResMgr->_textures.end();
       texIt++) {
     texture = new TiXmlElement("Texture");
@@ -56,7 +60,11 @@ void kore::ProjectLoader::saveProject(const std::string& path) const {
 
   TiXmlElement* scene = new TiXmlElement("Scene");
   doc.LinkEndChild(scene);
+<<<<<<< HEAD
   kore::SceneNodePtr root = kore::SceneManager::getInstance()->getRootNode();
+=======
+  kore::SceneNode* root = kore::SceneManager::getInstance()->getRootNode();
+>>>>>>> hax
 
   //saveSceneNode(scene, root);
 

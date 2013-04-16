@@ -1,5 +1,5 @@
 /*
-  Copyright © 2012 The KoRE Project
+  Copyright (c) 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -29,29 +29,56 @@ namespace kore {
     OP_BINDATTRIBUTE,
     OP_BINDUNIFORM,
     OP_BINDTEXTURE,
+<<<<<<< HEAD
     OP_RENDERMESH,
     OP_SELECTNODES
   };
 
   class SceneNodeComponent;
   class Shader;
+=======
+    OP_BINDIMAGETEXTURE,
+    OP_RENDERMESH,
+    OP_SELECTNODES,
+    OP_USEFBO,
+    OP_USESHADERPROGRAM,
+    OP_MEMORYBARRIER,
+    OP_USEATOMICCOUNTER,
+    OP_RESETATOMICCOUNTER
+  };
+
+  class SceneNodeComponent;
+>>>>>>> hax
   class RenderManager;
   class Operation {
   public:
     Operation(void);
     virtual ~Operation(void);
-    virtual void execute(void) = 0;
+    
+    void execute() const;
+
     virtual void update(void) = 0;
     virtual void reset(void) = 0;
+<<<<<<< HEAD
     virtual bool isValid(void) = 0;
     virtual bool dependsOn(const void* thing) = 0;
 
     inline const EOperationType getType() const {return _type;}
 
+=======
+    virtual bool dependsOn(const void* thing) const = 0;
+    virtual bool isValid(void) const;
+
+    inline const EOperationType getType() const {return _type;}
+    
+  private:
+    virtual void doExecute(void) const = 0;
+
+
+>>>>>>> hax
   protected:
     EOperationType _type;
     RenderManager* _renderManager;
   };
-  typedef std::shared_ptr<Operation> OperationPtr;
 }
 #endif  // CORE_INCLUDE_CORE_OPERATION_H_

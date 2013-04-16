@@ -34,7 +34,11 @@ namespace kore {
     void saveProject(const std::string& path) const;
 
   private:
+<<<<<<< HEAD
     void saveSceneNode(TiXmlElement* scene, SceneNodePtr node);
+=======
+    void saveSceneNode(TiXmlElement* scene, SceneNode* node);
+>>>>>>> hax
     ProjectLoader(void){};
   };
 };

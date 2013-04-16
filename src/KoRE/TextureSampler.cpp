@@ -8,6 +8,16 @@ kore::TextureSampler::~TextureSampler() {
   destroy();
 }
 
+<<<<<<< HEAD
+=======
+void kore::TextureSampler::destroy() {
+  if (_handle != KORE_GLUINT_HANDLE_INVALID) {
+    glDeleteSamplers(1, &_handle);
+    _handle = KORE_GLUINT_HANDLE_INVALID;
+  }
+}
+
+>>>>>>> hax
 bool kore::TextureSampler::create(const TexSamplerProperties& properties) {
   destroy();
 
@@ -22,6 +32,7 @@ bool kore::TextureSampler::create(const TexSamplerProperties& properties) {
   return GLerror::gl_ErrorCheckFinish("GenSampler");
 }
 
+<<<<<<< HEAD
 void kore::TextureSampler::destroy() {
   if (_handle != KORE_GLUINT_HANDLE_INVALID) {
     glDeleteSamplers(1, &_handle);
@@ -29,6 +40,8 @@ void kore::TextureSampler::destroy() {
   }
 }
 
+=======
+>>>>>>> hax
 GLuint kore::TextureSampler::getSamplerTypeFromTexType(const GLuint texType) {
   // TODO(dlazarek) include additional texture info to reslove ambiguities (commented sections)
   switch (texType) {

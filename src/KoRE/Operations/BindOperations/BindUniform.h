@@ -32,14 +32,20 @@ namespace kore {
     BindUniform(const ShaderData* componentUni,
                 const ShaderInput* shaderUni);
     virtual ~BindUniform(void);
-    virtual void execute(void);
     virtual void update(void);
     virtual void reset(void);
+<<<<<<< HEAD:src/KoRE/Operations/BindOperations/BindUniform.h
     virtual bool isValid(void);
     void connect(const ShaderData* componentUni,
                  const ShaderInput* shaderUni);
   private:
     GLuint _shaderHandle;
+=======
+    void connect(const ShaderData* componentUni,
+                 const ShaderInput* shaderUni);
+  private:
+    virtual void doExecute(void) const;
+>>>>>>> hax:src/KoRE/Operations/BindOperations/BindUniform.h
   };
   typedef std::shared_ptr<BindUniform> BindUniformPtr;
 };

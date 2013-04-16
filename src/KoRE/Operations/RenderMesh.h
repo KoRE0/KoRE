@@ -29,13 +29,18 @@ namespace kore {
   class RenderMesh: public Operation {
   public:
     explicit RenderMesh(void);
+<<<<<<< HEAD
     explicit RenderMesh(const kore::MeshComponentPtr& mesh,
                         const kore::ShaderPtr& shader);
+=======
+    explicit RenderMesh(const kore::MeshComponent* mesh,
+                        const kore::ShaderProgram* shaderProgram);
+>>>>>>> hax
 
     virtual ~RenderMesh(void);
-    virtual void execute(void);
     virtual void update(void);
     virtual void reset(void);
+<<<<<<< HEAD
     virtual bool isValid(void);
     virtual bool dependsOn(const void* thing);
 
@@ -44,14 +49,30 @@ namespace kore {
 
     const kore::MeshComponentPtr& getMesh() const;
     void setMesh(const kore::MeshComponentPtr& mesh);
+=======
+    virtual bool isValid(void) const;
+    virtual bool dependsOn(const void* thing) const;
 
-    const kore::ShaderPtr& getShader() const;
-    void setShader(const kore::ShaderPtr& shader);
+    void connect(const kore::MeshComponent* mesh,
+                 const kore::ShaderProgram* shaderProgram);
+
+    const kore::MeshComponent* getMesh() const;
+    void setMesh(const kore::MeshComponent* mesh);
+>>>>>>> hax
+
+    const kore::ShaderProgram* getShader() const;
+    void setShader(const kore::ShaderProgram* shaderProgram);
 
   private:
+<<<<<<< HEAD
     kore::MeshComponentPtr _meshComponent;
     kore::ShaderPtr _shader;
+=======
+    const kore::MeshComponent* _meshComponent;
+    const kore::ShaderProgram* _shaderProgram;
+
+    virtual void doExecute(void) const;
+>>>>>>> hax
   };
-  typedef std::shared_ptr<RenderMesh> RenderMeshOpPtr;
 };
 #endif  // CORE_INCLUDE_CORE_RENDERMESHOP_H_

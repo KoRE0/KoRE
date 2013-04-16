@@ -26,17 +26,36 @@
 
 #include <QGraphicsItem>
 #include "KoRE/ShaderInput.h"
+<<<<<<< HEAD
 #include "KoRE/Operations/BindOperations/BindOperation.h"
 
 namespace koregui {
+=======
+
+namespace koregui {
+  class BindPathItem;
+>>>>>>> hax
   class ShaderInputItem : public QGraphicsItem {
   public:
     ShaderInputItem(const kore::ShaderInput* input, QGraphicsItem* parent = 0);
     ~ShaderInputItem(void);
+<<<<<<< HEAD
     inline const kore::ShaderInput* getInput(void) {return _input;};
     void refresh(void);
 
   protected:
+=======
+    inline const kore::ShaderInput* getInput(void) {return _input;}
+    bool checkInput(BindPathItem* binding);
+    void setBinding(BindPathItem* binding);
+    void reset();
+
+  protected:
+    void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+    void mousePressEvent(QGraphicsSceneMouseEvent* event);
+
+>>>>>>> hax
     QRectF boundingRect() const;
     void paint(QPainter* painter,
                const QStyleOptionGraphicsItem* option,
@@ -44,7 +63,12 @@ namespace koregui {
 
   private:
     const kore::ShaderInput* _input;
+<<<<<<< HEAD
     kore::BindOperation* _op;
+=======
+    BindPathItem* _binding;
+    bool _mouseover;
+>>>>>>> hax
   };
 }
 #endif  // SHADERINPUTITEM_H_

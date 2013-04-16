@@ -26,6 +26,12 @@
 
 #include <QGraphicsView>
 #include "KoRE_GUI/NodeItem.h"
+<<<<<<< HEAD
+=======
+#include "KoRE_GUI/BindPathItem.h"
+#include "KoRE_GUI/FrameBufferItem.h"
+#include "KoRE_GUI/ShaderInputItem.h"
+>>>>>>> hax
 
 namespace koregui {
   class RenderViewer : public QGraphicsView {
@@ -35,24 +41,56 @@ namespace koregui {
     RenderViewer(QWidget *parent = 0);
     ~RenderViewer();
 
+<<<<<<< HEAD
    void addSelection(const std::vector<NodeItem*>& nodes);
    void createNode(kore::SceneNode* sourcenode, int x, int y);
+=======
+    void addSelection(const std::vector<NodeItem*>& nodes);
+    void createNode(kore::SceneNode* sourcenode, int x, int y);
+>>>>>>> hax
 
 
   public slots:
     void zoomIn(void) {scale(1.2,1.2);}
     void zoomOut(void) {scale(1/1.2,1/1.2);}
 
+<<<<<<< HEAD
   protected:
     void keyPressEvent(QKeyEvent* event);
     void keyReleaseEvent(QKeyEvent * event);
+=======
+    /// Create a new Framebuffer Stage.
+    void createFBOStage(void);
+
+    /// Create a new Shader Pass
+    void createShaderPass(void);
+
+    /// Create an empty Node. It is a child of the root Node.
+    void createEmptyNode(void);
+
+    /// Create an empty NodeGroup
+    void createEmptyGroup(void);
+
+  protected:
+    void keyPressEvent(QKeyEvent* event);
+    void keyReleaseEvent(QKeyEvent * event);
+    void mousePressEvent(QMouseEvent * event);
+    void mouseReleaseEvent(QMouseEvent * event);
+    void mouseMoveEvent(QMouseEvent *event);
+>>>>>>> hax
     void wheelEvent(QWheelEvent *event);
     void contextMenuEvent(QContextMenuEvent *event);
 
   private:
       void clearScene();
       QGraphicsScene _scene;
+<<<<<<< HEAD
       std::vector<NodeItem*> _nodes;
+=======
+      BindPathItem* _currentpath;
+      FrameBufferItem* _currentframebuffer;
+      ShaderInputItem* _bindTarget;
+>>>>>>> hax
   };
 }
 #endif // SRC_KOREGUI_RENDERVIEWER_H_

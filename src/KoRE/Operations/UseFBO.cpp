@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 /*
   Copyright © 2012 The KoRE Project
+=======
+ï»¿/*
+  Copyright ï¿½ 2012 The KoRE Project
+>>>>>>> hax
 
   This file is part of KoRE.
 
@@ -23,6 +28,10 @@
 kore::UseFBO::UseFBO()
 : _frameBuffer(NULL),
   Operation() {
+<<<<<<< HEAD
+=======
+    _type = OP_USEFBO;
+>>>>>>> hax
 }
 
 kore::UseFBO::UseFBO(const kore::FrameBuffer* frameBuffer,
@@ -30,6 +39,10 @@ kore::UseFBO::UseFBO(const kore::FrameBuffer* frameBuffer,
                      const GLenum* drawBuffers,
                      const uint numDrawBuffers)
                      : Operation() {
+<<<<<<< HEAD
+=======
+  _type = OP_USEFBO;
+>>>>>>> hax
   connect(frameBuffer, frameBufferTarget, drawBuffers, numDrawBuffers);
 }
 
@@ -49,7 +62,11 @@ void kore::UseFBO::connect(const kore::FrameBuffer* frameBuffer,
   }
 }
 
+<<<<<<< HEAD
 void kore::UseFBO::execute(void) {
+=======
+void kore::UseFBO::doExecute(void) const {
+>>>>>>> hax
   _renderManager->
     bindFrameBuffer(_frameBufferTarget, _frameBuffer->getHandle());
 
@@ -64,10 +81,18 @@ void kore::UseFBO::update(void) {
 void kore::UseFBO::reset(void) {
 }
 
+<<<<<<< HEAD
 bool kore::UseFBO::isValid(void) {
   return _frameBuffer != NULL;
 }
 
 bool kore::UseFBO::dependsOn(const void* thing) {
+=======
+bool kore::UseFBO::isValid(void) const {
+  return _frameBuffer != NULL;
+}
+
+bool kore::UseFBO::dependsOn(const void* thing) const {
+>>>>>>> hax
   return thing == _frameBuffer;
 }

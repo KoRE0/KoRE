@@ -44,4 +44,8 @@ namespace koregui {
     NodeItem* _end;
   };
 }
+<<<<<<< HEAD
 #endif  // NODEPATHITEM_H_
+=======
+#endif  // NODEPATHITEM_H_
+>>>>>>> hax

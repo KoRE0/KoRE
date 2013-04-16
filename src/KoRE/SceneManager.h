@@ -1,5 +1,5 @@
 /*
-  Copyright © 2012 The KoRE Project
+  Copyright (c) 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -25,33 +25,61 @@
 #include <vector>
 #include "KoRE/SceneNode.h"
 #include "KoRE/Common.h"
+#include "KoRE/Components/Camera.h"
+#include "KoRE/Components/LightComponent.h"
+#include "KoRE/Components/Material.h"
 
 namespace kore {
   class SceneManager {
   public:
     friend class ProjectLoader;
     static SceneManager *getInstance(void);
-    uint64 createID(void);
     void update(void);
     void addTag(const std::string& name);
     const uint getTag(const std::string& name);
+<<<<<<< HEAD
     SceneNodePtr getRootNode(void);
+=======
+    SceneNode* getRootNode(void);
+>>>>>>> hax
     void getSceneNodesByTag(const uint tag,
-                            std::vector<SceneNodePtr>& vSceneNodes);
+                            std::vector<SceneNode*>& vSceneNodes);
     void getSceneNodesByTag(const std::string& name,
-                            std::vector<SceneNodePtr>& vSceneNodes);
+                            std::vector<SceneNode*>& vSceneNodes);
     void getSceneNodesByName(const std::string& name,
+<<<<<<< HEAD
                              std::vector<SceneNodePtr>& vSceneNodes);
     void getSceneNodesByComponent(const EComponentType componentType,
                                     std::vector<SceneNodePtr>& vSceneNodes);
     /// Returns the first sceneNode found with the given component
     SceneNodePtr getSceneNodeByComponent(const EComponentType componentType);
   private:
+=======
+                             std::vector<SceneNode*>& vSceneNodes);
+    void getSceneNodesByComponent(const EComponentType componentType,
+                                    std::vector<SceneNode*>& vSceneNodes);
+    /// Returns the first sceneNode found with the given component
+    SceneNode* getSceneNodeByComponent(const EComponentType componentType);
+
+    void addCamera(Camera* camera);
+    void addLight(LightComponent* light);
+
+    kore::Camera* getCamera(const uint64 id);
+    kore::LightComponent* getLight(const uint64 id);
+
+>>>>>>> hax
   private:
+    std::map<uint64, Camera*> _cameras;  // id || camera
+    std::map<uint64, LightComponent*> _lights;  // id || light
+
     SceneManager(void);
     virtual ~SceneManager(void);
+<<<<<<< HEAD
     SceneNodePtr _root;
     uint64 _idcount;
+=======
+    SceneNode _root;
+>>>>>>> hax
     uint _tagcount;
     std::map<std::string, uint> _tagmap;
   };

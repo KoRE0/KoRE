@@ -22,15 +22,15 @@
 #include "KoRE/SceneNode.h"
 
 kore::SceneNodeComponent::SceneNodeComponent()
-  : _id(KORE_UINT_INVALID),
-    _sceneNode(NULL),
-    _type(COMPONENT_UNKNOWN) {
+  : _sceneNode(NULL),
+    _type(COMPONENT_UNKNOWN),
+    kore::BaseResource() {
 }
 
 kore::SceneNodeComponent::~SceneNodeComponent() {
 }
 
-void kore::SceneNodeComponent::attachTo(kore::SceneNodePtr& node) {
+void kore::SceneNodeComponent::attachTo(kore::SceneNode* node) {
   _sceneNode = node;
 }
 
@@ -39,11 +39,7 @@ const kore::EComponentType kore::SceneNodeComponent::getType(void) const {
 }
 
 void 
-kore::SceneNodeComponent::transformChanged(const TransformPtr& newTransform) {
-}
-
-uint kore::SceneNodeComponent::getID(void) const {
-  return _id;
+kore::SceneNodeComponent::transformChanged(const Transform* newTransform) {
 }
 
 const kore::ShaderData* kore::SceneNodeComponent::
@@ -53,5 +49,8 @@ const kore::ShaderData* kore::SceneNodeComponent::
         return &_shaderData[i];
       }
     }
+    Log::getInstance()->write("[ERROR] ShaderData %s not found in Component \n", 
+        name.c_str());
+
     return NULL;
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright © 2012 The KoRE Project
+  Copyright (c) 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -25,14 +25,23 @@
 #include "KoRE/Common.h"
 #include "KoRE/Components/SceneNodeComponent.h"
 #include "KoRE/Components/Transform.h"
+<<<<<<< HEAD
+=======
+#include "KoRE/BaseResource.h"
+>>>>>>> hax
 
 namespace kore {
   enum ETransfpomSpace {
     SPACE_LOCAL,
     SPACE_WORLD
   };
+<<<<<<< HEAD
     typedef std::shared_ptr<SceneNode> SceneNodePtr;
   class SceneNode {
+=======
+
+  class SceneNode : public BaseResource {
+>>>>>>> hax
     friend class SceneLoader;
   public:
     SceneNode(void);
@@ -40,6 +49,7 @@ namespace kore {
     // bool isCompatibleWith(const SceneNode& otherNode) const;
     // bool isCompatibleWith(const SceneNode& otherNode,
     //                       EComponentType types) const;
+<<<<<<< HEAD
     const SceneNodePtr& getParent(void) const;
     const std::vector<SceneNodePtr>& getChildren() const;
     const std::vector<SceneNodeComponentPtr> getComponents() const;
@@ -57,6 +67,25 @@ namespace kore {
     void setParent(const SceneNodePtr& parent);
     void addChild(const SceneNodePtr& child);
     void addComponent(const SceneNodeComponentPtr& component);
+=======
+    const SceneNode* getParent(void) const;
+    const std::vector<SceneNode*>& getChildren() const;
+    const std::vector<SceneNodeComponent*> getComponents() const;
+    const Transform* getTransform(void) const;
+    kore::Transform* getTransform();
+    SceneNodeComponent* getComponent(EComponentType type);
+    const uint getTag(void) const;
+    const std::string getName(void) const;
+    void getSceneNodesByTag(const uint tag,
+                            std::vector<SceneNode*>& vNodes);
+    void getSceneNodesByName(const std::string& name,
+                             std::vector<SceneNode*>& vNodes);
+    void getSceneNodesByComponent(const EComponentType componentType,
+                                  std::vector<SceneNode*>& vNodes);
+    void setParent(SceneNode* parent);
+    void addChild(SceneNode* child);
+    void addComponent(SceneNodeComponent* component);
+>>>>>>> hax
     void setTag(const std::string& tagname);
     void setName(const std::string& name);
 
@@ -74,20 +103,35 @@ namespace kore {
 
     void scale(const glm::vec3& dim,
                const ETransfpomSpace relativeTo = SPACE_LOCAL);
+<<<<<<< HEAD
+=======
+
+    void setOrientation(const glm::vec3& v3Side,
+                        const glm::vec3& v3Up,
+                        const glm::vec3& v3Forward,
+                        const ETransfpomSpace relativeTo = SPACE_LOCAL);
+>>>>>>> hax
 
     void setOrientation(const glm::vec3& v3Side,
                         const glm::vec3& v3Up,
                         const glm::vec3& v3Forward,
                         const ETransfpomSpace relativeTo = SPACE_LOCAL);
   private:
-    uint64 _id;
     uint _tag;
     std::string _name;
+<<<<<<< HEAD
     SceneNodePtr _parent;
     std::vector<SceneNodePtr> _children;
     std::vector<SceneNodeComponentPtr> _components;
     bool _dirty;  // if node has to be updated;
     TransformPtr _transform;
+=======
+    SceneNode* _parent;
+    std::vector<SceneNode*> _children;
+    std::vector<SceneNodeComponent*> _components;
+    bool _dirty;  // if node has to be updated;
+    Transform* _transform;
+>>>>>>> hax
   };
 };
 #endif  // CORE_INCLUDE_CORE_SCENENODE_H_

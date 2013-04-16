@@ -31,10 +31,17 @@ koregui::ShaderDataItem::ShaderDataItem(const kore::ShaderData* data,
                                         QGraphicsItem* parent)
                                       : _data(data),
                                         _mouseover(false),
+<<<<<<< HEAD
                                         _op(NULL),
                                         QGraphicsItem(parent) {
   setAcceptHoverEvents(true);
   setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+=======
+                                        QGraphicsItem(parent) {
+  setAcceptHoverEvents(true);
+  setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+  setData(0, "SHADERDATA");
+>>>>>>> hax
 }
 
 koregui::ShaderDataItem::~ShaderDataItem(void) {
@@ -73,3 +80,10 @@ void koregui::ShaderDataItem::hoverLeaveEvent(QGraphicsSceneHoverEvent * event) 
   _mouseover = false;
   QGraphicsItem::hoverLeaveEvent(event);
 }
+<<<<<<< HEAD
+=======
+
+void koregui::ShaderDataItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+  // TODO (dospelt) change color?
+}
+>>>>>>> hax

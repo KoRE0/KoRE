@@ -23,7 +23,12 @@
 #include "KoRE/Log.h"
 #include "KoRE/Operations/Operation.h"
 #include "KoRE/ResourceManager.h"
+<<<<<<< HEAD
 #include "Kore/RenderManager.h"
+=======
+#include "KoRE/RenderManager.h"
+#include "KoRE/IndexedBuffer.h"
+>>>>>>> hax
 
 const unsigned int BUFSIZE = 100;  // Buffer length for shader-element names
 
@@ -34,8 +39,13 @@ kore::ShaderProgram::ShaderProgram()
   _geometry_prog(KORE_GLUINT_HANDLE_INVALID),
   _fragment_prog(KORE_GLUINT_HANDLE_INVALID),
   _tess_ctrl(KORE_GLUINT_HANDLE_INVALID),
+<<<<<<< HEAD
   _tess_eval(KORE_GLUINT_HANDLE_INVALID)
   {
+=======
+  _tess_eval(KORE_GLUINT_HANDLE_INVALID),
+  kore::BaseResource() {
+>>>>>>> hax
 }
 
 kore::ShaderProgram::~ShaderProgram(void) {
@@ -46,10 +56,21 @@ kore::ShaderProgram::~ShaderProgram(void) {
 void kore::ShaderProgram::destroyProgram() {
   glDeleteProgram(_programHandle);
   _programHandle = KORE_GLUINT_HANDLE_INVALID;
+<<<<<<< HEAD
+=======
+
+  glDeleteBuffers(_atomicCounters.size(), &_atomicCounters[0]);
+  _atomicCounters.clear();
+
+>>>>>>> hax
   _outputs.clear();
   _name = "";
   _uniforms.clear();
   _attributes.clear();
+<<<<<<< HEAD
+=======
+  _imgAccessParams.clear();
+>>>>>>> hax
 }
 
 void kore::ShaderProgram::destroyShaders() {
@@ -117,7 +138,11 @@ bool kore::ShaderProgram::loadShader(const std::string& file,
   return true;
 }
 
+<<<<<<< HEAD
 bool kore::ShaderProgram::initShader(const std::string& name) {
+=======
+bool kore::ShaderProgram::init() {
+>>>>>>> hax
   if (_programHandle != KORE_GLUINT_HANDLE_INVALID) {
     destroyProgram();
   }
@@ -146,7 +171,11 @@ bool kore::ShaderProgram::initShader(const std::string& name) {
 
   glLinkProgram(_programHandle);
     
+<<<<<<< HEAD
   bool success = checkProgramLinkStatus(_programHandle, name);
+=======
+  bool success = checkProgramLinkStatus(_programHandle, _name);
+>>>>>>> hax
   if (!success) {
     destroyProgram();
     return false;
@@ -186,8 +215,11 @@ bool kore::ShaderProgram::initShader(const std::string& name) {
           _outputs[j].name.c_str());
   }
   */
+<<<<<<< HEAD
   _name = name;
   kore::RenderManager::getInstance()->addShaderProgram(_name, this);
+=======
+>>>>>>> hax
   return success == GL_TRUE;
 }
 
@@ -301,6 +333,12 @@ void kore::ShaderProgram::constructShaderInputInfo(const GLenum activeType,
     if (activeType == GL_ACTIVE_UNIFORMS) {
         ResourceManager* resourceManager = ResourceManager::getInstance();
         GLuint texUnit = 0;
+<<<<<<< HEAD
+=======
+        GLuint imgUnit = 0;
+        GLuint atomicCounterIndex = 0;  // e.g. for atomic counters.
+
+>>>>>>> hax
         for (uint i = 0; i < rInputVector.size(); ++i) {
             if (isSamplerType(rInputVector[i].type)) {
                 rInputVector[i].texUnit = texUnit;
@@ -309,16 +347,63 @@ void kore::ShaderProgram::constructShaderInputInfo(const GLenum activeType,
                 samplerProperties.type = rInputVector[i].type;
                 
                 const TextureSampler* sampler =
+<<<<<<< HEAD
                   resourceManager->getTextureSampler(samplerProperties);
+=======
+                  resourceManager->requestTextureSampler(samplerProperties);
+>>>>>>> hax
 
                 _vSamplers.push_back(sampler);
 
                 ++texUnit;
             }
+<<<<<<< HEAD
         }
     }
 }
 
+=======
+
+            // For Image-types: add the imgUnit-field,
+            // but don't create a sampler.
+            else if (isImageType(rInputVector[i].type)) {
+              rInputVector[i].imgUnit = imgUnit;
+              ++imgUnit;
+
+              _imgAccessParams.push_back(GL_READ_WRITE);
+            }
+
+            else if(isAtomicCounterType(rInputVector[i].type)) {
+              // First, get the bindingPoint (set with layout(binding = x) 
+              // in GLSL.
+              GLint bindingPoint;
+              glGetActiveAtomicCounterBufferiv(_programHandle,
+                                               atomicCounterIndex,
+                                               GL_ATOMIC_COUNTER_BUFFER_BINDING,
+                                               &bindingPoint);
+                            
+              rInputVector[i].atomicCounterBindingPoint = bindingPoint;
+              ++atomicCounterIndex;
+              
+              ResourceManager* resMgr = ResourceManager::getInstance();
+
+              if (atomicCounterIndex >= resMgr->getNumIndexedBuffers()) {
+                // We need a new indexedBuffer
+                IndexedBuffer* acBuffer = new IndexedBuffer;
+                uint value = 0;
+                acBuffer->create(GL_ATOMIC_COUNTER_BUFFER, sizeof(GLuint), GL_DYNAMIC_COPY, &value);
+                rInputVector[i].additionalData = acBuffer;
+                resMgr->addIndexedBuffer(acBuffer);
+              } else {
+                // We can reuse an existing buffer from the resourceManager
+                IndexedBuffer* acBuffer = resMgr->getIndexedBufferByIndex(atomicCounterIndex);
+                rInputVector[i].additionalData = acBuffer;
+              }
+        }
+    }
+}
+    }
+>>>>>>> hax
 
 void kore::ShaderProgram::constructShaderOutputInfo(std::vector<ShaderOutput>& 
                                              rOutputVector) {
@@ -378,7 +463,11 @@ bool kore::ShaderProgram::checkShaderCompileStatus(const GLuint shaderHandle,
     std::string shaderlog = infoLog;
     kore::Log::getInstance()->write(
       "[DEBUG] '%s' shader Log %s\n", name.c_str(), shaderlog.c_str());
+<<<<<<< HEAD
     free(infoLog);
+=======
+    KORE_SAFE_DELETE_ARR(infoLog);
+>>>>>>> hax
   } else {
     kore::Log::getInstance()->write(
       "[DEBUG] Shader '%s' compiled\n", name.c_str());
@@ -406,7 +495,11 @@ bool kore::ShaderProgram::checkProgramLinkStatus(const GLuint programHandle,
     std::string shaderlog = infoLog;
     kore::Log::getInstance()->write(
       "[DEBUG] '%s' program Log %s\n", name.c_str(), shaderlog.c_str());
+<<<<<<< HEAD
     free(infoLog);
+=======
+    KORE_SAFE_DELETE_ARR(infoLog);
+>>>>>>> hax
   } else {
     kore::Log::getInstance()->write(
       "[DEBUG] Program '%s' compiled\n", name.c_str());
@@ -459,6 +552,53 @@ bool kore::ShaderProgram::isSamplerType(const GLuint uniformType) {
   }
 }
 
+<<<<<<< HEAD
+=======
+
+bool kore::ShaderProgram::isImageType(const GLuint uniformType) {
+  switch (uniformType) {
+    case GL_IMAGE_1D: 
+    case GL_IMAGE_2D: 
+    case GL_IMAGE_3D: 
+    case GL_IMAGE_2D_RECT: 
+    case GL_IMAGE_CUBE: 
+    case GL_IMAGE_BUFFER: 
+    case GL_IMAGE_1D_ARRAY: 
+    case GL_IMAGE_2D_ARRAY: 
+    case GL_IMAGE_2D_MULTISAMPLE: 
+    case GL_IMAGE_2D_MULTISAMPLE_ARRAY: 
+    case GL_INT_IMAGE_1D: 
+    case GL_INT_IMAGE_2D: 
+    case GL_INT_IMAGE_3D: 
+    case GL_INT_IMAGE_2D_RECT: 
+    case GL_INT_IMAGE_CUBE: 
+    case GL_INT_IMAGE_BUFFER: 
+    case GL_INT_IMAGE_1D_ARRAY: 
+    case GL_INT_IMAGE_2D_ARRAY: 
+    case GL_INT_IMAGE_2D_MULTISAMPLE: 
+    case GL_INT_IMAGE_2D_MULTISAMPLE_ARRAY: 
+    case GL_UNSIGNED_INT_IMAGE_1D: 
+    case GL_UNSIGNED_INT_IMAGE_2D: 
+    case GL_UNSIGNED_INT_IMAGE_3D: 
+    case GL_UNSIGNED_INT_IMAGE_2D_RECT: 
+    case GL_UNSIGNED_INT_IMAGE_CUBE: 
+    case GL_UNSIGNED_INT_IMAGE_BUFFER: 
+    case GL_UNSIGNED_INT_IMAGE_1D_ARRAY: 
+    case GL_UNSIGNED_INT_IMAGE_2D_ARRAY: 
+    case GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE: 
+    case GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY:
+      return true;
+  default:
+      return false;
+  }
+}
+
+bool kore::ShaderProgram::isAtomicCounterType(const GLuint uniformType) {
+  return uniformType == GL_UNSIGNED_INT_ATOMIC_COUNTER;
+}
+
+
+>>>>>>> hax
 const kore::ShaderInput*
 kore::ShaderProgram::getAttribute(const std::string& name) const {
   for (uint i = 0; i < _attributes.size(); ++i) {
@@ -493,5 +633,25 @@ void kore::ShaderProgram::setSamplerProperties(const uint idx,
   }
 
   _vSamplers[idx] = ResourceManager::getInstance()->
+<<<<<<< HEAD
                                     getTextureSampler(properties);
+=======
+                                    requestTextureSampler(properties);
+}
+
+const GLuint kore::ShaderProgram::
+  getImageAccessParam(const uint imgUnit) const {
+    if (imgUnit < _imgAccessParams.size()) {
+      return _imgAccessParams[imgUnit];
+    }
+
+    return KORE_GLUINT_HANDLE_INVALID;
+}
+
+void kore::ShaderProgram::setImageAccessParam(const uint imgUnit,
+                                              const GLuint access) {
+   if (imgUnit < _imgAccessParams.size()) {
+     _imgAccessParams[imgUnit] = access;
+   }
+>>>>>>> hax
 }

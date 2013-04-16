@@ -24,14 +24,23 @@
 
 kore::RenderMesh::RenderMesh(void)
   : _meshComponent(NULL),
+<<<<<<< HEAD
     _shader(NULL),
+=======
+    _shaderProgram(NULL),
+>>>>>>> hax
     kore::Operation() {
       _type = OP_RENDERMESH;
 }
 
+<<<<<<< HEAD
 kore::RenderMesh::RenderMesh(const kore::MeshComponentPtr& mesh,
                              const kore::ShaderPtr& shader)
                                  : _meshComponent(NULL),
+=======
+kore::RenderMesh::RenderMesh(const kore::MeshComponent* mesh,
+                             const kore::ShaderProgram* shader) :
+>>>>>>> hax
                                  kore::Operation() {
   _type = OP_RENDERMESH;
   connect(mesh, shader);
@@ -40,6 +49,7 @@ kore::RenderMesh::RenderMesh(const kore::MeshComponentPtr& mesh,
 kore::RenderMesh::~RenderMesh(void) {
 }
 
+<<<<<<< HEAD
 
 void kore::RenderMesh::connect(const kore::MeshComponentPtr& mesh,
                                const kore::ShaderPtr& shader) {
@@ -80,6 +90,55 @@ void kore::RenderMesh::execute(void) {
                      GL_UNSIGNED_INT, KORE_BUFFER_OFFSET(0));
     }
 
+=======
+
+void kore::RenderMesh::connect(const kore::MeshComponent* mesh,
+                               const kore::ShaderProgram* shader) {
+  if (!mesh || !shader) {
+    _meshComponent = NULL;
+    _shaderProgram = NULL;
+    return;
+  }
+
+  _meshComponent = mesh;
+  _shaderProgram = shader;
+}
+
+void kore::RenderMesh::doExecute(void) const {
+
+    GLerror::gl_ErrorCheckStart();
+    const Mesh* mesh = _meshComponent->getMesh();
+
+    if (mesh == NULL) {
+      return;
+    }
+
+    // Note: Normally, this call is already handled by an an "UseShaderProgram"
+    // operation. You can uncomment the line below to ensure that the correct
+    // shader is bound, but it shouldn't be neccesary.
+    // _renderManager->useShaderProgram(_shader->getProgramLocation());
+
+    _renderManager->bindVBO(mesh->getVBO());
+
+    if (mesh->usesIBO()) {
+      _renderManager->bindIBO(mesh->getIBO());
+    } else {
+      _renderManager->bindIBO(0);
+    }
+
+    // Indices but no IBO
+    if (mesh->hasIndices() && !mesh->usesIBO()) {
+      glDrawElements(mesh->getPrimitiveType(), mesh->getIndices().size(),
+                     GL_UNSIGNED_INT, &mesh->getIndices()[0]);
+    }
+
+    // Indices with IBO
+    else if (mesh->hasIndices() && mesh->usesIBO()) {
+      glDrawElements(mesh->getPrimitiveType(), mesh->getIndices().size(),
+                     GL_UNSIGNED_INT, KORE_BUFFER_OFFSET(0));
+    }
+
+>>>>>>> hax
     // No Indices
     else if (!mesh->hasIndices()) {
       glDrawArrays(mesh->getPrimitiveType(), 0,
@@ -95,6 +154,7 @@ void kore::RenderMesh::update(void) {
 void kore::RenderMesh::reset(void) {
 }
 
+<<<<<<< HEAD
 bool kore::RenderMesh::isValid(void) {
   return false;
 }
@@ -105,14 +165,31 @@ const kore::MeshComponentPtr& kore::RenderMesh::getMesh() const {
 
 void kore::RenderMesh::setMesh(const kore::MeshComponentPtr& mesh) {
     _meshComponent = mesh;
+=======
+bool kore::RenderMesh::isValid(void) const {
+  return _meshComponent && _shaderProgram;
 }
 
-const kore::ShaderPtr& kore::RenderMesh::getShader() const {
-    return _shader;
+const kore::MeshComponent* kore::RenderMesh::getMesh() const {
+    return _meshComponent;
 }
 
-void kore::RenderMesh::setShader(const kore::ShaderPtr& shader) {
-    _shader = shader;
+void kore::RenderMesh::setMesh(const kore::MeshComponent* mesh) {
+    _meshComponent = mesh;
+}
+
+const kore::ShaderProgram* kore::RenderMesh::getShader() const {
+    return _shaderProgram;
+>>>>>>> hax
+}
+
+void kore::RenderMesh::setShader(const kore::ShaderProgram* shader) {
+    _shaderProgram = shader;
+}
+
+bool kore::RenderMesh::dependsOn(const void* thing) const {
+  return thing == _meshComponent 
+       || thing == _shaderProgram;
 }
 
 bool kore::RenderMesh::dependsOn(const void* thing) {

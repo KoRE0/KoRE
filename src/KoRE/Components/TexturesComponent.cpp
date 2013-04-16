@@ -1,5 +1,9 @@
 #include "KoRE/Components/TexturesComponent.h"
 #include "KoRE/ResourceManager.h"
+<<<<<<< HEAD
+=======
+#include <algorithm>
+>>>>>>> hax
 
 kore::TexturesComponent::TexturesComponent(void) {
 }
@@ -11,7 +15,11 @@ kore::TexturesComponent::~TexturesComponent(void) {
 }
 
 void kore::
+<<<<<<< HEAD
   TexturesComponent::addTexture(TexturePtr tex,
+=======
+  TexturesComponent::addTexture(Texture* tex,
+>>>>>>> hax
                                 const bool useMipMaps /*=true*/,
                                 const TextureSampler* sampler /*= NULL*/ ) {
   if (std::find(_vTextures.begin(),
@@ -22,6 +30,10 @@ void kore::
   STextureInfo* texInfo = new STextureInfo;
   texInfo->texLocation = tex->getHandle();
   texInfo->texTarget = tex->getProperties().targetType;
+<<<<<<< HEAD
+=======
+  texInfo->internalFormat = tex->getProperties().internalFormat;
+>>>>>>> hax
   _vTextureInfos.push_back(texInfo);
 
   ShaderData shaderdata;

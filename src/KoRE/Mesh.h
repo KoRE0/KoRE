@@ -23,6 +23,10 @@
 #include <string>
 #include <vector>
 #include "KoRE/DataTypes.h"
+<<<<<<< HEAD:src/KoRE/Mesh.h
+=======
+#include "KoRE/BaseResource.h"
+>>>>>>> hax:src/KoRE/Mesh.h
 
 namespace kore {
   enum EMeshBufferType {
@@ -51,9 +55,13 @@ namespace kore {
       void* data;
   };
 
+<<<<<<< HEAD:src/KoRE/Mesh.h
   typedef std::shared_ptr<MeshAttributeArray> MeshAttributeArrayPtr;
 
   class Mesh {
+=======
+  class Mesh : public BaseResource {
+>>>>>>> hax:src/KoRE/Mesh.h
     friend class SceneLoader;
     friend class MeshLoader;
     friend class MeshRenderComponent;
@@ -77,10 +85,13 @@ namespace kore {
     const bool hasIndices() const;
     const GLenum getPrimitiveType() const;
     const std::string& getName() const;
+    void setName(const std::string& name) {_name = name;}
+
     const GLuint getVBO() const;
     const GLuint getVAO() const;
     const GLuint getIBO() const;
     const bool usesIBO() const;
+
 
   private:
     std::string                     _name;
@@ -91,6 +102,7 @@ namespace kore {
     GLuint                          _VBOloc;
     GLuint                          _VAOloc;
     GLuint                          _IBOloc;
+<<<<<<< HEAD:src/KoRE/Mesh.h
   };
   typedef std::shared_ptr<kore::Mesh> MeshPtr;
 
@@ -98,6 +110,14 @@ namespace kore {
     MeshPtr mesh;
     const MeshAttributeArray* meshAtt;
   };
+=======
+  };
+
+  struct SMeshInformation {
+    Mesh* mesh;
+    const MeshAttributeArray* meshAtt;
+  };
+>>>>>>> hax:src/KoRE/Mesh.h
 }
 
 #endif  // CORE_INCLUDE_CORE_MESH_H_

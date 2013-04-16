@@ -31,11 +31,26 @@ namespace kore {
 
     GLenum type;             // e.g. GL_FLOAT_VEC3
     GLuint size;             // number of components in units of type(always 1)
+<<<<<<< HEAD
     GLint location;          // location of attribute in shader
     std::string name;        // input name
     GLuint texUnit;          // if input is a texture, its GLhandle
     GLuint programHandle;    // GLhandle of the shader program
     ShaderProgram* shader;
+=======
+    GLint location;          // location of attribute/uniform in the shader
+    std::string name;        // input name
+
+    union {
+       GLuint texUnit;          // texUnit to bind a texture to.
+       GLuint imgUnit;          // imgUnit to bind an image to.
+       GLuint atomicCounterBindingPoint;       // bindingpoint for atomic counters
+    };
+
+    GLuint programHandle;    // GLhandle of the shader program
+    ShaderProgram* shader;
+    void* additionalData;   // additional data used by some operations.
+>>>>>>> hax
   };
 }
 

@@ -34,15 +34,25 @@ namespace kore {
     inline const uint getNumTextures(void) const {return _vTextures.size();}
     
 
+<<<<<<< HEAD
     void addTexture(TexturePtr tex,
+=======
+    void addTexture(Texture* tex,
+>>>>>>> hax
                     const bool useMipMaps = true,
                     const TextureSampler* sampler = NULL);
 
   private:
+<<<<<<< HEAD
     std::vector<TexturePtr> _vTextures;
     std::vector<STextureInfo*> _vTextureInfos;
   };
   typedef std::shared_ptr<kore::TexturesComponent> TexturesComponentPtr;
+=======
+    std::vector<Texture*> _vTextures;
+    std::vector<STextureInfo*> _vTextureInfos;
+  };
+>>>>>>> hax
 }
 
 #endif  // KORE_COMPONENTS_TEXTURESCOMPONENT

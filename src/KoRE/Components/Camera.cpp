@@ -29,6 +29,7 @@
 #include "KoRE/RenderManager.h"
 #include "KoRE/DataTypes.h"
 #include "KoRE/SceneNode.h"
+#include "KoRE/IDManager.h"
 
 kore::Camera::Camera()
        :_fMovementSpeed(50.0f),
@@ -43,8 +44,8 @@ kore::Camera::Camera()
         _bIsOrtho(false),
         _fWidth(1.0f),
         _fHeight(1.0),
+        _name(""),
         kore::SceneNodeComponent() {
-
   // setup bindings
   ShaderData tmp;
   tmp.type = GL_FLOAT_MAT4;
@@ -117,7 +118,7 @@ isCompatibleWith(const SceneNodeComponent& otherComponent) const {
   return true;
 }
 
-void kore::Camera::transformChanged(const TransformPtr& newTransform) {
+void kore::Camera::transformChanged(const Transform* newTransform) {
   SceneNodeComponent::transformChanged(newTransform);
 
   _matView = glm::inverse(newTransform->getGlobal());

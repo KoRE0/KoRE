@@ -34,7 +34,11 @@ kore::TextureLoader* kore::TextureLoader::getInstance() {
   return &instance;
 }
 
+<<<<<<< HEAD
 kore::TexturePtr
+=======
+kore::Texture*
+>>>>>>> hax
   kore::TextureLoader::loadTexture(const std::string& filepath) {
   
   std::vector<unsigned char> imageData;
@@ -53,9 +57,15 @@ kore::TexturePtr
                                     "\t%s\n",
                                     filepath.c_str(),
                                     lodepng_error_text(err));
+<<<<<<< HEAD
     return TexturePtr(NULL);
   } else {
     kore::TexturePtr tex = TexturePtr(new Texture());
+=======
+    return NULL;
+  } else {
+    kore::Texture* tex = new Texture();
+>>>>>>> hax
     LodePNGColorMode& color = pngState.info_raw;
     
     STextureProperties texProperties;
@@ -66,7 +76,11 @@ kore::TexturePtr
 
     //Pass the actual Texture Data
     if(color.colortype == LCT_RGB) {
+<<<<<<< HEAD
       texProperties.internalFormat = GL_SRGB8;
+=======
+      texProperties.internalFormat = GL_RGB8;
+>>>>>>> hax
       texProperties.format = GL_RGB;
       texProperties.pixelType = GL_UNSIGNED_BYTE; 
     } else if(color.colortype == LCT_RGBA) {
@@ -76,7 +90,11 @@ kore::TexturePtr
     }
 
     if (tex->create(texProperties, filepath, &imageData[0])) {
+<<<<<<< HEAD
       ResourceManager::getInstance()->addTexture(filepath, tex);
+=======
+      ResourceManager::getInstance()->addTexture(tex);
+>>>>>>> hax
       kore::Log::getInstance()
         ->write("[DEBUG] Texture '%s' successfully loaded\n",
         filepath.c_str());
@@ -86,7 +104,12 @@ kore::TexturePtr
       kore::Log::getInstance()
         ->write("[ERROR] Texture '%s' could not be loaded\n",
         filepath.c_str());
+<<<<<<< HEAD
       return TexturePtr();
+=======
+      KORE_SAFE_DELETE(tex);
+      return NULL;
+>>>>>>> hax
     }
   }
 }

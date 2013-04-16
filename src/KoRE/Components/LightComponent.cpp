@@ -18,7 +18,7 @@ kore::LightComponent::LightComponent()
 kore::LightComponent::~LightComponent() {
 }
 
-void kore::LightComponent::transformChanged(const TransformPtr& newTransform) {
+void kore::LightComponent::transformChanged(const Transform* newTransform) {
   const glm::mat4& matGlobal = newTransform->getGlobal();
   _directionWS = glm::vec3(matGlobal[2]);
   _positionWS = glm::vec3(matGlobal[3]);
@@ -71,7 +71,7 @@ void kore::LightComponent::init() {
   input = ShaderData();
   input.type = GL_FLOAT_VEC3;
   input.name = "direction";
-  input.data = glm::value_ptr(_positionWS);
+  input.data = glm::value_ptr(_directionWS);
   input.component = this;
   _shaderData.push_back(input);
 

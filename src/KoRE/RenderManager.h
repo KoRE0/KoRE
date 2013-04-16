@@ -26,6 +26,11 @@
 #include "KoRE/Components/MeshComponent.h"
 #include "KoRE/Components/Camera.h"
 #include "KoRE/ShaderProgram.h"
+<<<<<<< HEAD
+=======
+#include "KoRE/Passes/FrameBufferStage.h"
+#include "KoRE/Optimization/Optimizer.h"
+>>>>>>> hax
 
 namespace kore {
   enum EOpInsertPos {
@@ -60,6 +65,11 @@ namespace kore {
     DRAW_FRAMEBUFFER = 0,
     READ_FRAMEBUFFER = 1
   };
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> hax
   //////////////////////////////////////////////////////////////////////////
 
   class RenderManager {
@@ -68,7 +78,9 @@ namespace kore {
     const glm::ivec2& getRenderResolution() const;
     const ShaderProgram* getShaderProgram(const std::string& name);
     void setRenderResolution(const glm::ivec2& newResolution);
+    void setOptimizer(const Optimizer* optimizer);
     void renderFrame(void);
+<<<<<<< HEAD
     void addShaderProgram(const std::string& name,
                           const ShaderProgram* program);
     void addOperation(const OperationPtr& op);
@@ -76,6 +88,53 @@ namespace kore {
                       const OperationPtr& targetOp,
                       const EOpInsertPos insertPos);
     bool hasOperation(const OperationPtr& op);
+=======
+    
+    void addFramebufferStage(FrameBufferStage* stage);
+    void onRemoveComponent(const SceneNodeComponent* comp);
+
+    // The OpenGL-State wrapper functions go here:
+    void bindVAO(const GLuint vao);
+    void bindVBO(const GLuint vbo);
+    void bindIBO(const GLuint ibo);
+    void useShaderProgram(const GLuint shaderProgram);
+
+    void bindTexture(const GLuint textureUnit,
+                     const GLuint textureTarget,
+                     const GLuint textureHandle);
+
+    void bindTexture(const GLuint textureTarget,
+                     const GLuint textureHandle);
+
+    void bindSampler(const GLuint textureUnit,
+                     const GLuint samplerHandle);
+
+    void bindFrameBuffer(const GLuint fboTarget,
+                         const GLuint fboHandle);
+
+    void bindBufferBase(const GLenum indexedBufferTarget,
+                        const uint bindingPoint,
+                        const GLuint bufferHandle);
+
+    /*! \brief Wrapper for glDrawBuffers(..) */
+    void drawBuffers(const GLuint fboHandle,
+                     const uint num,
+                     const GLuint* buffers);
+
+   /* void removeOperation(const Operation* operation);
+    void removeShaderProgramPass(const ShaderProgramPass* progPass);
+    void removeNodePass(const NodePass* nodePass);
+    */
+    void removeFrameBufferStage(const FrameBufferStage* fboStage);
+
+    /**
+      Sets the active texture unit(glActiveTexture).
+      Note that the argument is an index to a texture unit (e.g. the "i" in
+      glActiveTexture(GL_TEXTURE0 + i)
+    */
+    void activeTexture(const GLuint activeTextureUnitIndex);
+    //////////////////////////////////////////////////////////////////////////
+>>>>>>> hax
 
     void removeOperation(const OperationPtr& op);
     void removeOperation(const Operation* op);
@@ -114,10 +173,17 @@ namespace kore {
     RenderManager(void);
     virtual ~RenderManager(void);
     void resolutionChanged();
-    glm::ivec2 _renderResolution;
 
-    typedef std::list<OperationPtr> OperationList;
+
+    glm::ivec2 _renderResolution;
+    const Optimizer* _optimizer;
+
+    typedef std::list<const Operation*> OperationList;
     OperationList _operations;
+<<<<<<< HEAD
+=======
+    std::vector<FrameBufferStage*> _frameBufferStages;
+>>>>>>> hax
 
     // OpenGL-States:
     GLuint _activeTextureUnitIndex;
@@ -125,6 +191,10 @@ namespace kore {
     GLuint _vbo;
     GLuint _ibo;
     GLuint _shaderProgram;
+<<<<<<< HEAD
+=======
+    GLuint _boundAtomicBuffers[GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS];
+>>>>>>> hax
     GLuint _boundTextures[GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS]
                          [NUM_TEXTURE_TARGETS];
     GLuint _boundSamplers[GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS];
@@ -132,7 +202,10 @@ namespace kore {
     bool   _drawBuffers[KORE_MAX_FRAMEBUFFER_COUNT]
                        [GL_MAX_DRAW_BUFFERS];
     std::map<GLuint, uint> _vTexTargetMap;
+<<<<<<< HEAD
     std::map<std::string, const ShaderProgram*> _shaderProgramMap;
+=======
+>>>>>>> hax
     //////////////////////////////////////////////////////////////////////////
   };
 };

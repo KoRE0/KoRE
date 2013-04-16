@@ -25,17 +25,33 @@
 #include "KoRE/SceneNode.h"
 #include "KoRE/Common.h"
 #include "KoRE/SceneManager.h"
+#include "KoRE/IDManager.h"
 
 kore::SceneNode::SceneNode(void)
                        :_tag(0),
                         _parent(NULL),
+<<<<<<< HEAD
                         _dirty(true) {
   _id = kore::SceneManager::getInstance()->createID();
   _transform = TransformPtr(new Transform());
+=======
+                        _dirty(true),
+                        kore::BaseResource() {
+  _transform = new Transform;
+>>>>>>> hax
   _components.push_back(_transform);
 }
 
 kore::SceneNode::~SceneNode(void) {
+  for (uint i = 0; i < _children.size(); ++i) {
+    KORE_SAFE_DELETE(_children[i]);
+  }
+
+  _children.clear();
+
+  for (uint iComp = 0; iComp < _components.size(); ++iComp) {
+    KORE_SAFE_DELETE(_components[iComp]);
+  }
 }
 
 
@@ -80,19 +96,20 @@ bool kore::SceneNode::isCompatibleWith(const SceneNode& otherNode,
 }*/
 
 
-const kore::SceneNodePtr& kore::SceneNode::getParent(void) const {
+const kore::SceneNode* kore::SceneNode::getParent(void) const {
   return _parent;
 }
 
-const std::vector<kore::SceneNodePtr>& kore::SceneNode::getChildren() const {
+const std::vector<kore::SceneNode*>& kore::SceneNode::getChildren() const {
   return _children;
 }
 
-const std::vector<kore::SceneNodeComponentPtr>
+const std::vector<kore::SceneNodeComponent*>
     kore::SceneNode::getComponents() const {
     return _components;
 }
 
+<<<<<<< HEAD
 const kore::SceneNodeComponentPtr
 kore::SceneNode::getComponent(EComponentType type) const {
   for (unsigned int i = 0; i < _components.size(); ++i) {
@@ -107,7 +124,24 @@ const kore::TransformPtr kore::SceneNode::getTransform() const {
 
 const uint64 kore::SceneNode::getID(void) const {
   return _id;
+=======
+kore::SceneNodeComponent*
+  kore::SceneNode::getComponent(const EComponentType type) {
+    for (unsigned int i = 0; i < _components.size(); ++i) {
+      if (_components[i]->getType() == type) return _components[i];
+    }
+    return NULL;
 }
+
+const kore::Transform* kore::SceneNode::getTransform() const {
+  return _transform;
+}
+
+kore::Transform* kore::SceneNode::getTransform() {
+  return _transform;
+>>>>>>> hax
+}
+
 
 const uint kore::SceneNode::getTag(void) const {
   return _tag;
@@ -117,6 +151,7 @@ const std::string kore::SceneNode::getName(void) const {
   return _name;
 }
 
+<<<<<<< HEAD
 void kore::SceneNode::setParent(const SceneNodePtr& parent) {
   _parent = parent;
 }
@@ -128,6 +163,19 @@ void kore::SceneNode::addChild(const SceneNodePtr& child) {
 void kore::SceneNode::addComponent(const SceneNodeComponentPtr& component) {
   _components.push_back(component);
   component->attachTo(SceneNodePtr(this));
+=======
+void kore::SceneNode::setParent(SceneNode* parent) {
+  _parent = parent;
+}
+
+void kore::SceneNode::addChild(SceneNode* child) {
+  _children.push_back(child);
+}
+
+void kore::SceneNode::addComponent(SceneNodeComponent* component) {
+  _components.push_back(component);
+  component->attachTo(this);
+>>>>>>> hax
 }
 
 void kore::SceneNode::setTag(const std::string& tagname) {
@@ -173,6 +221,7 @@ void
     _transform->setLocal(glm::translate(_transform->getLocal(), dir));
   }
 
+<<<<<<< HEAD
   _dirty = true;
 }
 
@@ -214,6 +263,47 @@ void kore::SceneNode::scale(const glm::vec3& dim,
   _dirty = true;
 }
 
+=======
+  _dirty = true;
+}
+
+void kore::SceneNode::
+  setTranslation(const glm::vec3& position,
+                 const ETransfpomSpace relativeTo /*= SPACE_LOCAL*/) {
+   glm::mat4 local = _transform->getLocal();
+  if (relativeTo == SPACE_WORLD) {
+    glm::vec3 localPos = glm::vec3(glm::inverse(_transform->getGlobal()) *
+                                   glm::vec4(position, 1.0f));
+    local[3] = glm::vec4(localPos, 1.0f);
+  } else {
+    local[3] = glm::vec4(position, 1.0f);
+  }
+  _transform->setLocal(local);
+  _dirty = true;
+}
+
+void kore::SceneNode::rotate(const GLfloat& angle, const glm::vec3& axis,
+                          const ETransfpomSpace relativeTo /*=SPACE_LOCAL*/) {
+   if (relativeTo == SPACE_WORLD) {
+    glm::vec4 v4Axis(axis, 0.0f);
+    v4Axis = glm::inverse(_transform->getGlobal()) * v4Axis;
+    _transform->setLocal(glm::rotate(_transform->getLocal(),
+                                      angle,
+                                      glm::vec3(v4Axis)));
+   } else {
+     _transform->setLocal(glm::rotate(_transform->getLocal(), angle, axis));
+   }
+
+  _dirty = true;
+}
+
+// TODO(dlazarek): Implement space-changes
+void kore::SceneNode::scale(const glm::vec3& dim,
+                          const ETransfpomSpace relativeTo /*=SPACE_LOCAL*/) {
+  _dirty = true;
+}
+
+>>>>>>> hax
 void kore::SceneNode::setOrientation(const glm::vec3& v3Side,
                                      const glm::vec3& v3Up,
                                      const glm::vec3& v3Forward,
@@ -246,7 +336,7 @@ void kore::SceneNode::setOrientation(const glm::vec3& v3Side,
 }
 
 void kore::SceneNode::getSceneNodesByTag(const uint tag,
-                                         std::vector<SceneNodePtr>& vNodes ) {
+                                         std::vector<SceneNode*>& vNodes ) {
   for (uint iChild = 0; iChild < _children.size(); ++iChild) {
       // If there is at least one bit set in both tags, the child is added
       if ((_children[iChild]->getTag() & tag) != 0) {
@@ -257,10 +347,16 @@ void kore::SceneNode::getSceneNodesByTag(const uint tag,
 }
 
 void kore::SceneNode::getSceneNodesByName(const std::string& name,
+<<<<<<< HEAD
                                           std::vector<SceneNodePtr>& vNodes) {
   if (_name == name) {
     // TODO(dlazarek) Dangerous: Assuming 'this' is on heap
     vNodes.push_back(SceneNodePtr(this));
+=======
+                                          std::vector<SceneNode*>& vNodes) {
+  if (_name == name) {
+    vNodes.push_back(this);
+>>>>>>> hax
   }
 
   for (uint iChild = 0; iChild < _children.size(); ++iChild) {
@@ -271,10 +367,17 @@ void kore::SceneNode::getSceneNodesByName(const std::string& name,
 
 void kore::SceneNode::
 getSceneNodesByComponent(const EComponentType componentType,
+<<<<<<< HEAD
                          std::vector<SceneNodePtr>& vNodes ) {
   if (getComponent(componentType) != NULL) {
     // TODO(dlazarek) Dangerous: Assuming 'this' is on heap
     vNodes.push_back(SceneNodePtr(this));
+=======
+                         std::vector<SceneNode*>& vNodes ) {
+  if (getComponent(componentType) != NULL) {
+    // TODO(dlazarek) Dangerous: Assuming 'this' is on heap
+    vNodes.push_back(this);
+>>>>>>> hax
   }
 
   for (uint iChild = 0; iChild < _children.size(); ++iChild) {

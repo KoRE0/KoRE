@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
   Copyright © 2012 The KoRE Project
+=======
+  Copyright (c) 2012 The KoRE Project
+>>>>>>> hax
 
   This file is part of KoRE.
 
@@ -34,11 +38,19 @@ namespace kore {
                     const uint numDrawBuffers);
 
     virtual ~UseFBO(void);
+<<<<<<< HEAD
     virtual void execute(void);
     virtual void update(void);
     virtual void reset(void);
     virtual bool isValid(void);
     virtual bool dependsOn(const void* thing);
+=======
+    
+    virtual void update(void);
+    virtual void reset(void);
+    virtual bool isValid(void) const;
+    virtual bool dependsOn(const void* thing) const;
+>>>>>>> hax
 
     void connect(const kore::FrameBuffer* frameBuffer,
                  const GLenum frameBufferTarget,
@@ -48,9 +60,16 @@ namespace kore {
   private:
     GLenum _frameBufferTarget;
     const kore::FrameBuffer* _frameBuffer;
+<<<<<<< HEAD
     std::vector<const GLenum> _drawBuffers;
   };
   typedef std::shared_ptr<UseFBO> UseFBOptr;
+=======
+    std::vector<GLenum> _drawBuffers;
+
+    virtual void doExecute(void) const;
+  };
+>>>>>>> hax
 }
 
 #endif  // KORE_USE_FBO_

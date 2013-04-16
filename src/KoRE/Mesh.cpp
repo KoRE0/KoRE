@@ -26,12 +26,21 @@
 #include "KoRE/Log.h"
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> hax
 kore::Mesh::Mesh(void)
     : _numVertices(0),
     _primitiveType(GL_TRIANGLES),
     _VAOloc(KORE_GLUINT_HANDLE_INVALID),
     _VBOloc(KORE_GLUINT_HANDLE_INVALID),
+<<<<<<< HEAD
     _IBOloc(KORE_GLUINT_HANDLE_INVALID) {
+=======
+    _IBOloc(KORE_GLUINT_HANDLE_INVALID),
+    kore::BaseResource() {
+>>>>>>> hax
 }
 
 kore::Mesh::~Mesh(void) {

@@ -21,6 +21,7 @@
 #include "KoRE/RenderManager.h"
 #include "KoRE/Log.h"
 #include "KoRE/GLerror.h"
+<<<<<<< HEAD
 
 // Create the backbuffer as a static const sharedptr.
 const kore::FrameBuffer kore::FrameBuffer::BACKBUFFER(0);
@@ -28,22 +29,68 @@ const kore::FrameBuffer kore::FrameBuffer::BACKBUFFER(0);
 kore::FrameBuffer::FrameBuffer(void)
 : _handle(KORE_GLUINT_HANDLE_INVALID) {
 
+=======
+#include "KoRE/ResourceManager.h"
+#include "KoRE/IDManager.h"
+#include <algorithm>
+
+// Create the backbuffer as a static const sharedptr.
+const kore::FrameBuffer* kore::FrameBuffer::BACKBUFFER = new kore::FrameBuffer(0);
+
+kore::FrameBuffer::FrameBuffer(const std::string& name)
+: _name(name),
+  _handle(KORE_GLUINT_HANDLE_INVALID), 
+  kore::BaseResource() {
+>>>>>>> hax
   glGenFramebuffers(1, &_handle);
 }
 
 // Private constructor - only for internal use!
 kore::FrameBuffer::FrameBuffer(GLuint handle) {
+<<<<<<< HEAD
   _handle = handle;
+=======
+  _name = "BACKBUFFER";
+  _handle = handle;
+
+  ResourceManager::getInstance()->addFramebuffer(this);
+>>>>>>> hax
 }
 
 kore::FrameBuffer::~FrameBuffer(void) {
   destroy();
 }
 
+<<<<<<< HEAD
 void kore::FrameBuffer::destroy() {
   glDeleteFramebuffers(1, &_handle);
   _handle = 0;
 
+=======
+void kore::FrameBuffer::setName(const std::string& name) {
+  if (this == kore::FrameBuffer::BACKBUFFER
+    || name == kore::FrameBuffer::BACKBUFFER->getName()) {
+    return;
+  }
+
+  _name = name;
+}
+
+void kore::FrameBuffer::destroy() {
+  if (_handle == KORE_GLUINT_HANDLE_INVALID
+      || _handle == 0) {
+        return;
+  }
+
+  glDeleteFramebuffers(1, &_handle);
+  _handle = 0;
+
+  for (uint i = 0; i < _textures.size(); ++i) {
+    ResourceManager::getInstance()->removeTexture(_textures[i]);
+  }
+  _textures.clear();
+
+>>>>>>> hax
   for (uint i = 0; i < _textureInfos.size(); ++i) {
     KORE_SAFE_DELETE(_textureInfos[i]);
   }
@@ -52,7 +99,11 @@ void kore::FrameBuffer::destroy() {
   _textureInfos.clear();
 }
 
+<<<<<<< HEAD
 void kore::FrameBuffer::addTextureAttachment(const TexturePtr& tex,
+=======
+void kore::FrameBuffer::addTextureAttachment(const Texture* tex,
+>>>>>>> hax
                                              GLuint attatchment) {
   if (_handle == 0 || _handle == KORE_GLUINT_HANDLE_INVALID) {
     return;
@@ -72,9 +123,18 @@ void kore::FrameBuffer::addTextureAttachment(const TexturePtr& tex,
                          tex->getHandle(), 0);
   _textures.push_back(tex);
 
+<<<<<<< HEAD
   STextureInfo* texInfo = new STextureInfo;
   texInfo->texLocation = tex->getHandle();
   texInfo->texTarget = tex->getProperties().targetType;
+=======
+
+
+  STextureInfo* texInfo = new STextureInfo;
+  texInfo->texLocation = tex->getHandle();
+  texInfo->texTarget = tex->getProperties().targetType;
+  texInfo->internalFormat = tex->getProperties().internalFormat;
+>>>>>>> hax
   _textureInfos.push_back(texInfo);
 
   ShaderData textureData;
@@ -89,17 +149,36 @@ void kore::FrameBuffer::
       addTextureAttachment(const STextureProperties& properties,
                            const std::string& name,
                            const GLuint attatchment ) {
+<<<<<<< HEAD
   TexturePtr pTex(new Texture);
   bool bSuccess = pTex->create(properties, name);
   if (bSuccess) {
+=======
+  if (_handle == 0 || _handle == KORE_GLUINT_HANDLE_INVALID) {
+    return;
+  }
+
+  Texture* pTex = new Texture;
+  bool bSuccess = pTex->create(properties, name);
+if (bSuccess) {
+    ResourceManager::getInstance()->addTexture(pTex);
+>>>>>>> hax
     addTextureAttachment(pTex, attatchment);
   } else {
     Log::getInstance()->write("[ERROR] Requested Texture could not be"
                               "created for the FBO");
+<<<<<<< HEAD
   }
 }
 
 const kore::TexturePtr
+=======
+    KORE_SAFE_DELETE(pTex);
+  }
+}
+
+const kore::Texture*
+>>>>>>> hax
   kore::FrameBuffer::getTexture( const std::string& name ) const {
     for(uint i = 0; i < _textures.size(); ++i) {
       if (_textures[i]->getName() == name) {
@@ -107,7 +186,11 @@ const kore::TexturePtr
       }
     }
 
+<<<<<<< HEAD
     return TexturePtr(NULL);
+=======
+    return NULL;
+>>>>>>> hax
 }
 
 bool kore::FrameBuffer::checkFBOcompleteness() {
@@ -116,5 +199,10 @@ bool kore::FrameBuffer::checkFBOcompleteness() {
   }
 
   RenderManager::getInstance()->bindFrameBuffer(GL_FRAMEBUFFER, _handle);
+<<<<<<< HEAD
   return GLerror::gl_ValidateFBO("");
 }
+=======
+  return GLerror::gl_ValidateFBO(_name);
+}
+>>>>>>> hax

@@ -24,21 +24,34 @@
 #include "KoRE_GUI/ShaderInputItem.h"
 #include <QPainter>
 #include <QCursor>
+<<<<<<< HEAD
 #include <QStaticText>
 #include <QToolTip>
+=======
+>>>>>>> hax
 
 koregui::ShaderInputItem::ShaderInputItem(const kore::ShaderInput* input,
                                         QGraphicsItem* parent)
                                       : _input(input),
+<<<<<<< HEAD
                                         _op(NULL),
                                         QGraphicsItem(parent) {
   //setCursor(QCursor(Qt::CursorShape::WhatsThisCursor));
   setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+=======
+                                        _binding(NULL),
+                                        _mouseover(false),
+                                        QGraphicsItem(parent) {
+  setAcceptHoverEvents(true);
+  setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+  setData(0, "SHADERINPUT");
+>>>>>>> hax
 }
 
 koregui::ShaderInputItem::~ShaderInputItem(void) {
 }
 
+<<<<<<< HEAD
 void koregui::ShaderInputItem::refresh(void) {
 
 }
@@ -48,6 +61,30 @@ QRectF koregui::ShaderInputItem::boundingRect() const {
 }
 
 void koregui::ShaderInputItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+=======
+bool koregui::ShaderInputItem::checkInput(BindPathItem* binding) {
+  _mouseover = true;
+  // only one binding allowed
+  if(_binding && _binding != binding) return false;
+  // TODO(dospelt) check if binding could be correct
+  _binding = binding;
+  return true;
+}
+
+void koregui::ShaderInputItem::reset(void) {
+  _binding = NULL;
+  _mouseover = false;
+}
+
+
+QRectF koregui::ShaderInputItem::boundingRect() const {
+  return QRectF(-2, -2, 16, 16);
+}
+
+void koregui::ShaderInputItem::paint(QPainter* painter,
+                                     const QStyleOptionGraphicsItem* option,
+                                     QWidget* widget) {
+>>>>>>> hax
   QPen p;
   p.setColor(QColor(44,44,44));
   p.setWidth(2);
@@ -57,5 +94,29 @@ void koregui::ShaderInputItem::paint(QPainter* painter, const QStyleOptionGraphi
   b.setStyle(Qt::BrushStyle::SolidPattern);
   painter->setBrush(b);
   painter->setPen(p);
+<<<<<<< HEAD
   painter->drawRect(0, 0, 12, 12);
+=======
+  if(_mouseover) {
+    painter->drawRect(-2, -2, 16, 16);
+  } else {
+    painter->drawRect(0, 0, 12, 12);
+  }
+}
+
+void koregui::ShaderInputItem
+  ::hoverEnterEvent(QGraphicsSceneHoverEvent * event) {
+  _mouseover = true;
+  QGraphicsItem::hoverEnterEvent(event);
+}
+void koregui::ShaderInputItem
+  ::hoverLeaveEvent(QGraphicsSceneHoverEvent * event) {
+  _mouseover = false;
+  QGraphicsItem::hoverLeaveEvent(event);
+}
+
+void koregui::ShaderInputItem
+  ::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+  // TODO(dospelt) change color?
+>>>>>>> hax
 }

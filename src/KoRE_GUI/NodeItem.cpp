@@ -30,6 +30,7 @@ koregui::NodeItem::NodeItem(kore::SceneNode* sceneNode,
                             QGraphicsItem* parent)
                             : _sceneNode(sceneNode),
                               QGraphicsItem(parent) {
+<<<<<<< HEAD
 
   setFlag(QGraphicsItem::ItemIsMovable, true);
   setFlag(QGraphicsItem::ItemIsSelectable, true);
@@ -38,6 +39,16 @@ koregui::NodeItem::NodeItem(kore::SceneNode* sceneNode,
     _sceneNode->getComponents();
     for (uint i = 0; i<components.size(); i++) {
       ComponentItem* compItem = new ComponentItem(components[i].get(), this);
+=======
+  setData(0, "NODE");
+  setFlag(QGraphicsItem::ItemIsMovable, true);
+  setFlag(QGraphicsItem::ItemIsSelectable, true);
+  setCursor(QCursor(Qt::CursorShape::ArrowCursor));
+  std::vector<kore::SceneNodeComponent*> components =
+    _sceneNode->getComponents();
+    for (uint i = 0; i<components.size(); i++) {
+      ComponentItem* compItem = new ComponentItem(components[i], this);
+>>>>>>> hax
       _componentItems.push_back(compItem);
    }
   refresh();

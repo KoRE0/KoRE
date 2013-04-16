@@ -27,23 +27,21 @@ kore::SceneManager* kore::SceneManager::getInstance(void) {
   return &theInstance;
 }
 
-kore::SceneManager::SceneManager(void)
-                           :_idcount(0),
-                            _tagcount(0) {
+kore::SceneManager::SceneManager(void) :_tagcount(0) {
   addTag("DEFAULT");
+<<<<<<< HEAD
   _root = SceneNodePtr(new SceneNode());
   _root->setName("ROOT");
+=======
+  _root.setName("ROOT");
+>>>>>>> hax
 }
 
 kore::SceneManager::~SceneManager(void) {
 }
 
-uint64 kore::SceneManager::createID(void) {
-  return _idcount++;
-}
-
 void kore::SceneManager::update(void) {
-  _root->update();
+  _root.update();
 }
 
 void kore::SceneManager::addTag(const std::string& name) {
@@ -59,12 +57,12 @@ const uint kore::SceneManager::getTag(const std::string& name) {
 
 void kore::SceneManager::
   getSceneNodesByTag(const uint tag,
-                     std::vector<SceneNodePtr>& vSceneNodes) {
-  _root->getSceneNodesByTag(tag, vSceneNodes);
+                     std::vector<SceneNode*>& vSceneNodes) {
+  _root.getSceneNodesByTag(tag, vSceneNodes);
 }
 
 void kore::SceneManager::getSceneNodesByTag(const std::string& name,
-                                     std::vector<SceneNodePtr>& vSceneNodes) {
+                                     std::vector<SceneNode*>& vSceneNodes) {
   const uint uTag = getTag(name);
   if (uTag != KORE_TAG_INVALID) {
       getSceneNodesByTag(uTag, vSceneNodes);
@@ -73,8 +71,60 @@ void kore::SceneManager::getSceneNodesByTag(const std::string& name,
 
 void kore::SceneManager::
   getSceneNodesByName(const std::string& name,
-                      std::vector<SceneNodePtr>& vSceneNodes) {
-  _root->getSceneNodesByName(name, vSceneNodes);
+                      std::vector<SceneNode*>& vSceneNodes) {
+  _root.getSceneNodesByName(name, vSceneNodes);
+}
+
+void kore::SceneManager::
+getSceneNodesByComponent(const EComponentType componentType,
+                           std::vector<SceneNode*>& vSceneNodes) {
+  _root.getSceneNodesByComponent(componentType, vSceneNodes);
+}
+
+kore::SceneNode* kore::SceneManager::
+  getSceneNodeByComponent(const EComponentType componentType) {
+    std::vector<SceneNode*> vNodes;
+    getSceneNodesByComponent(componentType, vNodes);
+    if (vNodes.size() > 0) {
+      return vNodes[0];
+    }
+    return NULL;
+}
+
+kore::SceneNode* kore::SceneManager::getRootNode() {
+  return &_root;
+}
+
+void kore::SceneManager::addCamera(kore::Camera* camera) {
+    if (_cameras.count(camera->getID())) {
+      return;
+    }
+  
+  _cameras[camera->getID()] = camera;
+}
+
+void kore::SceneManager::addLight(kore::LightComponent* light) {
+    if (_lights.count(light->getID())) {
+        return;
+    }
+
+    _lights[light->getID()] = light;
+}
+
+kore::Camera* kore::SceneManager::getCamera(const uint64 id) {
+  if (!_cameras.count(id)) {
+    return NULL;
+  }
+  
+  return _cameras[id];
+}
+
+kore::LightComponent* kore::SceneManager::getLight(const uint64 id) {
+    if (!_lights.count(id)) {
+      return NULL;
+    }
+
+    return _lights[id];
 }
 
 void kore::SceneManager::

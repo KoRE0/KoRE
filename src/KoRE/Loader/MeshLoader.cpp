@@ -36,6 +36,7 @@ kore::MeshLoader::MeshLoader() {
 kore::MeshLoader::~MeshLoader() {
 }
 
+<<<<<<< HEAD:src/KoRE/Loader/MeshLoader.cpp
 const aiScene* kore::MeshLoader::readScene(const std::string& szScenePath) {
   const aiScene* pAiScene = _aiImporter.ReadFile(szScenePath,
       aiProcess_JoinIdenticalVertices | aiProcess_Triangulate);
@@ -67,6 +68,13 @@ kore::MeshPtr
     kore::MeshLoader::loadMesh(const aiScene* pAiScene,
                                const uint uMeshIdx) {
     kore::MeshPtr pMesh(new kore::Mesh);
+=======
+
+kore::Mesh*
+    kore::MeshLoader::loadMesh(const aiScene* pAiScene,
+                               const uint uMeshIdx) {
+    kore::Mesh* pMesh = new kore::Mesh;
+>>>>>>> hax:src/KoRE/Loader/MeshLoader.cpp
   
     aiMesh* pAiMesh = pAiScene->mMeshes[uMeshIdx];
     pMesh->_numVertices = pAiMesh->mNumVertices;
@@ -74,7 +82,11 @@ kore::MeshPtr
     // TODO(dlazarek): Make more flexible here:
     pMesh->_primitiveType = GL_TRIANGLES;
 
+<<<<<<< HEAD:src/KoRE/Loader/MeshLoader.cpp
     pMesh->_name = getMeshName(pAiMesh, uMeshIdx);
+=======
+    pMesh->_name = getMeshName(uMeshIdx, pAiScene);
+>>>>>>> hax:src/KoRE/Loader/MeshLoader.cpp
 
     if (pAiMesh->HasPositions()) {
         loadVertexPositions(pAiMesh, pMesh);
@@ -110,6 +122,7 @@ kore::MeshPtr
     return pMesh;
 }
 
+<<<<<<< HEAD:src/KoRE/Loader/MeshLoader.cpp
 std::string kore::MeshLoader::getMeshName(const aiMesh* paiMesh,
                                           const uint uMeshIdx) {
   std::string returnName;
@@ -120,13 +133,54 @@ std::string kore::MeshLoader::getMeshName(const aiMesh* paiMesh,
     sprintf(szNameBuf, "%i", uMeshIdx);
     returnName = std::string(&szNameBuf[0]);
   }
+=======
+aiNode* findNodeWithMesh(uint meshSceneIdx, aiNode* node, const aiScene* scene) {
+  for (uint i = 0; i < node->mNumMeshes; ++i) {
+    if (node->mMeshes[i] == meshSceneIdx) {
+      return node;
+    }
+  }
+
+  for (uint i = 0; i < node->mNumChildren; ++i) {
+    aiNode* childNode = findNodeWithMesh(meshSceneIdx, node->mChildren[i], scene);
+    if (childNode != NULL) {
+      return childNode;
+    }
+  }
+
+  return NULL;
+}
+
+std::string kore::MeshLoader::getMeshName(uint meshSceneIdx,
+                                          const aiScene* paiScene) {
+   aiMesh* paiMesh = paiScene->mMeshes[meshSceneIdx];
+   std::string returnName;
+   if (paiMesh->mName.length > 0) {
+    returnName = std::string(paiMesh->mName.C_Str());
+  } else {
+    aiNode* node = findNodeWithMesh(meshSceneIdx, paiScene->mRootNode, paiScene);
+
+    if (node != NULL) {
+      uint internalMeshIdx = 0;
+      for (uint i = 0; i < node->mNumMeshes; ++i) {
+        if (node->mMeshes[i] == meshSceneIdx) {
+          internalMeshIdx = i;
+        }
+      }
+
+      char buf[100];
+      sprintf(buf, "%s_mesh_%i", node->mName.C_Str(), internalMeshIdx);
+      returnName = std::string(buf);
+    }
+  }
+>>>>>>> hax:src/KoRE/Loader/MeshLoader.cpp
   return returnName;
 }
 
 
 void kore::MeshLoader::
     loadVertexPositions(const aiMesh* pAiMesh,
-                         kore::MeshPtr& pMesh ) {
+                         kore::Mesh* pMesh ) {
     unsigned int allocSize = pAiMesh->mNumVertices * 3 * 4;
     void* pVertexData = malloc(allocSize);
     memcpy(pVertexData, pAiMesh->mVertices,
@@ -145,7 +199,7 @@ void kore::MeshLoader::
 
 void kore::MeshLoader::
     loadVertexNormals(const aiMesh* pAiMesh,
-                       kore::MeshPtr& pMesh ) {
+                       kore::Mesh* pMesh) {
     unsigned int allocSize = pAiMesh->mNumVertices * 3 * 4;
     void* pVertexData = malloc(allocSize);
     memcpy(pVertexData, pAiMesh->mNormals,
@@ -164,7 +218,7 @@ void kore::MeshLoader::
 
 void kore::MeshLoader::
     loadVertexTangents(const aiMesh* pAiMesh,
-                       kore::MeshPtr& pMesh) {
+                       kore::Mesh* pMesh) {
     unsigned int allocSize = pAiMesh->mNumVertices * 3 * 4;
     void* pVertexData = malloc(allocSize);
     memcpy(pVertexData, pAiMesh->mTangents,
@@ -183,7 +237,7 @@ void kore::MeshLoader::
 
 void kore::MeshLoader::
     loadFaceIndices(const aiMesh* pAiMesh,
-                     kore::MeshPtr& pMesh ) {
+                     kore::Mesh* pMesh ) {
     for (unsigned int iFace = 0; iFace < pAiMesh->mNumFaces; ++iFace) {
         aiFace& rAiFace = pAiMesh->mFaces[iFace];
         for (unsigned int iIndex = 0; iIndex < rAiFace.mNumIndices; ++iIndex) {
@@ -194,7 +248,7 @@ void kore::MeshLoader::
 
 void kore::MeshLoader::
     loadVertexColors(const aiMesh* pAiMesh,
-                      kore::MeshPtr& pMesh,
+                      kore::Mesh* pMesh,
                       unsigned int iColorSet) {
     unsigned int allocSize =
         pAiMesh->mNumVertices * 4 * pAiMesh->GetNumColorChannels();
@@ -230,7 +284,7 @@ void kore::MeshLoader::
 
 void kore::MeshLoader::
   loadVertexTextureCoords(const aiMesh* pAiMesh,
-                           kore::MeshPtr& pMesh,
+                           kore::Mesh* pMesh,
                            unsigned int iUVset) {
   // Note(dospelt) assimp imports always vec3 texcoords
   // TODO(dospelt) check which coordinates are used with

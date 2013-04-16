@@ -2,11 +2,19 @@
 #define SRC_KORE_TEXTURE_H_
 
 #include "KoRE/Common.h"
+<<<<<<< HEAD
+=======
+#include "KoRE/BaseResource.h"
+>>>>>>> hax
 
 namespace kore {
   struct STextureInfo {
     GLuint texTarget;
     GLuint texLocation;
+<<<<<<< HEAD
+=======
+    GLuint internalFormat;
+>>>>>>> hax
   };
 
   struct STextureProperties {
@@ -45,11 +53,19 @@ namespace kore {
     GLuint internalFormat;
   };
 
+<<<<<<< HEAD
   class Texture {
   public:
     explicit Texture(void);
     ~Texture(void);
     inline const STextureProperties& getProperties() {return _properties;}
+=======
+  class Texture : public BaseResource {
+  public:
+    explicit Texture(void);
+    ~Texture(void);
+    inline const STextureProperties& getProperties() const {return _properties;}
+>>>>>>> hax
     inline GLuint getHandle() const {return _handle;}
     inline const std::string& getName() const {return _resourcepath;}
 
@@ -68,7 +84,11 @@ namespace kore {
     /*! \brief Generates a mipmap-hierarchy for this texture.
     *          Only valid for non-empty textures */
     void genMipmapHierarchy();
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> hax
   private:
     GLuint _handle;
     std:: string _resourcepath;
@@ -76,6 +96,9 @@ namespace kore {
 
     void destroy();
   };
+<<<<<<< HEAD
   typedef std::shared_ptr<kore::Texture> TexturePtr;
+=======
+>>>>>>> hax
 }
 #endif  // SRC_KORE_TEXTURE_H_

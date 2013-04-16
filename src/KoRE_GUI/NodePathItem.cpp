@@ -31,6 +31,10 @@ koregui::NodePathItem::NodePathItem(NodeItem* start,
                                   : _start(start),
                                     _end(end),
                                     QGraphicsPathItem(parent){
+<<<<<<< HEAD
+=======
+  setData(0, "NODEPATH");
+>>>>>>> hax
   setAcceptedMouseButtons(Qt::NoButton);
 }
 

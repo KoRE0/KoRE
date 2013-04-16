@@ -21,7 +21,11 @@
 #include "KoRE/RenderManager.h"
 
 kore::SelectNodes::SelectNodes(const uint tag,
+<<<<<<< HEAD
                                const SceneNodePtr& root,
+=======
+                               const SceneNode* root,
+>>>>>>> hax
                                ESortingType type) {
   _type = OP_SELECTNODES;
   append(root, tag);
@@ -29,27 +33,38 @@ kore::SelectNodes::SelectNodes(const uint tag,
 }
 
 kore::SelectNodes::SelectNodes(const std::string& name,
+<<<<<<< HEAD
                                const SceneNodePtr& root,
+=======
+                               const SceneNode* root,
+>>>>>>> hax
                                ESortingType type,
                                bool partial_match) {
   _type = OP_SELECTNODES;
   append(root, name);
   // TODO(someone): sorting
 }
-
 kore::SelectNodes::~SelectNodes() {}
 
-void kore::SelectNodes::execute() {}
+void kore::SelectNodes::doExecute() const {}
 
 void kore::SelectNodes::update() {}
 
 void kore::SelectNodes::reset() {}
 
+<<<<<<< HEAD
 bool kore::SelectNodes::isValid(void) {
   return false;
 }
 
 void kore::SelectNodes::append(const SceneNodePtr& root, const uint tag) {
+=======
+bool kore::SelectNodes::isValid(void) const {
+  return _nodes.size() > 0;
+}
+
+void kore::SelectNodes::append(const SceneNode* root, const uint tag) {
+>>>>>>> hax
   // TODO(someone): tag matching
   // if (tagmatch) {
   //   _nodes.push_back(root);
@@ -58,7 +73,7 @@ void kore::SelectNodes::append(const SceneNodePtr& root, const uint tag) {
     append(root->getChildren()[i], tag);
   }
 }
-void kore::SelectNodes::append(const SceneNodePtr& root, const std::string& name) {
+void kore::SelectNodes::append(const SceneNode* root, const std::string& name) {
   // TODO(someone) name matching
   // if (namematch) {
   //   _nodes.push_back(root);
@@ -69,9 +84,15 @@ void kore::SelectNodes::append(const SceneNodePtr& root, const std::string& name
 }
 
 void kore::SelectNodes::destroy() {
+<<<<<<< HEAD
   _renderManager->removeOperation(this);
 }
 
 bool kore::SelectNodes::dependsOn(const void* thing) {
+=======
+}
+
+bool kore::SelectNodes::dependsOn(const void* thing) const {
+>>>>>>> hax
   return false;
 }

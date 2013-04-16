@@ -78,7 +78,10 @@ namespace kore {
 
     void destroy();
   };
+<<<<<<< HEAD
   typedef std::shared_ptr<TextureSampler> TextureSamplerPtr;
+=======
+>>>>>>> hax
 }
 
 #endif  // CORE_INCLUDE_CORE_TEXTURE_SAMPLER_H_

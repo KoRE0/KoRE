@@ -25,19 +25,32 @@
 #include "KoRE/ShaderInput.h"
 #include "KoRE/ShaderOutput.h"
 #include "KoRE/Common.h"
+<<<<<<< HEAD
 #include "KoRE/OperationOwner.h"
 #include "KoRE/TextureSampler.h"
 
 namespace kore {
   class Operation;
   class ShaderProgram {
+=======
+#include "KoRE/TextureSampler.h"
+#include "KoRE/BaseResource.h"
+
+namespace kore {
+  class Operation;
+  class ShaderProgram : public BaseResource {
+>>>>>>> hax
   public:
     ShaderProgram();
     virtual ~ShaderProgram(void);
     /// load a single shader from file
     bool loadShader(const std::string& file, GLenum shadertype);
     /// compile and link shader program
+<<<<<<< HEAD
     bool initShader(const std::string& name);
+=======
+    bool init();
+>>>>>>> hax
     GLuint getAttributeLocation(const std::string &name);
     GLuint getUniformLocation(const std::string &name);
     GLuint getProgramLocation() const;
@@ -48,6 +61,25 @@ namespace kore {
     const std::vector<ShaderInput>& getUniforms() const;
     const std::vector<ShaderOutput>& getOutputs() const;
 
+<<<<<<< HEAD
+=======
+    /*! \brief Get the currently selected imageAccess-parameter for the image
+    *          uniform at the provided imageUnit.
+    *   \param imgUnit The imageUnit which the image will be bound to.
+    *   \return The access-parameter
+    *           (GL_READ_ONLY, GL_WRITE_ONLY or GL_READ_WRITE)
+    */
+    const GLuint getImageAccessParam(const uint imgUnit) const;
+
+    /*! \brief Set the access-parameter for the image at the provided imageUnit
+    *   \param imgUnit The image-unit. This is also the index of the image in
+    *                  this shaderProgram.
+    *   \param access The access parameter to set for the image.
+    *           (GL_READ_ONLY, GL_WRITE_ONLY or GL_READ_WRITE)
+    */
+    void setImageAccessParam(const uint imgUnit, const GLuint access);
+
+>>>>>>> hax
     /*! \brief Retrieve the number of texture-samplers this shader uses.
                Note that this is the same number as sampler-type uniforms.
         \return The number of texture samplers. */
@@ -69,6 +101,15 @@ namespace kore {
     void setSamplerProperties(const uint idx,
                               const TexSamplerProperties& properties);
 
+<<<<<<< HEAD
+=======
+    /*! \brief Set a new name for the ShaderProgram
+     * \param name The new name
+     */
+    inline void setName(const std::string& name){_name = name;}
+
+
+>>>>>>> hax
   private:
     static bool checkShaderCompileStatus(const GLuint shaderHandle,
                                          const std::string& name);
@@ -77,6 +118,11 @@ namespace kore {
                                        const std::string& name);
 
     static bool isSamplerType(const GLuint uniformType);
+<<<<<<< HEAD
+=======
+    static bool isImageType(const GLuint uniformType);
+    static bool isAtomicCounterType(const GLuint uniformType);
+>>>>>>> hax
 
     void destroyProgram();
     void destroyShaders();
@@ -92,6 +138,13 @@ namespace kore {
     std::vector<ShaderInput> _attributes;
     std::vector<ShaderInput> _uniforms;
     std::vector<ShaderOutput> _outputs;
+<<<<<<< HEAD
+=======
+    std::vector<GLuint> _imgAccessParams;
+
+    std::vector<GLuint> _atomicCounters;
+    std::vector<GLuint> _atomicCounterBindingPoints;
+>>>>>>> hax
 
     std::vector<const TextureSampler*> _vSamplers;
 
@@ -103,6 +156,9 @@ namespace kore {
 
     GLuint _programHandle;
   };
+<<<<<<< HEAD
   typedef std::shared_ptr<kore::ShaderProgram> ShaderPtr;
+=======
+>>>>>>> hax
 };
 #endif  // CORE_INCLUDE_CORE_SHADER_H_

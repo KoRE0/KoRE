@@ -27,6 +27,10 @@ kore::BindAttribute::BindAttribute(void) : kore::BindOperation() {
 kore::BindAttribute::BindAttribute(const ShaderData* meshData,
                                    const ShaderInput* shaderInput)
                                    : kore::BindOperation() {
+<<<<<<< HEAD
+=======
+  _type = OP_BINDATTRIBUTE;
+>>>>>>> hax
   connect(meshData, shaderInput);
 }
 
@@ -36,6 +40,7 @@ kore::BindAttribute::~BindAttribute(void) {
 
 void kore::BindAttribute::connect(const ShaderData* meshData,
                                   const ShaderInput* shaderInput) {
+<<<<<<< HEAD
   _shaderUniform = shaderInput;
   _meshInfo = static_cast<const SMeshInformation*>(meshData->data);
 
@@ -45,6 +50,23 @@ void kore::BindAttribute::connect(const ShaderData* meshData,
 
 void kore::BindAttribute::execute(void) {
   const MeshPtr& mesh = _meshInfo->mesh;
+=======
+  if (!meshData || !shaderInput) {
+    //make invalid:
+    _shaderUniform = NULL;
+    _componentUniform = NULL;
+    _meshInfo = NULL;
+    return;
+  }
+
+  _shaderUniform = shaderInput;
+  _componentUniform = meshData;
+  _meshInfo = static_cast<const SMeshInformation*>(meshData->data);
+}
+
+void kore::BindAttribute::doExecute(void) const {
+  const Mesh* mesh = _meshInfo->mesh;
+>>>>>>> hax
   const MeshAttributeArray* meshAtt = _meshInfo->meshAtt;
 
   GLerror::gl_ErrorCheckStart();
@@ -65,7 +87,10 @@ void kore::BindAttribute::update(void) {
 
 void kore::BindAttribute::reset(void) {
 }
+<<<<<<< HEAD
 
 bool kore::BindAttribute::isValid(void) {
   return false;
 }
+=======
+>>>>>>> hax

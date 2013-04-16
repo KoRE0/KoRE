@@ -23,18 +23,33 @@
 
 #include <GL/glew.h>
 #include <QApplication>
+<<<<<<< HEAD
+=======
+#include <QCommonStyle>
+>>>>>>> hax
 
 #include "KoRE/SceneManager.h"
 #include "KoRE/ResourceManager.h"
 #include "KoRE/RenderManager.h"
 
+<<<<<<< HEAD
 #include "KoRE_GUI/SceneViewer.h"
 #include "KoRE_GUI/RenderViewer.h"
 #include "KoRE_GUI/GLWindow.h"
+=======
+#include "KoRE_GUI/KoRE_GUIStyle.h"
+#include "KoRE_GUI/SceneViewer.h"
+#include "KoRE_GUI/RenderViewer.h"
+#include "KoRE_GUI/ResourceViewer.h"
+#include "KoRE_GUI/GLWidget.h"
+#include "KoRE_GUI/FrameBufferEditor.h"
+#include "KoRE_GUI/ShaderEditor.h"
+>>>>>>> hax
 
 int main(int argc, char *argv[])
 {
 
+<<<<<<< HEAD
     // initialize Qt
     QApplication app(argc, argv);
 
@@ -60,4 +75,25 @@ int main(int argc, char *argv[])
     rview.show();
 
     return app.exec();
+=======
+  // initialize Qt
+  QApplication app(argc, argv);
+  //app.setStyle(new koregui::KoRE_GUIStyle);
+
+  // need of GL-Context
+  GLWidget win;
+  win.show();
+
+  // now  other widgets
+  //koregui::ResourceViewer resview;
+  koregui::RenderViewer rview;
+  //koregui::SceneViewer sview(&rview);
+  //sview.showScene(kore::SceneManager::getInstance()->getRootNode());
+
+  //sview.show();
+  rview.show();
+  //resview.show();
+
+  return app.exec();
+>>>>>>> hax
 }

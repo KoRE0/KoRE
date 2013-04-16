@@ -66,12 +66,21 @@ koregui::NodeItem* koregui::SceneViewer
   NodeItem* nodeItem = new NodeItem(sourcenode);
   _scene.addItem(nodeItem);
 
+<<<<<<< HEAD
   std::vector<kore::SceneNodePtr> pnode = sourcenode->getChildren();
   int startx = x -(estimateTreeWidth(sourcenode)/2);
   for (unsigned int i = 0; i<pnode.size(); i++) {
     int localwidth = estimateTreeWidth(pnode[i].get());
     NodePathItem* path = new NodePathItem(nodeItem,
                                           createNode(pnode[i].get(),
+=======
+  std::vector<kore::SceneNode*> pnode = sourcenode->getChildren();
+  int startx = x -(estimateTreeWidth(sourcenode)/2);
+  for (unsigned int i = 0; i<pnode.size(); i++) {
+    int localwidth = estimateTreeWidth(pnode[i]);
+    NodePathItem* path = new NodePathItem(nodeItem,
+                                          createNode(pnode[i],
+>>>>>>> hax
                                             startx + localwidth/2,
                                             y + nodeItem->getHeight() + 80));
     path->setZValue(-1);
@@ -82,11 +91,19 @@ koregui::NodeItem* koregui::SceneViewer
   return nodeItem;
 }
 int koregui::SceneViewer::estimateTreeWidth(kore::SceneNode* sourcenode) {
+<<<<<<< HEAD
   std::vector<kore::SceneNodePtr> pnode = sourcenode->getChildren();
   int width = 250;
   if(pnode.size()!= 0) width = 0;
   for (unsigned int i = 0; i<pnode.size(); i++) {
     width += estimateTreeWidth(pnode[i].get());
+=======
+  std::vector<kore::SceneNode*> pnode = sourcenode->getChildren();
+  int width = 250;
+  if(pnode.size()!= 0) width = 0;
+  for (unsigned int i = 0; i<pnode.size(); i++) {
+    width += estimateTreeWidth(pnode[i]);
+>>>>>>> hax
   }
   return width;
 }

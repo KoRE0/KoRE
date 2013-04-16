@@ -1,17 +1,40 @@
 #include "KoRE/Texture.h"
 #include "KoRE/Log.h"
 #include "KoRE/GLerror.h"
+<<<<<<< HEAD
 
 kore::Texture::Texture()
                     : _handle(KORE_GLUINT_HANDLE_INVALID),
                       _resourcepath("")
                      {
+=======
+#include "KoRE/IDManager.h"
+
+kore::Texture::Texture()
+                    : _handle(KORE_GLUINT_HANDLE_INVALID),
+                      _resourcepath(""),
+                      kore::BaseResource() {
+>>>>>>> hax
 }
 
 kore::Texture::~Texture() {
   destroy();
 }
 
+<<<<<<< HEAD
+=======
+void kore::Texture::destroy() {
+  if (_handle == KORE_GLUINT_HANDLE_INVALID) {
+    return;
+  }
+
+  glDeleteTextures(1, &_handle);
+  _handle = KORE_GLUINT_HANDLE_INVALID;
+  _resourcepath = "";
+  _properties = STextureProperties();
+}
+
+>>>>>>> hax
 bool kore::Texture::create(const STextureProperties& properties,
                            const std::string& name,
                            const GLvoid* pixelData /*= NULL*/) {
@@ -96,6 +119,7 @@ void kore::Texture::genMipmapHierarchy() {
     glGenerateMipmap(_properties.targetType);
   }
 }
+<<<<<<< HEAD
 
 void kore::Texture::destroy() {
   if (_handle == KORE_GLUINT_HANDLE_INVALID) {
@@ -107,3 +131,5 @@ void kore::Texture::destroy() {
   _resourcepath = "";
   _properties = STextureProperties();
 }
+=======
+>>>>>>> hax
