@@ -54,7 +54,8 @@ if(WIN32)
   endif(MSVC)
 else()
   #Linux
-  set(KoRE_LIBS glfw GL GLEW KoRE assimp)
+  set(KoRE_LIBS glfw GL GLEW KoRE assimp tinyxml)
+  add_definitions(-DGLEW_STATIC)
 endif(WIN32)
 
 #target_link_libraries(MainGLFW tinyxml)

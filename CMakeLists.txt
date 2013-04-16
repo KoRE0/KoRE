@@ -71,31 +71,38 @@ include_directories(src)
 
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-#Link external libraries to KoRE
-link_directories(${CMAKE_LIBRARY_PATH})
-include_directories(${CMAKE_LIBRARY_PATH})
+	#Link external libraries to KoRE
+	link_directories(${CMAKE_LIBRARY_PATH})
+	include_directories(${CMAKE_LIBRARY_PATH})
+	
+	if(WIN32)
+		add_library( tinyxml STATIC IMPORTED)        
+		set_target_properties( tinyxml PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBRARY_PATH}/libtinyxml.a)
+		
+		add_library( clipper STATIC IMPORTED)        
+		set_target_properties( clipper PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBRARY_PATH}/libclipper.a)
+		target_link_libraries(KoRE clipper)
+		
+		add_library( p2t STATIC IMPORTED)        
+		set_target_properties( p2t PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBRARY_PATH}/libp2t.a)
+		target_link_libraries(KoRE p2t)
+		
+		add_library( glew32 STATIC IMPORTED)        
+		set_target_properties( glew32 PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBRARY_PATH}/libglew32.dll.a )
+		target_link_libraries(KoRE glew32)
+		
+		add_library( assimp STATIC IMPORTED)        
+		set_target_properties( assimp PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBRARY_PATH}/libassimp.a )
 
-add_library( tinyxml STATIC IMPORTED)        
-set_target_properties( tinyxml PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBRARY_PATH}/libtinyxml.a)
-target_link_libraries(KoRE tinyxml)
-
-add_library( clipper STATIC IMPORTED)        
-set_target_properties( clipper PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBRARY_PATH}/libclipper.a)
-target_link_libraries(KoRE clipper)
-
-add_library( p2t STATIC IMPORTED)        
-set_target_properties( p2t PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBRARY_PATH}/libp2t.a)
-target_link_libraries(KoRE p2t)
-	    
-add_library( glew32 STATIC IMPORTED)        
-set_target_properties( glew32 PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBRARY_PATH}/libglew32.dll.a )
-target_link_libraries(KoRE glew32)
-
-add_library( assimp STATIC IMPORTED)        
-set_target_properties( assimp PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBRARY_PATH}/libassimp.a )
-target_link_libraries(KoRE assimp) 
-
-target_link_libraries(KoRE opengl32) 
+		target_link_libraries(KoRE opengl32)
+	else()
+		#Linux
+		add_definitions(-DGLEW_STATIC)
+		target_link_libraries(KoRE GLEW)	
+	endif(WIN32)
+	
+	target_link_libraries(KoRE tinyxml)		
+	target_link_libraries(KoRE assimp) 	
 endif() 
 
 set(IGNORE "-build/include")
