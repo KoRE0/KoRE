@@ -27,7 +27,7 @@
 #include <QGraphicsView>
 #include "KoRE_GUI/NodeItem.h"
 #include "KoRE_GUI/BindPathItem.h"
-#include "KoRE_GUI/FrameBufferItem.h"
+#include "KoRE_GUI/FrameBufferStageItem.h"
 #include "KoRE_GUI/ShaderInputItem.h"
 
 namespace koregui {
@@ -71,7 +71,7 @@ namespace koregui {
       void clearScene();
       QGraphicsScene _scene;
       BindPathItem* _currentpath;
-      FrameBufferItem* _currentframebuffer;
+      FrameBufferStageItem* _currentframebuffer;
       ShaderInputItem* _bindTarget;
   };
 }

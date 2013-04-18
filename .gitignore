@@ -22,6 +22,9 @@ Kore.dir/*
 Win32/*
 */obj/*
 demos/MainGLFW/MainGLFW.dir/*
+demos/VoxelConeTracing/MainGLFW.dir/*
+demos/VoxelConeTracing/VoxelConeTracing.dir/*
+demos/VoxelConeTracing/obj/*
 KoRE.lib
 lib
 bin
@@ -29,16 +32,17 @@ ext
 *.cproject
 *.project
 
+
 # Uncomment these lines to update master and then run
 # git rm -r --cached .  and a commit afterwards.
 ###################################################
-#*.sln
-#*.vcxproj
-#*.filters
+*.sln
+*.vcxproj
+*.filters
 
 # Comment theses lines below if you work on the voxel branch
-demos/VoxelConeTracing/*
-demos/VoxelConeTracing/src/*
-demos/VoxelConeTracing/*.user
-demos/VoxelConeTracing/*.dir
-Kore_Voxel.sln
+# demos/VoxelConeTracing/*
+# Kore_Voxel.sln
+
+# demos/VoxelConeTracing/*.user
+# demos/VoxelConeTracing/*.dir

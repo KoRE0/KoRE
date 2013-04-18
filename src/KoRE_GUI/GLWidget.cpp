@@ -42,7 +42,7 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent) {
 
     QGLFormat cformat;
     cformat.setDepthBufferSize(24);
-    cformat.setVersion(4,2);
+    cformat.setVersion(5,8);
     cformat.setProfile(QGLFormat::CoreProfile);
 
     this->setFormat(cformat);
@@ -50,7 +50,7 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent) {
 
     QTimer* timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(paintGL()));
-    timer->start(1);
+    timer->start(60);
 }
 
 GLWidget::~GLWidget() {

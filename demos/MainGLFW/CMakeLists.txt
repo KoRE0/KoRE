@@ -56,6 +56,10 @@ else()
   #Linux
   set(KoRE_LIBS glfw GL GLEW KoRE assimp tinyxml)
   add_definitions(-DGLEW_STATIC)
+    add_definitions(-DGXX_EXPERIMENTAL_CXX0X)
+    #add_definitions(-D__GXX_EXPERIMENTAL_CXX0X__)
+    
+    #set(CMAKE_CXX_FLAGS "-std=gnu++11")
 endif(WIN32)
 
 #target_link_libraries(MainGLFW tinyxml)

@@ -42,8 +42,11 @@ set(CMAKE_LIBRARY_PATH ${CMAKE_SOURCE_DIR}/ext/lib)
 
 if(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS "-std=c++0x") 
+    #set(CMAKE_CXX_FLAGS "-std=gnu++11")
     #SET(CMAKE_EXE_LINKER_FLAGS "-static-libgcc")
     SET(CMAKE_EXE_LINKER_FLAGS "-static-libstdc++")
+    add_definitions(-DGXX_EXPERIMENTAL_CXX0X)
+    #add_definitions(-D__GXX_EXPERIMENTAL_CXX0X__)
 endif()
 
 # Build KoRE library
