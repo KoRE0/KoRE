@@ -29,11 +29,13 @@
 #include "KoRE/Operations/BindOperations/BindOperation.h"
 
 namespace koregui {
+  class NodeItem;
   class ShaderDataItem : public QGraphicsItem {
   public:
-    ShaderDataItem(const kore::ShaderData* data, QGraphicsItem* parent = 0);
+    ShaderDataItem(const kore::ShaderData* data, NodeItem* nodeItem, QGraphicsItem* parent = 0);
     ~ShaderDataItem(void);
-    inline const kore::ShaderData* getData(void) {return _data;};
+    inline const kore::ShaderData* getData(void) {return _data;}
+    inline NodeItem* getNodeItem(void) {return _nodeitem;}
     void refresh(void);
 
   protected:
@@ -48,6 +50,7 @@ namespace koregui {
 
   private:
     const kore::ShaderData* _data;
+    NodeItem* _nodeitem;
     bool _mouseover;
   };
 }

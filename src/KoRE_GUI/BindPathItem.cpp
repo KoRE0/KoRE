@@ -58,3 +58,30 @@ void koregui::BindPathItem::paint(QPainter* painter, const QStyleOptionGraphicsI
   painter->setPen(QPen(QColor(200, 200, 200), 2));
   painter->drawPath(path);
 }
+
+bool koregui::BindPathItem::initBinding(void) {
+ /* // see if nodePass already exists
+  std::vector<kore::NodePass*> npasses = _end->getShaderPass()->getProgramPass()->getNodePasses();
+  for (uint i = 0; i < npasses.size(); i++) {
+    if(npasses[i]->)
+  }
+  // if not, create new
+  kore::NodePass* nodePass =
+    new kore::NodePass(_start->getNodeItem()->getSceneNode());
+  _end->getShaderPass()->getProgramPass()->addNodePass(nodePass);*/
+  return true;
+}
+
+void koregui::BindPathItem::removeBinding(void) {
+
+}
+
+void koregui::BindPathItem::startAnimation(void) {
+
+}
+void koregui::BindPathItem::stopAnimation(void) {
+
+}
+
+void koregui::BindPathItem::animate() {
+}

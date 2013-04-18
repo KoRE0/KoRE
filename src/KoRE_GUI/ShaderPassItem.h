@@ -26,10 +26,12 @@
 
 #include <QGraphicsItem>
 #include "KoRE/ShaderProgram.h"
-#include "KoRE_GUI/ShaderInputItem.h"
+#include "KoRE_GUI/NodeItem.h"
 #include "KoRE/Passes/ShaderProgramPass.h"
+#include "KoRE/Passes/NodePass.h"
 
 namespace koregui {
+  class ShaderInputItem;
   class ShaderPassItem : public QGraphicsItem {
   public:
     ShaderPassItem(QGraphicsItem* parent = 0);
@@ -56,6 +58,8 @@ namespace koregui {
     std::vector<ShaderInputItem*> _attributes;
     std::vector<ShaderInputItem*> _uniforms;
     std::vector<ShaderInputItem*> _sampler;
+    std::vector<NodeItem*> _connectedNodes;
+    std::vector<kore::NodePass*> _nodePasses;
     uint _shaderwidth;
     uint _shaderheight;
     std::string _name;

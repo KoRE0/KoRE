@@ -33,6 +33,7 @@
 #include "KoRE/ShaderData.h"
 #include "KoRE_GUI/ShaderEditor.h"
 #include "KoRE_GUI/FrameBufferStageItem.h"
+#include "KoRE_GUI/ShaderInputItem.h"
 
 koregui::ShaderPassItem::ShaderPassItem(QGraphicsItem* parent) 
                               : _shader(NULL),
@@ -85,7 +86,7 @@ void koregui::ShaderPassItem::refresh(void) {
     std::vector<kore::ShaderInput> sinput = _shader->getAttributes();
     for (uint i = 0; i < sinput.size(); i++) {
       const kore::ShaderInput* tmp = _shader->getAttribute(sinput[i].name);
-      ShaderInputItem* inpitem =  new ShaderInputItem(tmp, this);
+      ShaderInputItem* inpitem =  new ShaderInputItem(tmp, this, this);
       _attributes.push_back(inpitem);
       inpitem->setPos(-4, tmpheight + 30 * i);
     }
@@ -93,7 +94,7 @@ void koregui::ShaderPassItem::refresh(void) {
     sinput = _shader->getUniforms();
     for (uint j = 0; j < sinput.size(); j++) {
       const kore::ShaderInput* tmp = _shader->getUniform(sinput[j].name);
-      ShaderInputItem* inpitem =  new ShaderInputItem(tmp, this);
+      ShaderInputItem* inpitem =  new ShaderInputItem(tmp, this, this);
       _uniforms.push_back(inpitem);
       inpitem->setPos(-4, tmpheight + 30 * j);
     }
