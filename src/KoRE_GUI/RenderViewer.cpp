@@ -157,6 +157,7 @@ void koregui::RenderViewer::mouseMoveEvent(QMouseEvent *event) {
         && static_cast<ShaderInputItem*>(item)->checkInput(_currentpath)) {
       _bindTarget = static_cast<ShaderInputItem*>(item);
       _currentpath->setEnd(_bindTarget);
+      _currentpath->initBinding();
       item->update();
     } else {
       if(_bindTarget) {

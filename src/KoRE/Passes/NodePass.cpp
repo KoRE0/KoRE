@@ -23,8 +23,8 @@ kore::NodePass::NodePass(void)
   : _node(NULL) {
 }
 
-kore::NodePass::NodePass(const SceneNode* node) {
-  _node = node;
+kore::NodePass::NodePass(const SceneNode* node)
+  : _node(node) {
 }
 
 kore::NodePass::~NodePass(void) {
@@ -38,6 +38,5 @@ void kore::NodePass::addOperation(Operation* op) {
       != _operations.end()) {
         return;
   }
-
   _operations.push_back(op);
 }

@@ -28,8 +28,10 @@
 #include <QToolTip>
 
 koregui::ShaderDataItem::ShaderDataItem(const kore::ShaderData* data,
+                                        NodeItem* nodeItem,
                                         QGraphicsItem* parent)
                                       : _data(data),
+                                        _nodeitem(nodeItem),
                                         _mouseover(false),
                                         QGraphicsItem(parent) {
   setAcceptHoverEvents(true);

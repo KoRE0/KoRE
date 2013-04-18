@@ -51,7 +51,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\KoRE_GUI\BindPathItem.h" />
     <ClInclude Include="src\KoRE_GUI\ComponentItem.h" />
     <ClInclude Include="src\KoRE_GUI\FrameBufferStageItem.h" />
     <ClInclude Include="src\KoRE_GUI\ShaderInputItem.h" />
@@ -75,10 +74,26 @@
     <CustomBuild Include="src\KoRE_GUI\SceneViewer.h" />
     <CustomBuild Include="src\KoRE_GUI\FrameBufferEditor.ui" />
     <CustomBuild Include="src\KoRE_GUI\ShaderEditor.ui" />
+    <CustomBuild Include="src\KoRE_GUI\BindPathItem.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GeneratedFiles">
       <UniqueIdentifier>{c25fc98e-e0ef-430f-81aa-b7932db20124}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generierte Dateien">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Generierte Dateien\Debug">
+      <UniqueIdentifier>{07db5bc2-2dbd-4fa8-a861-36de116a88b4}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generierte Dateien\Release">
+      <UniqueIdentifier>{1f730836-82fd-4714-9ec0-c7c147b83b97}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
     </Filter>
   </ItemGroup>
 </Project>

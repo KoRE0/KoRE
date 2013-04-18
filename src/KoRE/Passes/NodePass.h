@@ -33,6 +33,7 @@ namespace kore {
 
     inline std::vector<Operation*>&
       getOperations() {return _operations;}
+    inline const SceneNode* getSceneNode() {return _node;}
 
     void addOperation(Operation* op);
 
