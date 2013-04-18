@@ -24,36 +24,49 @@
 */
 
 #version 420
+#extension GL_ARB_shader_image_size : enable
 
 layout(rgba8) uniform coherent image3D voxelTex;
+uniform sampler2D diffuseTex;
 
-in VertexData {
-    vec3 posVoxelGrid;
+in VoxelData {
+    vec3 posTexSpace;
     vec3 normal;
     vec2 uv;
+    vec3 projAxisTexSpace;
 } In;
+
+in VoxelUtilData {
+  flat uint projAxisIdx;
+} UtilIn;
 
 out vec4 color;
 
+// In.projAxisIdx keys into this array..
+const vec3 worldAxes[3] = vec3[3]( vec3(1.0, 0.0, 0.0),
+                                   vec3(0.0, 1.0, 0.0),
+                                   vec3(0.0, 0.0, 1.0) );
+
 void main() {
-
-  //imageStore(voxelTex, ivec3(5, 5, 5), vec4(1.0, 0.0, 0.0, 1.0));
-  //memoryBarrier();
-  
-  /*for (int z = 0; z < 12; ++z) {
-    for(int y = 0; y < 12; ++y) {
-      for( int x = 0; x < 12; ++x) {
-        imageStore(voxelTex, ivec3(x, y, z), vec4(1.0, 0.0, 0.0, 1.0));
-        memoryBarrier();
-      }
-    }
-  } */
-
-
+  const ivec3 voxelTexSize = imageSize(voxelTex);
+  const float voxelSizeTS = 1.0 / voxelTexSize.x;
 
   //(TODO) Determine depth range
-  ivec3 voxelPos = ivec3(In.posVoxelGrid);
-  imageStore(voxelTex, voxelPos, vec4(1.0, 0.0, 0.0, 1.0));
-  memoryBarrier();
-  //imageStore(voxelTex, ivec3(5, 5, 5), vec4(1.0, 0.0, 0.0, 1.0));
+  vec3 dPosX = dFdx(In.posTexSpace);
+  vec3 dPosY = dFdy(In.posTexSpace);
+  
+  const float depthRangeTS = max(dot(In.projAxisTexSpace, dPosX),
+                               dot(In.projAxisTexSpace, dPosY));
+
+  const int numVoxelsDepth = int(ceil(abs(depthRangeTS / voxelSizeTS)));
+
+  ivec3 baseVoxel = ivec3(floor(In.posTexSpace * voxelTexSize));
+  
+  vec4 diffColor = texture(diffuseTex, In.uv);
+  imageStore(voxelTex, baseVoxel, diffColor);
+ /* for (int iDepth = 1; iDepth < numVoxelsDepth; ++iDepth) {
+    // Assumption: voxelGrid is parrallel to world-axes
+    ivec3 samplePos = baseVoxel + ivec3(worldAxes[UtilIn.projAxisIdx] * iDepth);
+    imageStore(voxelTex, samplePos, vec4(1.0, 0.0, 0.0, 1.0));
+  } */
 }
