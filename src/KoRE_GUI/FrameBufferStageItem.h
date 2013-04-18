@@ -21,21 +21,21 @@
 /* \author Dominik Ospelt                                               */
 /************************************************************************/
 
-#ifndef FRAMEBUFFERITEM_H
-#define FRAMEBUFFERITEM_H
+#ifndef FRAMEBUFFERSTAGEITEM_H_
+#define FRAMEBUFFERSTAGEITEM_H_
 
 #include <vector>
 #include <QGraphicsItem>
 #include <QContextMenuEvent>
 #include "KoRE/Passes/FrameBufferStage.h"
 #include "KoRE/FrameBuffer.h"
-#include "KoRE_GUI/ShaderProgramItem.h"
+#include "KoRE_GUI/ShaderPassItem.h"
 
 namespace koregui {
-  class FrameBufferItem : public QGraphicsItem {
+  class FrameBufferStageItem : public QGraphicsItem {
   public:
-    FrameBufferItem(QGraphicsItem* parent = 0);
-    ~FrameBufferItem(void);
+    FrameBufferStageItem(QGraphicsItem* parent = 0);
+    ~FrameBufferStageItem(void);
 
     void refresh(void);
     QRectF boundingRect() const;
@@ -51,6 +51,10 @@ namespace koregui {
 
     void setFrameBuffer(kore::FrameBuffer* framebuffer);
 
+    void addShaderPass(ShaderPassItem* pass);
+    void removeShaderPass(ShaderPassItem* pass);
+    void shaderMoved(ShaderPassItem* pass);
+
   private:
     std::string _name;
     kore::FrameBuffer* _frameBuffer;
@@ -58,7 +62,7 @@ namespace koregui {
     uint _bufferheight;
     uint _bufferwidth;
 
-    std::vector<ShaderProgramItem*> _programs;
+    std::vector<ShaderPassItem*> _programs;
   };
 }
-#endif  // FRAMEBUFFERITEM_H
+#endif  // FRAMEBUFFERSTAGEITEM_H_

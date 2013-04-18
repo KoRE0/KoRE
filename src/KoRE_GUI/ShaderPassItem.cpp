@@ -21,7 +21,7 @@
 /* \author Dominik Ospelt                                               */
 /************************************************************************/
 
-#include "KoRE_GUI/ShaderProgramItem.h"
+#include "KoRE_GUI/ShaderPassItem.h"
 
 #include <QMenu>
 #include <QPainter>
@@ -32,11 +32,13 @@
 #include "KoRE/ShaderInput.h"
 #include "KoRE/ShaderData.h"
 #include "KoRE_GUI/ShaderEditor.h"
+#include "KoRE_GUI/FrameBufferStageItem.h"
 
-koregui::ShaderProgramItem::ShaderProgramItem(QGraphicsItem* parent) 
+koregui::ShaderPassItem::ShaderPassItem(QGraphicsItem* parent) 
                               : _shader(NULL),
                                 _name("<empty>"),
                                 QGraphicsItem(parent) {
+  _programpass = new kore::ShaderProgramPass();
   setData(0, "SHADERPROGRAM");
   setFlag(QGraphicsItem::ItemIsSelectable, true);
   setFlag(QGraphicsItem::ItemIsMovable, true);
@@ -44,10 +46,15 @@ koregui::ShaderProgramItem::ShaderProgramItem(QGraphicsItem* parent)
   refresh();
 }
 
-koregui::ShaderProgramItem::~ShaderProgramItem(void) {
+koregui::ShaderPassItem::~ShaderPassItem(void) {
 }
 
-void koregui::ShaderProgramItem::refresh(void) {
+void koregui::ShaderPassItem::setShaderProgram(kore::ShaderProgram* prog) {
+  _shader = prog;
+  refresh();
+}
+
+void koregui::ShaderPassItem::refresh(void) {
   prepareGeometryChange();
   // destroy old shader inputs
   if(_attributes.size() > 0) {
@@ -95,13 +102,14 @@ void koregui::ShaderProgramItem::refresh(void) {
   _shaderheight += 30 * _sampler.size();
 
   _shaderwidth = 200;
+  static_cast<koregui::FrameBufferStageItem*>(parentItem())->refresh();
 }
 
-QRectF koregui::ShaderProgramItem::boundingRect() const {
+QRectF koregui::ShaderPassItem::boundingRect() const {
   return QRectF(0, 0, _shaderwidth, _shaderheight);
 }
 
-void koregui::ShaderProgramItem::paint(QPainter* painter,
+void koregui::ShaderPassItem::paint(QPainter* painter,
                                 const QStyleOptionGraphicsItem* option,
                                 QWidget* widget) {
   QBrush b;
@@ -145,14 +153,27 @@ void koregui::ShaderProgramItem::paint(QPainter* painter,
   }
 }
 
-void koregui::ShaderProgramItem
+void koregui::ShaderPassItem
   ::mousePressEvent(QGraphicsSceneMouseEvent * event) {
   if (event->button() == Qt::MouseButton::LeftButton) {
     QPointF p = event->pos();
     if (p.y() < 26 && p.x() > _shaderwidth - 26) {
       koregui::ShaderEditor* ed = new koregui::ShaderEditor(this);
+      ed->setShaderProgram(QString(_name.c_str()));
       ed->show();
     }
   }
   QGraphicsItem::mousePressEvent(event);
+}
+
+void koregui::ShaderPassItem
+  ::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
+  static_cast<koregui::FrameBufferStageItem*>(parentItem())->shaderMoved(this);
+  QGraphicsItem::mouseMoveEvent(event);
+}
+
+void koregui::ShaderPassItem
+  ::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
+  static_cast<koregui::FrameBufferStageItem*>(this->parentItem())->refresh();
+  QGraphicsItem::mouseReleaseEvent(event);
 }

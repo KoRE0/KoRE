@@ -29,10 +29,9 @@
 #include <QList>
 #include <QMenu>
 
-#include "KoRE_GUI/ShaderProgramItem.h"
+#include "KoRE_GUI/ShaderPassItem.h"
 #include "KoRE_GUI/ResourceViewer.h"
-#include "KoRE_GUI/FrameBufferItem.h"
-#include "KoRE_GUI/FrameBufferEditor.h"
+#include "KoRE_GUI/FrameBufferStageItem.h"
 
 #include "KoRE/ResourceManager.h"
 #include "KoRE/FrameBuffer.h"
@@ -63,6 +62,14 @@ void koregui::RenderViewer::clearScene(void) {
 void koregui::RenderViewer::keyPressEvent(QKeyEvent * event) {
   if (event->key() == Qt::Key_Escape) QGuiApplication::quit();
   if (event->key() == Qt::Key_Shift) setDragMode(ScrollHandDrag);
+  if (event->key() == Qt::Key_Delete) {
+    QList<QGraphicsItem*> sceneset = _scene.selectedItems();
+    for (unsigned int i = 0; i < sceneset.size(); i++) {
+      QGraphicsItem* itemPtr = sceneset[i];
+      _scene.removeItem(itemPtr);
+      delete(itemPtr);
+    }
+  }
   QGraphicsView::keyPressEvent(event);
 }
 
@@ -84,7 +91,7 @@ void koregui::RenderViewer::contextMenuEvent(QContextMenuEvent *event) {
   QGraphicsItem* item = itemAt(event->pos());
   if (item) {
     if(item->data(0).toString() == "FRAMEBUFFER") {
-      _currentframebuffer = static_cast<koregui::FrameBufferItem*>(item);
+      _currentframebuffer = static_cast<koregui::FrameBufferStageItem*>(item);
       QMenu menu("RenderContext", this);
       QMenu* create  = menu.addMenu(QIcon("./assets/icons/testStar.png"), "Create");
       create->addAction("ShaderPass", this, SLOT(createShaderPass()));
@@ -162,14 +169,15 @@ void koregui::RenderViewer
 }
 
 void koregui::RenderViewer::createFBOStage(void) {
-  koregui::FrameBufferItem* fbitem = new koregui::FrameBufferItem();
+  koregui::FrameBufferStageItem* fbitem = new koregui::FrameBufferStageItem();
   _scene.addItem(fbitem);
 }
 
 void koregui::RenderViewer::createShaderPass(void) {
   if(_currentframebuffer) {
-    koregui::ShaderProgramItem* spitem
-      = new koregui::ShaderProgramItem(_currentframebuffer);
+    koregui::ShaderPassItem* spitem
+      = new koregui::ShaderPassItem(_currentframebuffer);
+    _currentframebuffer->addShaderPass(spitem);
   }
 }
 

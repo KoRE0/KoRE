@@ -62,6 +62,24 @@ void kore::FrameBufferStage::
   _frameBuffer = frameBuffer;
 
   UseFBO* pUseFBO = new UseFBO;
-  pUseFBO->connect(frameBuffer, frameBufferTarget, drawBuffers, numDrawBuffers);
+  pUseFBO->connect(frameBuffer, frameBufferTarget,
+                   drawBuffers, numDrawBuffers);
   _startupOperations.push_back(pUseFBO);
+}
+
+void kore::FrameBufferStage::removeProgramPass(ShaderProgramPass* progPass) {
+  auto it = std::find(_programPasses.begin(), _programPasses.end(), progPass);
+  if (it != _programPasses.end()) {
+    _programPasses.erase(it);
+  }
+}
+
+void kore::FrameBufferStage::swapPasses(ShaderProgramPass* which,
+                                        ShaderProgramPass* towhere) {
+  auto it = std::find(_programPasses.begin(), _programPasses.end(), which);
+  auto it2 = std::find(_programPasses.begin(), _programPasses.end(), towhere);
+
+  if(it != _programPasses.end() && it2 != _programPasses.end()) {
+   std::iter_swap(it,it2);
+  }
 }

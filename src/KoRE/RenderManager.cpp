@@ -31,7 +31,17 @@ kore::RenderManager* kore::RenderManager::getInstance(void) {
 }
 
 kore::RenderManager::RenderManager(void)
-  : _optimizer(NULL) {
+  : _optimizer(NULL),
+    _colorMask(true, true, true, true),
+    _ibo(0),
+    _vbo(0),
+    _vao(0),
+    _viewport(0,0,0,0),
+    _activeTextureUnitIndex(0) {
+
+  //sync internal states with opengl-states:
+  
+
   _vTexTargetMap[GL_TEXTURE_1D] =                   TEXTURE_1D;
   _vTexTargetMap[GL_TEXTURE_2D] =                   TEXTURE_2D;
   _vTexTargetMap[GL_TEXTURE_3D] =                   TEXTURE_3D;
@@ -65,7 +75,7 @@ kore::RenderManager::RenderManager(void)
   memset(_boundAtomicBuffers, 0, sizeof(GLuint) *
                                  GL_MAX_COMBINED_ATOMIC_COUNTERS);
 
-  activeTexture(GL_TEXTURE0);  // Activate texture unit 0 by default
+  activeTexture(0);  // Activate texture unit 0 by default
 }
 
 kore::RenderManager::~RenderManager(void) {
@@ -76,14 +86,22 @@ kore::RenderManager::~RenderManager(void) {
   }
 }
 
-const glm::ivec2& kore::RenderManager::getRenderResolution() const {
-    return _renderResolution;
+glm::ivec2 kore::RenderManager::getRenderResolution() const {
+    return glm::ivec2(_viewport.z,_viewport.w);
 }
 
-void kore::RenderManager::
-    setRenderResolution(const glm::ivec2& newResolution) {
-    _renderResolution = newResolution;
-    resolutionChanged();
+const glm::ivec4& kore::RenderManager::getViewport() const {
+    return _viewport;
+}
+
+void kore::RenderManager::setViewport(const glm::ivec4& newViewport) {
+   if(newViewport == _viewport) {
+     return; 
+   } else{
+     _viewport = newViewport;
+     glViewport(_viewport.x,_viewport.y,_viewport.z,_viewport.w);
+     resolutionChanged();
+   }
 }
 
 void kore::RenderManager::renderFrame(void) {
@@ -236,6 +254,17 @@ void kore::RenderManager::addFramebufferStage(FrameBufferStage* stage) {
   _frameBufferStages.push_back(stage);
 }
 
+void kore::RenderManager::swapFramebufferStage(FrameBufferStage* which,
+                                               FrameBufferStage* towhere) {
+  auto it = std::find(_frameBufferStages.begin(),
+                      _frameBufferStages.end(), which);
+  auto it2 = std::find(_frameBufferStages.begin(),
+                       _frameBufferStages.end(), towhere);
+  if(it != _frameBufferStages.end() && it2 != _frameBufferStages.end()) {
+    std::iter_swap(it,it2);
+  }
+}
+
 /*
 void kore::RenderManager::removeOperation(const Operation* operation) {
   for (uint ifbo = 0; ifbo < _frameBufferStages.size(); ++ifbo) {
@@ -297,8 +326,6 @@ void kore::RenderManager::
    auto it =
     std::find(_frameBufferStages.begin(), _frameBufferStages.end(), fboStage);
       if (it != _frameBufferStages.end()) {
-        FrameBufferStage* pFboStage = (*it);
-        //KORE_SAFE_DELETE(pFboStage);
         _frameBufferStages.erase(it);
       }
 }
@@ -325,3 +352,33 @@ void kore::RenderManager::bindBufferBase(const GLenum indexedBufferTarget,
     break;
   }
 }
+
+void kore::RenderManager::setColorMask(bool red,
+                                       bool green,
+                                       bool blue,
+                                       bool alpha) {
+  if (_colorMask.r == red
+      && _colorMask.g == green
+      && _colorMask.b == blue
+      && _colorMask.a == alpha) {
+    return;
+  }
+
+  _colorMask = glm::bvec4(red, green, blue, alpha);
+  glColorMask(red, green, blue, alpha);
+}
+
+void kore::RenderManager::setGLcapability(GLuint cap, bool enable) {
+  if (glIsEnabled(cap) == enable) {
+    return;
+  }
+
+  if (enable) {
+    glEnable(cap);
+  } else {
+    glDisable(cap);
+  }
+
+}
+
+

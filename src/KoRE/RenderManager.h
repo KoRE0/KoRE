@@ -69,12 +69,15 @@ namespace kore {
   class RenderManager {
   public:
     static RenderManager *getInstance(void);
-    const glm::ivec2& getRenderResolution() const;
-    void setRenderResolution(const glm::ivec2& newResolution);
+    glm::ivec2 getRenderResolution() const;
+    const glm::ivec4& getViewport() const;
+    void setViewport(const glm::ivec4& newViewport);
     void setOptimizer(const Optimizer* optimizer);
     void renderFrame(void);
     
     void addFramebufferStage(FrameBufferStage* stage);
+    void swapFramebufferStage(FrameBufferStage* which,
+                              FrameBufferStage* towhere);
     void onRemoveComponent(const SceneNodeComponent* comp);
 
     // The OpenGL-State wrapper functions go here:
@@ -82,6 +85,9 @@ namespace kore {
     void bindVBO(const GLuint vbo);
     void bindIBO(const GLuint ibo);
     void useShaderProgram(const GLuint shaderProgram);
+
+    void setGLcapability(GLuint cap, bool enable);
+    void setColorMask(bool red, bool green, bool blue, bool alpha);
 
     void bindTexture(const GLuint textureUnit,
                      const GLuint textureTarget,
@@ -125,7 +131,7 @@ namespace kore {
     void resolutionChanged();
 
 
-    glm::ivec2 _renderResolution;
+    glm::ivec4 _viewport;
     const Optimizer* _optimizer;
 
     typedef std::list<const Operation*> OperationList;
@@ -145,6 +151,7 @@ namespace kore {
     GLuint _boundFrameBuffers[2];
     bool   _drawBuffers[KORE_MAX_FRAMEBUFFER_COUNT]
                        [GL_MAX_DRAW_BUFFERS];
+    glm::bvec4 _colorMask;
     std::map<GLuint, uint> _vTexTargetMap;
     //////////////////////////////////////////////////////////////////////////
   };
