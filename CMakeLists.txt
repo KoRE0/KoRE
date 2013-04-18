@@ -92,7 +92,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 		target_link_libraries(KoRE glew32)
 		
 		add_library( assimp STATIC IMPORTED)        
-		set_target_properties( assimp PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBRARY_PATH}/libassimp.a )
+		set_target_properties( assimp PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBRARY_PATH}/libassimp.dll )
 
 		target_link_libraries(KoRE opengl32)
 	else()
