@@ -52,7 +52,7 @@ if(WIN32)
 	
 	
   endif(MSVC)
-else()
+elseif(CMAKE_COMPILER_IS_GNUCXX)
   #Linux
   set(KoRE_LIBS glfw GL GLEW KoRE assimp tinyxml)
   add_definitions(-DGLEW_STATIC)
@@ -60,6 +60,9 @@ else()
     #add_definitions(-D__GXX_EXPERIMENTAL_CXX0X__)
     
     #set(CMAKE_CXX_FLAGS "-std=gnu++11")
+else()
+#Apple
+	set(KoRE_LIBS glfw KoRE assimp)
 endif(WIN32)
 
 #target_link_libraries(MainGLFW tinyxml)
