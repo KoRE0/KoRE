@@ -29,6 +29,8 @@ KoRE.lib
 lib
 bin
 ext
+*.cproject
+*.project
 
 
 # Uncomment these lines to update master and then run
