@@ -1,15 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 project(KoRE)
 
-
-
-if(MSVC10)	
-    message("Compiler is MSVC.")    
-endif()
-if(CMAKE_COMPILER_IS_GNUCXX)
-    message("Compiler is GNU++")
-endif()
-
 # For custom cmake modules.
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 LINK_DIRECTORIES(${CMAKE_SOURCE_DIR}/lib)
@@ -40,6 +31,16 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 set(CMAKE_LIBRARY_PATH ${CMAKE_SOURCE_DIR}/ext/lib)
 
+if(APPLE)
+    INCLUDE_DIRECTORIES(/System/Library/Frameworks)
+    find_library(COCOA_LIBRARY Cocoa)
+    find_library(IOKit IOKit)
+    find_library(OpenGL_LIBRARY OpenGL)
+    MARK_AS_ADVANCED(COCOA_LIBRARY
+                     OpenGL_LIBRARY)
+    set(EXTRA_LIBS ${COCOA_LIBRARY} ${IOKit} ${OpenGL_LIBRARY})
+endif()
+
 if(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS "-std=c++0x") 
     #set(CMAKE_CXX_FLAGS "-std=gnu++11")
@@ -54,24 +55,6 @@ file(GLOB_RECURSE SOURCES src/KoRE/*.cpp)
 file(GLOB_RECURSE HEADER src/KoRE/*.h)
 add_library(KoRE ${SOURCES} ${HEADER})
 include_directories(src)
-
-# Build Clipper library (?!)
-#file(GLOB_RECURSE SOURCES ext/contrib/clipper/*.cpp)
-#file(GLOB_RECURSE HEADER ext/contrib/clipper/*.hpp)
-#add_library(clipper ${SOURCES} ${HEADER})
-
-# Build Tinyxml library (?!)
-#file(GLOB_RECURSE SOURCES ext/include/tinyxml/*.cpp)
-#file(GLOB_RECURSE HEADER ext/include/tinyxml/*.h)
-#add_library(tinyxml ${SOURCES} ${HEADER})
-#include_directories( ext/include/tinyxml)
-
-# Build poly2Tri library (?!)
-#file(GLOB_RECURSE SOURCES ext/contrib/poly2tri/poly2tri/*.cpp)
-#file(GLOB_RECURSE HEADER ext/contrib/poly2tri/poly2tri/*.h)
-#add_library(p2t ${SOURCES} ${HEADER})
-#SET_TARGET_PROPERTIES(p2t PROPERTIES LINKER_LANGUAGE C)
-
 
 if(CMAKE_COMPILER_IS_GNUCXX)
 	#Link external libraries to KoRE
@@ -95,7 +78,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 		target_link_libraries(KoRE glew32)
 		
 		add_library( assimp STATIC IMPORTED)        
-		set_target_properties( assimp PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBRARY_PATH}/libassimp.a )
+		set_target_properties( assimp PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBRARY_PATH}/libassimp.dll )
 
 		target_link_libraries(KoRE opengl32)
 	else()
@@ -107,6 +90,31 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 	target_link_libraries(KoRE tinyxml)		
 	target_link_libraries(KoRE assimp) 	
 endif() 
+
+if(APPLE)
+	add_library( tinyxml STATIC IMPORTED )
+	set_target_properties ( tinyxml PROPERTIES IMPORTED_LOCATION  $$${CMAKE_LIBRARY_PATH}/tinyxml.a )
+
+	add_library( assimp STATIC IMPORTED )
+	set_target_properties ( assimp PROPERTIES IMPORTED_LOCATION $${CMAKE_LIBRARY_PATH}/libassimp.a )
+
+	add_library( glfw STATIC IMPORTED )
+	set_target_properties ( glfw PROPERTIES IMPORTED_LOCATION $${CMAKE_LIBRARY_PATH}/libglfw.a )
+
+	add_library( glew STATIC IMPORTED )
+	set_target_properties ( glew PROPERTIES IMPORTED_LOCATION $${CMAKE_LIBRARY_PATH}/libGLEW.a )
+
+	add_library( libz SHARED IMPORTED )
+	set_target_properties ( libz PROPERTIES IMPORTED_LOCATION /usr/lib/libz.dylib)
+
+	target_link_libraries(KoRE tinyxml)
+	target_link_libraries(KoRE assimp)
+	target_link_libraries(KoRE glfw)
+	target_link_libraries(KoRE glew)
+	target_link_libraries(KoRE libz)
+
+	target_link_libraries(KoRE ${EXTRA_LIBS})
+endif(APPLE)
 
 set(IGNORE "-build/include")
 
