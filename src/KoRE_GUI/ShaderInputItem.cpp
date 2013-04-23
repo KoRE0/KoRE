@@ -86,6 +86,17 @@ void koregui::ShaderInputItem
   QGraphicsItem::hoverLeaveEvent(event);
 }
 
+<<<<<<< HEAD
 void koregui::ShaderInputItem::setBinding(koregui::BindPathItem* binding) {
   _binding = binding;
+=======
+<<<<<<< HEAD
+void koregui::ShaderInputItem
+  ::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+  // TODO(dospelt) change color?
+=======
+void koregui::ShaderInputItem::setBinding(koregui::BindPathItem* binding) {
+  _binding = binding;
+>>>>>>> 3d276fe... Bugfixes and finishing binding in GUI
+>>>>>>> e9977ee... Merge changes from hax
 }

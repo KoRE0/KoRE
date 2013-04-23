@@ -47,12 +47,22 @@ koregui::ShaderPassItem::ShaderPassItem(QGraphicsItem* parent)
   refresh();
 }
 
+<<<<<<< HEAD:src/KoRE_GUI/ShaderPassItem.cpp
+=======
+<<<<<<< HEAD:src/KoRE_GUI/ShaderProgramItem.cpp
+koregui::ShaderProgramItem::~ShaderProgramItem(void) {
+=======
+>>>>>>> e9977ee... Merge changes from hax:src/KoRE_GUI/ShaderProgramItem.cpp
 koregui::ShaderPassItem::~ShaderPassItem(void) {
    koregui::FrameBufferStageItem * fbs
      = static_cast<koregui::FrameBufferStageItem*>(parentItem());
    if (fbs) {
      fbs->removeShaderPass(this);
    }
+<<<<<<< HEAD:src/KoRE_GUI/ShaderPassItem.cpp
+=======
+>>>>>>> 3d276fe... Bugfixes and finishing binding in GUI:src/KoRE_GUI/ShaderPassItem.cpp
+>>>>>>> e9977ee... Merge changes from hax:src/KoRE_GUI/ShaderProgramItem.cpp
 }
 
 void koregui::ShaderPassItem::setShaderProgram(kore::ShaderProgram* prog) {
