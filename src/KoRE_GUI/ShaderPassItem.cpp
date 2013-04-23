@@ -48,9 +48,11 @@ koregui::ShaderPassItem::ShaderPassItem(QGraphicsItem* parent)
 }
 
 koregui::ShaderPassItem::~ShaderPassItem(void) {
-  koregui::FrameBufferStageItem * fbs
-    = static_cast<koregui::FrameBufferStageItem*>(parentItem());
-  fbs->removeShaderPass(this);
+   koregui::FrameBufferStageItem * fbs
+     = static_cast<koregui::FrameBufferStageItem*>(parentItem());
+   if (fbs) {
+     fbs->removeShaderPass(this);
+   }
 }
 
 void koregui::ShaderPassItem::setShaderProgram(kore::ShaderProgram* prog) {
@@ -79,6 +81,7 @@ void koregui::ShaderPassItem::refresh(void) {
     }
     _sampler.clear();
   }
+  _programpass->setShaderProgram(_shader);
   // create inputs from shaderprogram object
   int tmpheight = 40;
   if(_shader) {

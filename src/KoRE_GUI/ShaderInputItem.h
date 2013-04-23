@@ -36,7 +36,6 @@ namespace koregui {
     ~ShaderInputItem(void);
     inline const kore::ShaderInput* getInput(void) {return _input;}
     inline ShaderPassItem* getShaderPass(void) {return _pass;}
-    bool checkInput(BindPathItem* binding);
     void setBinding(BindPathItem* binding);
     void reset();
 

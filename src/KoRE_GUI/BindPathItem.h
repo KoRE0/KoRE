@@ -29,6 +29,7 @@
 #include <QTimer>
 #include "KoRE_GUI/ShaderDataItem.h"
 #include "KoRE_GUI/ShaderInputItem.h"
+#include "KoRE/Operations/BindOperations/BindOperation.h"
 
 namespace koregui {
   class NodeItem;
@@ -44,6 +45,7 @@ namespace koregui {
     void setDest(QPointF dest) {_dragend = dest;}
     void setEnd(ShaderInputItem* end) {_end = end;}
     inline QTimer* getTimer() {return &_timer;}
+    bool checkBinding(ShaderInputItem* target);
     bool initBinding(void);
     void removeBinding(void);
     void startAnimation(void);
@@ -53,6 +55,7 @@ namespace koregui {
   private:
     ShaderDataItem* _start;
     ShaderInputItem* _end;
+    kore::BindOperation* _bindOP;
     QPointF _dragend;
     QTimer _timer;
   };

@@ -41,15 +41,6 @@ koregui::ShaderInputItem::ShaderInputItem(const kore::ShaderInput* input,
 koregui::ShaderInputItem::~ShaderInputItem(void) {
 }
 
-bool koregui::ShaderInputItem::checkInput(BindPathItem* binding) {
-  _mouseover = true;
-  // only one binding allowed
-  if(_binding && _binding != binding) return false;
-  // TODO(dospelt) check if binding could be correct
-  _binding = binding;
-  return true;
-}
-
 void koregui::ShaderInputItem::reset(void) {
   _binding = NULL;
   _mouseover = false;
@@ -93,4 +84,8 @@ void koregui::ShaderInputItem
   ::hoverLeaveEvent(QGraphicsSceneHoverEvent * event) {
   _mouseover = false;
   QGraphicsItem::hoverLeaveEvent(event);
+}
+
+void koregui::ShaderInputItem::setBinding(koregui::BindPathItem* binding) {
+  _binding = binding;
 }
