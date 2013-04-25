@@ -1,5 +1,5 @@
 ﻿/*
-  Copyright � 2012 The KoRE Project
+  Copyright (c) 2012 The KoRE Project
 
   This file is part of KoRE.
 
@@ -22,6 +22,7 @@
 #include <vector>
 #include "KoRE/Components/SceneNodeComponent.h"
 #include "KoRE/Texture.h"
+#include "KoRE/TextureBuffer.h"
 #include "KoRE/TextureSampler.h"
 #include "KoRE/DataTypes.h"
 

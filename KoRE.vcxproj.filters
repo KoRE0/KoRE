@@ -169,6 +169,12 @@
     <ClCompile Include="src\KoRE\Operations\ViewportOp.cpp">
       <Filter>src\Operations</Filter>
     </ClCompile>
+    <ClCompile Include="src\KoRE\TextureBuffer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE\Operations\BindOperations\BindTextureBuffer.cpp">
+      <Filter>src\Operations\BindOperations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\KoRE\Operations\SelectNodes.h">
@@ -350,6 +356,12 @@
     </ClInclude>
     <ClInclude Include="src\KoRE\Operations\ViewportOp.h">
       <Filter>src\Operations</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\TextureBuffer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\Operations\BindOperations\BindTextureBuffer.h">
+      <Filter>src\Operations\BindOperations</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

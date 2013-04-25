@@ -17,21 +17,28 @@
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef KORE_LOADER_TEXTURELOADER_H_
-#define KORE_LOADER_TEXTURELOADER_H_
+#ifndef CORE_INCLUDE_CORE_BINDTEXTUREBUFFEROP_H_
+#define CORE_INCLUDE_CORE_BINDTEXTUREBUFFEROP_H_
 
-#include "KoRE/Common.h"
-#include "KoRE/Texture.h"
+#include "KoRE/Operations/BindOperations/BindOperation.h"
+#include "KoRE/TextureBuffer.h"
+#include "KoRE/RenderManager.h"
 
 namespace kore {
-  class TextureLoader {
+  class BindTextureBuffer: public BindOperation {
   public:
-    static TextureLoader* getInstance();
-    ~TextureLoader(void);
-    Texture* loadTexture(const std::string& filepath);
-  private:
-    TextureLoader(void);
-  };
-}
+    BindTextureBuffer(void);
+    explicit BindTextureBuffer(const ShaderData* texData,
+                               const ShaderInput* shaderInput);
 
-#endif  // KORE_LOADER_TEXTURELOADER_H_
+    virtual ~BindTextureBuffer(void);
+    virtual void update(void);
+    virtual void reset(void);
+    void connect(const ShaderData* texData,
+                 const ShaderInput* shaderInput);
+  private:
+    void init();
+    virtual void doExecute(void) const;
+  };
+};
+#endif  // CORE_INCLUDE_CORE_BINDTEXTUREOP_H_

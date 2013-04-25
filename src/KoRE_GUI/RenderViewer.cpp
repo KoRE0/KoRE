@@ -159,6 +159,13 @@ void koregui::RenderViewer::mouseMoveEvent(QMouseEvent *event) {
       _bindTarget = static_cast<ShaderInputItem*>(item);
       _bindTarget->setBinding(_currentpath);
       _currentpath->setEnd(_bindTarget);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+      item->update();
+=======
+>>>>>>> 3d276fe... Bugfixes and finishing binding in GUI
+>>>>>>> e9977ee... Merge changes from hax
     } else {
       if(_bindTarget) {
         _currentpath->setEnd(NULL);

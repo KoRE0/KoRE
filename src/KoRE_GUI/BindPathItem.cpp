@@ -64,6 +64,11 @@ void koregui::BindPathItem::paint(QPainter* painter, const QStyleOptionGraphicsI
   painter->setPen(QPen(QColor(200, 200, 200), 2));
   painter->drawPath(path);
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> e9977ee... Merge changes from hax
 
 bool koregui::BindPathItem::checkBinding(koregui::ShaderInputItem* target) {
   // TODO(dospelt) implement check
@@ -128,3 +133,7 @@ void koregui::BindPathItem::stopAnimation() {
 
 void koregui::BindPathItem::animate() {
 }
+<<<<<<< HEAD
+=======
+>>>>>>> 3d276fe... Bugfixes and finishing binding in GUI
+>>>>>>> e9977ee... Merge changes from hax
