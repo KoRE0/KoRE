@@ -35,15 +35,8 @@ namespace koregui {
     ShaderInputItem(const kore::ShaderInput* input, ShaderPassItem* pass, QGraphicsItem* parent = 0);
     ~ShaderInputItem(void);
     inline const kore::ShaderInput* getInput(void) {return _input;}
-<<<<<<< HEAD
-    inline ShaderPassItem* getShaderPass(void) {return _pass;}
-=======
-<<<<<<< HEAD
     bool checkInput(BindPathItem* binding);
-=======
     inline ShaderPassItem* getShaderPass(void) {return _pass;}
->>>>>>> 3d276fe... Bugfixes and finishing binding in GUI
->>>>>>> e9977ee... Merge changes from hax
     void setBinding(BindPathItem* binding);
     void reset();
 

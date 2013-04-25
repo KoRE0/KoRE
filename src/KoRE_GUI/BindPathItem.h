@@ -44,11 +44,6 @@ namespace koregui {
                QWidget* widget);
     void setDest(QPointF dest) {_dragend = dest;}
     void setEnd(ShaderInputItem* end) {_end = end;}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> e9977ee... Merge changes from hax
     inline QTimer* getTimer() {return &_timer;}
     bool checkBinding(ShaderInputItem* target);
     bool initBinding(void);
@@ -56,10 +51,6 @@ namespace koregui {
     void startAnimation(void);
     void stopAnimation(void);
     void animate();
-<<<<<<< HEAD
-=======
->>>>>>> 3d276fe... Bugfixes and finishing binding in GUI
->>>>>>> e9977ee... Merge changes from hax
 
   private:
     ShaderDataItem* _start;
