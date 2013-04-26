@@ -48,15 +48,15 @@ int main(int argc, char *argv[])
   win.show();
 
   // now  other widgets
-  kore::ResourceManager::getInstance()->loadScene("./assets/meshes/TestEnv.dae");
   koregui::ResourceViewer resview;
-  koregui::RenderViewer rview;
-  koregui::SceneViewer sview(&rview);
-  sview.showScene(kore::SceneManager::getInstance()->getRootNode());
-
   resview.show();
-  sview.show();
+  koregui::RenderViewer rview;
   rview.show();
+  koregui::SceneViewer sview(&rview);
+  sview.show();
+
+  kore::ResourceManager::getInstance()->loadScene("./assets/meshes/cube.dae");
+  sview.showScene(kore::SceneManager::getInstance()->getRootNode());
 
   return app.exec();
 }

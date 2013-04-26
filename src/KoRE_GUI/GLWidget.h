@@ -52,5 +52,6 @@ protected:
 
 private:
     QOpenGLContext* _context;
+    float _foo;
 };
 #endif  // GLWINDOW_H

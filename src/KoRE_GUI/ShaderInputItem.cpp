@@ -87,4 +87,5 @@ void koregui::ShaderInputItem
 }
 void koregui::ShaderInputItem::setBinding(koregui::BindPathItem* binding) {
   _binding = binding;
+  _mouseover = true;
 }

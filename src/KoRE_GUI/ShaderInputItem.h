@@ -38,6 +38,7 @@ namespace koregui {
     bool checkInput(BindPathItem* binding);
     inline ShaderPassItem* getShaderPass(void) {return _pass;}
     void setBinding(BindPathItem* binding);
+    BindPathItem* getBinding(void){return _binding;}
     void reset();
 
   protected:

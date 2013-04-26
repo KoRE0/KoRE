@@ -91,7 +91,7 @@ bool koregui::BindPathItem::initBinding(void) {
     _end->getShaderPass()->getProgramPass()->getShaderProgram());
 
   // attribute binding
-  if (prog->getAttribute(_end->getInput()->name) != NULL) {
+  if (_end->getInput()->input_type == GL_ACTIVE_ATTRIBUTES) {
     _bindOP = new kore::BindAttribute(_start->getData(), _end->getInput());
     nodePass->addOperation(_bindOP);
     if(_start->getData()->component->getType() == kore::COMPONENT_MESH) {
@@ -107,18 +107,26 @@ bool koregui::BindPathItem::initBinding(void) {
   }
 
   // uniform binding
-  if((prog->getUniform(_end->getInput()->name)) != NULL) {
+  if(_end->getInput()->input_type == GL_ACTIVE_UNIFORMS) {
     _bindOP = new kore::BindUniform(_start->getData(), _end->getInput());
     nodePass->addOperation(_bindOP);
+    // texture binding
+    // TODO(dospelt)*/
     return true;
   }
-
-  // texture binding
-  // TODO(dospelt)*/
   return false;
 }
 
 void koregui::BindPathItem::removeBinding() {
+  kore::NodePass* nodePass = NULL;
+  std::vector<kore::NodePass*> npasses =
+    _end->getShaderPass()->getProgramPass()->getNodePasses();
+  for (uint i = 0; i < npasses.size(); i++) {
+    if(npasses[i]->getSceneNode() == _start->getNodeItem()->getSceneNode()) {
+      nodePass = npasses[i];
+      break;
+    }
+  }
 }
 
 void koregui::BindPathItem::startAnimation() {
