@@ -38,5 +38,19 @@ void kore::NodePass::addOperation(Operation* op) {
       != _operations.end()) {
         return;
   }
-  _operations.push_back(op);
+  if(_operations.size() > 0 &&
+     _operations[(_operations.size()-1)]->getType() == OP_RENDERMESH) {
+    _operations.insert((_operations.end()--), op);
+  } else {
+    _operations.push_back(op);
+  }
+  //_operations.push_back(op);
+}
+
+void kore::NodePass::removeOperation( Operation* op )
+{
+  auto it = std::find(_operations.begin(), _operations.end(), op);
+  if (it != _operations.end()) {
+    _operations.erase(it);
+  }
 }

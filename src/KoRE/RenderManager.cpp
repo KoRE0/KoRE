@@ -406,7 +406,7 @@ void kore::RenderManager::setColorMask(bool red,
 }
 
 void kore::RenderManager::setGLcapability(GLuint cap, bool enable) {
-  if (glIsEnabled(cap) == enable) {
+  if (glIsEnabled(cap) == static_cast<GLboolean>(enable)) {
     return;
   }
 

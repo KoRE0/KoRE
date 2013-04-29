@@ -36,6 +36,12 @@ namespace kore {
 
     inline std::vector<Operation*>&
       getStartupOperations() {return _startupOperations;}
+    inline std::vector<Operation*>&
+      getFinishOperations() {return _finishOperations;}
+    inline std::vector<Operation*>&
+      getInternalStartupOperations() {return _internalStartup;}
+    inline std::vector<Operation*>&
+      getInternalFinishOperations() {return _internalFinish;}
 
     void setFrameBuffer(const kore::FrameBuffer* frameBuffer,
                         const GLenum frameBufferTarget,
@@ -49,9 +55,18 @@ namespace kore {
     void swapPasses(ShaderProgramPass* which,
                     ShaderProgramPass* towhere);
 
+    void addStartupOperation(Operation* op);
+    void removeStartupOperation(Operation* op);
+
+    void addFinishOperation(Operation* op);
+    void removeFinishOperation(Operation* op);
+
   private:
     const FrameBuffer* _frameBuffer;
     std::vector<Operation*> _startupOperations;
+    std::vector<Operation*> _finishOperations;
+    std::vector<Operation*> _internalStartup;
+    std::vector<Operation*> _internalFinish;
     std::vector<ShaderProgramPass*> _programPasses;
     uint64 _id;
   };

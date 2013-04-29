@@ -25,7 +25,7 @@ void kore::ProjectLoader::saveProject(const std::string& path) const {
   ResourceManager* ResMgr = ResourceManager::getInstance();
 
   TiXmlDocument doc;
-  TiXmlDeclaration* decl = new TiXmlDeclaration("1.0", "", "yes");
+  TiXmlDeclaration* decl = new TiXmlDeclaration("1.0", "UTF8", "yes");
   doc.LinkEndChild(decl);
 
   TiXmlComment * comment = new TiXmlComment();
@@ -50,6 +50,7 @@ void kore::ProjectLoader::saveProject(const std::string& path) const {
     texture->SetAttribute("height", prop.height);
     resources->LinkEndChild(texture);
   }
+  // Meshes
 
   // TODO(dospelt) the rest
 

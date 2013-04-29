@@ -36,7 +36,7 @@ namespace kore {
     inline const SceneNode* getSceneNode() {return _node;}
 
     void addOperation(Operation* op);
-
+    void removeOperation(Operation* op);
 
   private:
     const SceneNode* _node;
