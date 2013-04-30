@@ -44,11 +44,9 @@ void kore::NodePass::addOperation(Operation* op) {
   } else {
     _operations.push_back(op);
   }
-  //_operations.push_back(op);
 }
 
-void kore::NodePass::removeOperation( Operation* op )
-{
+void kore::NodePass::removeOperation(Operation* op) {
   auto it = std::find(_operations.begin(), _operations.end(), op);
   if (it != _operations.end()) {
     _operations.erase(it);

@@ -39,12 +39,14 @@ koregui::BindPathItem::BindPathItem(ShaderDataItem* start,
                                     _end(end),
                                     QGraphicsPathItem(parent){
   setData(0, "BINDPATH");
-  setAcceptedMouseButtons(Qt::NoButton);
+  setFlag(QGraphicsItem::ItemIsSelectable, true);
   setCursor(QCursor(Qt::CursorShape::WhatsThisCursor));
   setZValue(-10);
 }
 
 koregui::BindPathItem::~BindPathItem(void) {
+  removeBinding();
+  setEnd(NULL);
 }
 
 QRectF koregui::BindPathItem::boundingRect() const {
@@ -61,7 +63,11 @@ void koregui::BindPathItem::paint(QPainter* painter, const QStyleOptionGraphicsI
 
   setPath(path);
 
-  painter->setPen(QPen(QColor(200, 200, 200), 2));
+  if (isSelected()) {
+    painter->setPen(QPen(QColor(200, 200, 200), 2));
+  } else {
+    painter->setPen(QPen(QColor(100, 255, 100), 2));
+  }
   painter->drawPath(path);
 }
 
@@ -126,6 +132,9 @@ void koregui::BindPathItem::removeBinding() {
       nodePass = npasses[i];
       break;
     }
+  }
+  if (nodePass) {
+    nodePass->removeOperation(_bindOP);
   }
 }
 

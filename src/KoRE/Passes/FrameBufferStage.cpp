@@ -66,6 +66,7 @@ void kore::FrameBufferStage::
   }
 
   _internalStartup.clear();
+  _internalFinish.clear();
 
   _frameBuffer = frameBuffer;
 

@@ -56,6 +56,7 @@ void kore::ShaderProgramPass::setShaderProgram(const ShaderProgram* program) {
       KORE_SAFE_DELETE(_internalStartup[i]);
     }
     _internalStartup.clear();
+    _internalFinish.clear();
   }
 
   _program = program;
