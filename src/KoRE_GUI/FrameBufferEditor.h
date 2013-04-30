@@ -29,7 +29,7 @@
 #include "ui_FrameBufferEditor.h"
 
 #include "KoRE/FrameBuffer.h"
-#include "KoRE_GUI/FrameBufferItem.h"
+#include "KoRE_GUI/FrameBufferStageItem.h"
 
 namespace koregui{
   class FrameBufferEditor : public QWidget
@@ -37,7 +37,7 @@ namespace koregui{
       Q_OBJECT
 
   public:
-      FrameBufferEditor(FrameBufferItem* stage, QWidget *parent = 0);
+      FrameBufferEditor(FrameBufferStageItem* stage, QWidget *parent = 0);
       ~FrameBufferEditor();
 
       void setFramebuffer(const QString& name);
@@ -53,7 +53,7 @@ namespace koregui{
   private:
       Ui::FrameBufferEditor ui;
       kore::FrameBuffer* _currentbuffer;
-      FrameBufferItem* _currentitem;
+      FrameBufferStageItem* _currentitem;
   };
 }
 

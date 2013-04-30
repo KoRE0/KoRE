@@ -69,22 +69,29 @@ void koregui::RenderViewer::keyPressEvent(QKeyEvent * event) {
     QList<QGraphicsItem*> sceneset = _scene.selectedItems();
     for (unsigned int i = 0; i < sceneset.size(); i++) {
       QGraphicsItem* itemPtr = sceneset[i];
-      // Deletion of FrameBufferStages
-      if (itemPtr->data(0) == QVariant("FRAMEBUFFERSTAGE")) {
-        auto it = std::find(_framebufferStages.begin(),
-                            _framebufferStages.end(),
-                            itemPtr);
-        if (it != _framebufferStages.end()) {
-          _framebufferStages.erase(it);
-        }
+      // Deletion of BindPathItem
+      if(itemPtr->data(0) == QVariant("BINDPATH")) {
         _scene.removeItem(itemPtr);
         delete(itemPtr);
       }
-      // Deletion of ShaderProgramPasses
-      if (itemPtr->data(0) == QVariant("SHADERPROGRAMPASS")) {
-        //_scene.removeItem(itemPtr);
-        delete(itemPtr);
-      }
+//       Deletion of FrameBufferStages
+//             if (itemPtr->data(0) == QVariant("FRAMEBUFFERSTAGE")) {
+//               /*auto it = std::find(_framebufferStages.begin(),
+//                                   _framebufferStages.end(),
+//                                   itemPtr);
+//               if (it != _framebufferStages.end()) {
+//                 _framebufferStages.erase(it);
+//               }
+//               _scene.removeItem(itemPtr);
+//               delete(itemPtr);*/
+//             }
+//             // Deletion of ShaderProgramPasses
+//             if (itemPtr->data(0) == QVariant("SHADERPROGRAMPASS")) {
+//               //_scene.removeItem(itemPtr);
+//               //delete(itemPtr);
+//             }
+      
+
     }
   }
   QGraphicsView::keyPressEvent(event);
@@ -133,6 +140,14 @@ void koregui::RenderViewer::mousePressEvent(QMouseEvent * event) {
       _currentpath->setDest(mapToScene(event->pos()));
       _scene.addItem(_currentpath);
   }
+  if (item && item->data(0).toString() == "SHADERINPUT") {
+    ShaderInputItem* inputitem = static_cast<ShaderInputItem*>(item);
+    if (inputitem->getBinding() != NULL) {
+      _currentpath = inputitem->getBinding();
+      _currentpath->removeBinding();
+      _currentpath->setDest(mapToScene(event->pos()));
+    }
+  }
   QGraphicsView::mousePressEvent(event);
 }
 
@@ -141,7 +156,7 @@ void koregui::RenderViewer::mouseReleaseEvent(QMouseEvent * event) {
     if (_bindTarget) {
       _currentpath->setEnd(_bindTarget);
       if (_currentpath->initBinding()) {
-        kore::Log::getInstance()->write("added new Binding :-P");
+        kore::Log::getInstance()->write("[GUI] added new Binding\n");
       }
       _bindTarget = NULL;
     } else {
@@ -158,8 +173,8 @@ void koregui::RenderViewer::mouseMoveEvent(QMouseEvent *event) {
     if (item && item->data(0).toString() == "SHADERINPUT") {
       _bindTarget = static_cast<ShaderInputItem*>(item);
       _bindTarget->setBinding(_currentpath);
+      _bindTarget->update();
       _currentpath->setEnd(_bindTarget);
-      //item->update();
     } else {
       if(_bindTarget) {
         _currentpath->setEnd(NULL);

@@ -21,23 +21,25 @@
 /* \author Dominik Ospelt                                               */
 /************************************************************************/
 
-#include "KoRE_GUI/FrameBufferItem.h"
+#include "KoRE_GUI/FrameBufferStageItem.h"
 
 #include <QPainter>
 #include <QCursor>
 #include <QStaticText>
 #include <QMenu>
+#include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 
 #include "KoRE_GUI/FrameBufferEditor.h"
+#include "KoRE_GUI/RenderViewer.h"
 
 #include "KoRE/RenderManager.h"
 
-koregui::FrameBufferItem::FrameBufferItem(QGraphicsItem* parent)
+koregui::FrameBufferStageItem::FrameBufferStageItem(QGraphicsItem* parent)
                                           : _frameBuffer(NULL),
                                             _name("<empty>"),
                                             QGraphicsItem(parent) {
-  setData(0, "FRAMEBUFFER");
+  setData(0, "FRAMEBUFFERSTAGE");
   setFlag(QGraphicsItem::ItemIsMovable, true);
   setFlag(QGraphicsItem::ItemIsSelectable, true);
   setCursor(QCursor(Qt::CursorShape::ArrowCursor));
@@ -46,23 +48,28 @@ koregui::FrameBufferItem::FrameBufferItem(QGraphicsItem* parent)
   refresh();
 }
 
-koregui::FrameBufferItem::~FrameBufferItem(void){
+koregui::FrameBufferStageItem::~FrameBufferStageItem(void){
+  kore::RenderManager::getInstance()->removeFrameBufferStage(_bufferstage);
 }
 
-void koregui::FrameBufferItem::refresh(void){
+void koregui::FrameBufferStageItem::refresh(void){
   prepareGeometryChange();
   if(_frameBuffer) {
     _name = _frameBuffer->getName();
   }
-  _bufferheight = 300;
+  _bufferheight = 40;
   _bufferwidth = 200;
+  for (uint i = 0; i < _programs.size(); i++) {
+    _programs[i]->setPos(-10, _bufferheight);
+    _bufferheight += _programs[i]->getHeight() + 20;
+  }
 }
 
-QRectF koregui::FrameBufferItem::boundingRect() const{
+QRectF koregui::FrameBufferStageItem::boundingRect() const{
   return QRectF(0, 0, _bufferwidth, _bufferheight);
 }
 
-void koregui::FrameBufferItem::paint(QPainter* painter,
+void koregui::FrameBufferStageItem::paint(QPainter* painter,
                                      const QStyleOptionGraphicsItem* option,
                                      QWidget* widget) {
   QBrush b;
@@ -89,9 +96,10 @@ void koregui::FrameBufferItem::paint(QPainter* painter,
   painter->drawImage(_bufferwidth - 26, 10, QImage("./assets/icons/gear.png"));
 }
 
-void koregui::FrameBufferItem::mousePressEvent(QGraphicsSceneMouseEvent * event) {
+void koregui::FrameBufferStageItem
+  ::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   if (event->button() == Qt::MouseButton::LeftButton) {
-    QPointF p = event->pos();//event->buttonDownPos(Qt::MouseButton::LeftButton);
+    QPointF p = event->pos();
     if (p.y() < 26 && p.x() > _bufferwidth - 26) {
       koregui::FrameBufferEditor* ed = new koregui::FrameBufferEditor(this);
       ed->setFramebuffer(QString(_name.c_str()));
@@ -101,7 +109,67 @@ void koregui::FrameBufferItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
   QGraphicsItem::mousePressEvent(event);
 }
 
-void koregui::FrameBufferItem::setFrameBuffer(kore::FrameBuffer* framebuffer) {
+void koregui::FrameBufferStageItem
+  ::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
+  koregui::RenderViewer* rview
+    = static_cast<koregui::RenderViewer*>(scene()->parent());
+  rview->framebufferMoved(this);
+  QGraphicsItem::mouseMoveEvent(event);
+}
+
+void koregui::FrameBufferStageItem
+  ::setFrameBuffer(kore::FrameBuffer* framebuffer) {
   _frameBuffer = framebuffer;
   refresh();
+}
+
+void koregui::FrameBufferStageItem
+  ::addShaderPass(koregui::ShaderPassItem* pass) {
+  _bufferstage->addProgramPass(pass->getProgramPass());
+  _programs.push_back(pass);
+  refresh();
+}
+
+void koregui::FrameBufferStageItem
+  ::removeShaderPass(koregui::ShaderPassItem* pass) {
+  for (auto it = _programs.begin();  it != _programs.end(); it++) {
+    if (*it == pass) {
+      _bufferstage->removeProgramPass((*it)->getProgramPass());
+      _programs.erase(it);
+      return;
+    }
+  }
+}
+
+void koregui::FrameBufferStageItem
+  ::shaderMoved(koregui::ShaderPassItem* pass) {
+  uint i = 0;
+  bool change = false;
+  // find program index
+  for (i; i < _programs.size(); i++) {
+    if (_programs[i] == pass) {
+      break;
+    }
+  }
+  // compare to previous shaderPass, if any
+  if (i > 0) {
+    if( _programs[i]->pos().y() < _programs[i-1]->pos().y()) {
+      std::swap(_programs[i],_programs[i-1]);
+      _bufferstage->swapPasses(_programs[i]->getProgramPass(),
+                               _programs[i-1]->getProgramPass());
+      change = true;
+    }
+  }
+  // compare to next shaderPass, if any
+  if( i < (_programs.size() - 1)) {
+    if( _programs[i]->pos().y() > _programs[i+1]->pos().y()) {
+      std::swap(_programs[i],_programs[i+1]);
+      _bufferstage->swapPasses(_programs[i]->getProgramPass(),
+                               _programs[i+1]->getProgramPass());
+      change = true;
+    }
+  }
+  if(change) {
+    refresh();
+  }
 }

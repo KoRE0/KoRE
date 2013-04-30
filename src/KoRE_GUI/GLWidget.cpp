@@ -42,18 +42,15 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent) {
 
     QGLFormat cformat;
     cformat.setDepthBufferSize(24);
-    cformat.setVersion(5,8);
+    cformat.setVersion(4,3);
     cformat.setProfile(QGLFormat::CoreProfile);
 
     this->setFormat(cformat);
     resize(800,600);
 
     QTimer* timer = new QTimer(this);
-    /*timer->setTimerType(Qt::TimerType::PreciseTimer);*/
-    timer->setInterval(16);
-    connect(timer, SIGNAL(timeout()), this, SLOT(repaint()));
-    //this->paintGL();
-    timer->start();
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateGL()));
+    timer->start(200);
     setFocusPolicy(Qt::FocusPolicy::StrongFocus);
 }
 
@@ -87,15 +84,15 @@ void GLWidget::initializeGL() {
 void GLWidget::resizeGL(int x, int y) {
     //kore::RenderManager::getInstance()->setRenderResolution(glm::ivec2(width(), height()));
     glViewport(0, 0, width(), height());
-    paintGL();
+    //updateGL();
 }
 
 void GLWidget::paintGL() {
   // TODO all GL handling is provided by KoRE itself
-  glClearColor(0.1,0.1,0.1,1);
+  if (_foo > 1.0) {_foo-= 1.0f;}else{_foo+=0.02f;}
+  glClearColor(_foo,0.1,0.1,1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   kore::RenderManager::getInstance()->renderFrame();
-  //swapBuffers();
 }
 
 void GLWidget::keyPressEvent(QKeyEvent * evnt) {

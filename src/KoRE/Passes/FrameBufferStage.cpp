@@ -31,7 +31,15 @@ kore::FrameBufferStage::~FrameBufferStage(void) {
   for (uint i = 0; i < _startupOperations.size(); ++i) {
     KORE_SAFE_DELETE(_startupOperations[i]);
   }
-
+  for (uint i = 0; i < _internalStartup.size(); ++i) {
+    KORE_SAFE_DELETE(_internalStartup[i]);
+  }
+  for (uint i = 0; i < _finishOperations.size(); ++i) {
+    KORE_SAFE_DELETE(_finishOperations[i]);
+  }
+  for (uint i = 0; i < _internalFinish.size(); ++i) {
+    KORE_SAFE_DELETE(_internalFinish[i]);
+  }
   for (uint i = 0; i < _programPasses.size(); ++i) {
     KORE_SAFE_DELETE(_programPasses[i]);
   }
@@ -57,11 +65,60 @@ void kore::FrameBufferStage::
     KORE_SAFE_DELETE(_startupOperations[i]);
   }
 
-  _startupOperations.clear();
+  _internalStartup.clear();
+  _internalFinish.clear();
 
   _frameBuffer = frameBuffer;
 
   UseFBO* pUseFBO = new UseFBO;
-  pUseFBO->connect(frameBuffer, frameBufferTarget, drawBuffers, numDrawBuffers);
-  _startupOperations.push_back(pUseFBO);
+  pUseFBO->connect(frameBuffer, frameBufferTarget,
+                   drawBuffers, numDrawBuffers);
+  _internalStartup.push_back(pUseFBO);
+}
+
+void kore::FrameBufferStage::removeProgramPass(ShaderProgramPass* progPass) {
+  auto it = std::find(_programPasses.begin(), _programPasses.end(), progPass);
+  if (it != _programPasses.end()) {
+    _programPasses.erase(it);
+  }
+}
+
+void kore::FrameBufferStage::swapPasses(ShaderProgramPass* which,
+                                        ShaderProgramPass* towhere) {
+  auto it = std::find(_programPasses.begin(), _programPasses.end(), which);
+  auto it2 = std::find(_programPasses.begin(), _programPasses.end(), towhere);
+
+  if(it != _programPasses.end() && it2 != _programPasses.end()) {
+   std::iter_swap(it,it2);
+  }
+}
+
+void kore::FrameBufferStage::addStartupOperation(Operation* op) {
+  if (std::find(_startupOperations.begin(), _startupOperations.end(), op)
+    != _startupOperations.end()) {
+      return;
+  }
+  _startupOperations.push_back(op);
+}
+
+void kore::FrameBufferStage::removeStartupOperation(Operation* op) {
+  auto it = std::find(_startupOperations.begin(), _startupOperations.end(), op);
+  if(it != _startupOperations.end()) {
+    _startupOperations.erase(it);
+  }
+}
+
+void kore::FrameBufferStage::addFinishOperation(Operation* op) {
+  if (std::find(_finishOperations.begin(), _finishOperations.end(), op)
+    != _finishOperations.end()) {
+      return;
+  }
+  _finishOperations.push_back(op);
+}
+
+void kore::FrameBufferStage::removeFinishOperation(Operation* op) {
+  auto it = std::find(_finishOperations.begin(), _finishOperations.end(), op);
+  if(it != _finishOperations.end()) {
+    _finishOperations.erase(it);
+  }
 }

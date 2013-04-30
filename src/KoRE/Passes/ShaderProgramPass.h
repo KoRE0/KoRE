@@ -37,18 +37,36 @@ namespace kore {
 
     inline std::vector<Operation*>&
       getStartupOperations() {return _startupOperations;}
+    inline std::vector<Operation*>&
+      getFinishOperations() {return _finishOperations;}
+    inline std::vector<Operation*>&
+      getInternalStartupOperations() {return _internalStartup;}
+    inline std::vector<Operation*>&
+      getInternalFinishOperations() {return _internalFinish;}
 
     inline const ShaderProgram* getShaderProgram() const {return _program;}
     
     void setShaderProgram(const ShaderProgram* program);
 
     void addNodePass(NodePass* pass);
+    void removeNodePass(NodePass* pass);
+    void swapNodePass(NodePass* which, NodePass* towhere);
+
+    void addStartupOperation(Operation* op);
+    void removeStartupOperation(Operation* op);
+
+    void addFinishOperation(Operation* op);
+    void removeFinishOperation(Operation* op);
+
 
   private:
     uint64 _id;
     const ShaderProgram* _program;
 
     std::vector<Operation*> _startupOperations;
+    std::vector<Operation*> _finishOperations;
+    std::vector<Operation*> _internalStartup;
+    std::vector<Operation*> _internalFinish;
     std::vector<NodePass*> _nodePasses;
   };
 }

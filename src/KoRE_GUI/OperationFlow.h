@@ -21,37 +21,39 @@
 /* \author Dominik Ospelt                                               */
 /************************************************************************/
 
-#ifndef SHADERDATAITEM_H_
-#define SHADERDATAITEM_H_
+#ifndef SRC_KOREGUI_OPERATIONFLOW_H_
+#define SRC_KOREGUI_OPERATIONFLOW_H_
 
-#include <QGraphicsItem>
-#include "KoRE/ShaderData.h"
-#include "KoRE/Operations/BindOperations/BindOperation.h"
+#include <QGraphicsView>
+#include "KoRE/Passes/NodePass.h"
+#include "KoRE/Passes/ShaderProgramPass.h"
+#include "KoRE/Passes/FrameBufferStage.h"
 
 namespace koregui {
-  class NodeItem;
-  class ShaderDataItem : public QGraphicsItem {
+  class OperationFlow : public QGraphicsView {
+      Q_OBJECT
+
   public:
-    ShaderDataItem(const kore::ShaderData* data, NodeItem* nodeItem, QGraphicsItem* parent = 0);
-    ~ShaderDataItem(void);
-    inline const kore::ShaderData* getData(void) {return _data;}
-    inline NodeItem* getNodeItem(void) {return _nodeitem;}
-    void refresh(void);
+    OperationFlow(QWidget *parent = 0);
+    ~OperationFlow();
+
+    void clearScene();
+    void showFlow();
+
+    int initNodeOperations(kore::NodePass* pass, int startcoord = 0);
+    int initShaderOperations(kore::ShaderProgramPass* pass, int startcoord = 0);
+    int initFBOOperations(kore::FrameBufferStage* stage, int startcoord = 0);
+
+
+  public slots:
+    void zoomIn(void) {scale(1.2,1.2);}
+    void zoomOut(void) {scale(1/1.2,1/1.2);}
+
 
   protected:
-    void hoverEnterEvent(QGraphicsSceneHoverEvent * event);
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent * event);
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
-
-    QRectF boundingRect() const;
-    void paint(QPainter* painter,
-               const QStyleOptionGraphicsItem* option,
-               QWidget* widget);
 
   private:
-    const kore::ShaderData* _data;
-    NodeItem* _nodeitem;
-    bool _mouseover;
+      QGraphicsScene _scene;
   };
 }
-#endif  // SHADERDATAITEM_H_
+#endif // SRC_KOREGUI_OPERATIONFLOWVIEWER_H_

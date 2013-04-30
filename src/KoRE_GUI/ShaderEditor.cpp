@@ -1,3 +1,26 @@
+/*
+  Copyright (c) 2012 The KoRE Project
+
+  This file is part of KoRE.
+
+  KoRE is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+  KoRE is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/************************************************************************/
+/* \author Dominik Ospelt                                               */
+/************************************************************************/
+
 #include "ShaderEditor.h"
 #include <QLabel>
 #include <QLineEdit>
@@ -8,7 +31,7 @@
 #include "KoRE/ResourceManager.h"
 #include "KoRE/IDManager.h"
 
-koregui::ShaderEditor::ShaderEditor(ShaderProgramItem* pass, QWidget *parent)
+koregui::ShaderEditor::ShaderEditor(ShaderPassItem* pass, QWidget *parent)
                                     : _currentitem(pass),
                                       _currentprogram(NULL),
                                       QWidget(parent) {
@@ -19,7 +42,8 @@ koregui::ShaderEditor::ShaderEditor(ShaderProgramItem* pass, QWidget *parent)
   connect(ui.addShaderButton, SIGNAL(clicked()), this, SLOT(addShader()));
   connect(ui.programSelection, SIGNAL(currentIndexChanged(const QString&)),
           this, SLOT(setShaderProgram(const QString&)));
-  connect(&_loadmapper, SIGNAL(mapped(int)), this, SLOT(pathButtonPressed(int)));
+  connect(&_loadmapper, SIGNAL(mapped(int)),
+          this, SLOT(pathButtonPressed(int)));
   connect(&_delmapper, SIGNAL(mapped(int)), this, SLOT(removeShader(int)));
   connect(ui.applyButton, SIGNAL(clicked()), this, SLOT(applyChanges()));
 
@@ -29,7 +53,8 @@ koregui::ShaderEditor::ShaderEditor(ShaderProgramItem* pass, QWidget *parent)
   std::vector<kore::ShaderProgram*> progs =
     kore::ResourceManager::getInstance()->getShaderPrograms();
   for (uint i = 0; i < progs.size(); i++) {
-    ui.programSelection->addItem(progs[i]->getName().c_str(), QVariant(progs[i]->getID()));
+    ui.programSelection->addItem(progs[i]->getName().c_str(),
+                                 QVariant(progs[i]->getID()));
   }
 }
 
@@ -115,14 +140,14 @@ void koregui::ShaderEditor::setShaderProgram(const QString& name) {
 void koregui::ShaderEditor::addShaderInfo(kore::Shader* shader) {
   int row = ui.shaderTable->rowCount();
   ui.shaderTable->setRowCount(row+1);
-  QComboBox* typeselect = new QComboBox();
-  typeselect->addItem("VERTEX", QVariant(GL_VERTEX_SHADER));
-  typeselect->addItem("FRAGMENT", QVariant(GL_FRAGMENT_SHADER));
-  typeselect->addItem("GEOMETRY", QVariant(GL_GEOMETRY_SHADER));
-  typeselect->addItem("TESS_CONTROL", QVariant(GL_TESS_CONTROL_SHADER));
-  typeselect->addItem("TESS_EVALUATION", QVariant(GL_TESS_EVALUATION_SHADER));
-  typeselect-> setCurrentIndex(typeselect->findData(QVariant(shader->getType())));
-  ui.shaderTable->setCellWidget(row, 0, typeselect);
+  QComboBox* typesel = new QComboBox();
+  typesel->addItem("VERTEX", QVariant(GL_VERTEX_SHADER));
+  typesel->addItem("FRAGMENT", QVariant(GL_FRAGMENT_SHADER));
+  typesel->addItem("GEOMETRY", QVariant(GL_GEOMETRY_SHADER));
+  typesel->addItem("TESS_CONTROL", QVariant(GL_TESS_CONTROL_SHADER));
+  typesel->addItem("TESS_EVALUATION", QVariant(GL_TESS_EVALUATION_SHADER));
+  typesel-> setCurrentIndex(typesel->findData(QVariant(shader->getType())));
+  ui.shaderTable->setCellWidget(row, 0, typesel);
 
   QLineEdit* path = new QLineEdit("<empty>");
   path->setText(shader->getName().c_str());
@@ -163,9 +188,8 @@ void koregui::ShaderEditor::pathButtonPressed(int row) {
       "./assets/",
       tr("Shader (*.vp *.vert *.fp *.frag *.gp *.geom *.shader)"));
    QString s = QDir::currentPath();
-   
-   QLineEdit* ledit = static_cast<QLineEdit*>(ui.shaderTable->cellWidget(row,1));
-   if (fileName != "") ledit->setText(fileName);
+   QLineEdit* led = static_cast<QLineEdit*>(ui.shaderTable->cellWidget(row,1));
+   if (fileName != "") led->setText(fileName);
 }
 
 void koregui::ShaderEditor::removeShader(int row) {

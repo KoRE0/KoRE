@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\KoRE_GUI\BindPathItem.cpp" />
+    <ClCompile Include="src\KoRE_GUI\ComponentItem.cpp" />
+    <ClCompile Include="src\KoRE_GUI\FrameBufferEditor.cpp" />
+    <ClCompile Include="src\KoRE_GUI\FrameBufferStageItem.cpp" />
+    <ClCompile Include="src\KoRE_GUI\GLWidget.cpp" />
+    <ClCompile Include="src\KoRE_GUI\main.cpp" />
+    <ClCompile Include="src\KoRE_GUI\NodeItem.cpp" />
+    <ClCompile Include="src\KoRE_GUI\NodePathItem.cpp" />
+    <ClCompile Include="src\KoRE_GUI\RenderViewer.cpp" />
+    <ClCompile Include="src\KoRE_GUI\ResourceViewer.cpp" />
+    <ClCompile Include="src\KoRE_GUI\SceneViewer.cpp" />
+    <ClCompile Include="src\KoRE_GUI\ShaderDataItem.cpp" />
+    <ClCompile Include="src\KoRE_GUI\ShaderEditor.cpp" />
+    <ClCompile Include="src\KoRE_GUI\ShaderInputItem.cpp" />
+    <ClCompile Include="src\KoRE_GUI\ShaderPassItem.cpp" />
+    <ClCompile Include="src\KoRE_GUI\GeneratedFiles\Debug\moc_FrameBufferEditor.cpp">
+      <Filter>GeneratedFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE_GUI\GeneratedFiles\Release\moc_FrameBufferEditor.cpp">
+      <Filter>GeneratedFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE_GUI\GeneratedFiles\Release\moc_GLWidget.cpp">
+      <Filter>GeneratedFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE_GUI\GeneratedFiles\Debug\moc_GLWidget.cpp">
+      <Filter>GeneratedFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE_GUI\GeneratedFiles\Debug\moc_RenderViewer.cpp">
+      <Filter>GeneratedFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE_GUI\GeneratedFiles\Release\moc_RenderViewer.cpp">
+      <Filter>GeneratedFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE_GUI\GeneratedFiles\Release\moc_ResourceViewer.cpp">
+      <Filter>GeneratedFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE_GUI\GeneratedFiles\Debug\moc_ResourceViewer.cpp">
+      <Filter>GeneratedFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE_GUI\GeneratedFiles\Debug\moc_SceneViewer.cpp">
+      <Filter>GeneratedFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE_GUI\GeneratedFiles\Debug\moc_ShaderEditor.cpp">
+      <Filter>GeneratedFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE_GUI\GeneratedFiles\Release\moc_ShaderEditor.cpp">
+      <Filter>GeneratedFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE_GUI\OperationFlow.cpp" />
+    <ClCompile Include="src\KoRE_GUI\GeneratedFiles\Debug\moc_OperationFlow.cpp">
+      <Filter>GeneratedFiles</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\KoRE_GUI\ComponentItem.h" />
+    <ClInclude Include="src\KoRE_GUI\FrameBufferStageItem.h" />
+    <ClInclude Include="src\KoRE_GUI\ShaderInputItem.h" />
+    <ClInclude Include="src\KoRE_GUI\ShaderPassItem.h" />
+    <ClInclude Include="src\KoRE_GUI\NodePathItem.h" />
+    <ClInclude Include="src\KoRE_GUI\NodeItem.h" />
+    <ClInclude Include="src\KoRE_GUI\GeneratedFiles\ui_FrameBufferEditor.h">
+      <Filter>GeneratedFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE_GUI\GeneratedFiles\ui_ShaderEditor.h">
+      <Filter>GeneratedFiles</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\KoRE_GUI\FrameBufferEditor.h" />
+    <CustomBuild Include="src\KoRE_GUI\ResourceViewer.h" />
+    <CustomBuild Include="src\KoRE_GUI\ShaderEditor.h" />
+    <CustomBuild Include="src\KoRE_GUI\RenderViewer.h" />
+    <CustomBuild Include="src\KoRE_GUI\ShaderDataItem.h" />
+    <CustomBuild Include="src\KoRE_GUI\GLWidget.h" />
+    <CustomBuild Include="src\KoRE_GUI\SceneViewer.h" />
+    <CustomBuild Include="src\KoRE_GUI\FrameBufferEditor.ui" />
+    <CustomBuild Include="src\KoRE_GUI\ShaderEditor.ui" />
+    <CustomBuild Include="src\KoRE_GUI\BindPathItem.h" />
+    <CustomBuild Include="src\KoRE_GUI\OperationFlow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="GeneratedFiles">
+      <UniqueIdentifier>{c25fc98e-e0ef-430f-81aa-b7932db20124}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -276,6 +276,17 @@ void kore::RenderManager::addFramebufferStage(FrameBufferStage* stage) {
   _frameBufferStages.push_back(stage);
 }
 
+void kore::RenderManager::swapFramebufferStage(FrameBufferStage* which,
+                                               FrameBufferStage* towhere) {
+  auto it = std::find(_frameBufferStages.begin(),
+                      _frameBufferStages.end(), which);
+  auto it2 = std::find(_frameBufferStages.begin(),
+                       _frameBufferStages.end(), towhere);
+  if(it != _frameBufferStages.end() && it2 != _frameBufferStages.end()) {
+    std::iter_swap(it,it2);
+  }
+}
+
 /*
 void kore::RenderManager::removeOperation(const Operation* operation) {
   for (uint ifbo = 0; ifbo < _frameBufferStages.size(); ++ifbo) {
@@ -337,8 +348,6 @@ void kore::RenderManager::
    auto it =
     std::find(_frameBufferStages.begin(), _frameBufferStages.end(), fboStage);
       if (it != _frameBufferStages.end()) {
-        FrameBufferStage* pFboStage = (*it);
-        //KORE_SAFE_DELETE(pFboStage);
         _frameBufferStages.erase(it);
       }
 }
@@ -398,7 +407,7 @@ void kore::RenderManager::setColorMask(bool red,
 }
 
 void kore::RenderManager::setGLcapability(GLuint cap, bool enable) {
-  if (glIsEnabled(cap) == enable) {
+  if (glIsEnabled(cap) == static_cast<GLboolean>(enable)) {
     return;
   }
 

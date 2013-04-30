@@ -3,7 +3,7 @@
 #include "KoRE/Common.h"
 #include "KoRE/Texture.h"
 
-koregui::FrameBufferEditor::FrameBufferEditor(koregui::FrameBufferItem* stage,
+koregui::FrameBufferEditor::FrameBufferEditor(koregui::FrameBufferStageItem* stage,
                                               QWidget *parent)
                                             : _currentitem(stage),
                                               _currentbuffer(NULL),

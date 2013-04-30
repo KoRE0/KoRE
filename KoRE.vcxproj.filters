@@ -43,6 +43,9 @@
     <ClCompile Include="src\KoRE\SceneNode.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\KoRE\StdAfx.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\KoRE\Texture.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -172,7 +175,6 @@
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindTextureBuffer.cpp">
       <Filter>src\Operations\BindOperations</Filter>
     </ClCompile>
-    <ClCompile Include="src\KoRE\StdAfx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\KoRE\Operations\SelectNodes.h">
@@ -218,6 +220,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\KoRE\SceneNode.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\StdAfx.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\KoRE\Texture.h">
@@ -358,7 +363,6 @@
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindTextureBuffer.h">
       <Filter>src\Operations\BindOperations</Filter>
     </ClInclude>
-    <ClInclude Include="src\KoRE\StdAfx.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">

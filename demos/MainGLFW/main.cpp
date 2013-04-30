@@ -66,7 +66,7 @@ kore::Camera* pCamera = NULL;
 //awaits simple shader
 void setUpSimpleRendering(kore::SceneNode* renderNode, kore::ShaderProgramPass*
                           programPass, kore::Texture* texture, 
-                          kore::LightComponent* light){
+                          kore::LightComponent* light) {
 
         kore::NodePass* nodePass = new kore::NodePass;
         const kore::ShaderProgram* simpleShader = 
@@ -114,7 +114,7 @@ void setUpSimpleRendering(kore::SceneNode* renderNode, kore::ShaderProgramPass*
             simpleShader->getUniform("pointlightPos"));
 
         kore::RenderMesh* pRenderOp = new kore::RenderMesh();
-        pRenderOp->connect(pMeshComponent, simpleShader);
+        pRenderOp->connect(pMeshComponent);
 
         nodePass->addOperation(kore::OperationFactory::create(kore::OP_BINDATTRIBUTE, "v_position", pMeshComponent, "v_position", simpleShader));
         nodePass->addOperation(normAttBind);
@@ -204,7 +204,7 @@ void setUpNMRendering(kore::SceneNode* renderNode,
             nmShader->getUniform("pointlightPos"));
 
         kore::RenderMesh* pRenderOp = new kore::RenderMesh();
-        pRenderOp->connect(pMeshComponent, nmShader);
+        pRenderOp->connect(pMeshComponent);
 
         nodePass->addOperation(posAttBind);
         nodePass->addOperation(normAttBind);

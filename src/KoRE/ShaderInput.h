@@ -24,12 +24,19 @@
 
 namespace kore {
   class ShaderProgram;
+
+  enum EInputType {
+    SHADERINPUT_UNKNOWN     = 0,
+    SHADERINPUT_UNIFORM     = 1 << 0,
+    SHADERINPUT_ATTRIBUTE   = 1 << 1
+  };
   class ShaderInput {
   public:
     ShaderInput(void);
     virtual ~ShaderInput(void) {};
 
     GLenum type;             // e.g. GL_FLOAT_VEC3
+    GLenum input_type;       // e.g. GL_ACTIVE_UNIFORMS
     GLuint size;             // number of components in units of type(always 1)
     GLint location;          // location of attribute/uniform in the shader
     std::string name;        // input name

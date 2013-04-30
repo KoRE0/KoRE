@@ -32,7 +32,6 @@ namespace kore {
 
   class IDManager {
     friend class ProjectLoader;
-  
   public:
     static IDManager *getInstance(void);
     ~IDManager(void);

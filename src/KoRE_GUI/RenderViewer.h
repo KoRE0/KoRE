@@ -27,7 +27,7 @@
 #include <QGraphicsView>
 #include "KoRE_GUI/NodeItem.h"
 #include "KoRE_GUI/BindPathItem.h"
-#include "KoRE_GUI/FrameBufferItem.h"
+#include "KoRE_GUI/FrameBufferStageItem.h"
 #include "KoRE_GUI/ShaderInputItem.h"
 
 namespace koregui {
@@ -40,6 +40,7 @@ namespace koregui {
 
     void addSelection(const std::vector<NodeItem*>& nodes);
     void createNode(kore::SceneNode* sourcenode, int x, int y);
+    void framebufferMoved(FrameBufferStageItem* bufferstage);
 
 
   public slots:
@@ -71,7 +72,9 @@ namespace koregui {
       void clearScene();
       QGraphicsScene _scene;
       BindPathItem* _currentpath;
-      FrameBufferItem* _currentframebuffer;
+      FrameBufferStageItem* _currentframebuffer;
+      QPoint _lastpos;
+      std::vector<FrameBufferStageItem*> _framebufferStages;
       ShaderInputItem* _bindTarget;
   };
 }

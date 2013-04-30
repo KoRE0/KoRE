@@ -209,145 +209,144 @@ const std::vector<kore::ShaderOutput>& kore::ShaderProgram
 
 void kore::ShaderProgram::constructShaderInputInfo(const GLenum activeType,
                                 std::vector<kore::ShaderInput>& rInputVector) {
-    GLint iNumActiveElements = 0;
+  GLint iNumActiveElements = 0;
+
+  /*
+  /* OpenGL 4.3 or arb_program_interface_query needed 
+  /*
+  glGetProgramInterfaceiv(_programHandle, activeType, GL_ACTIVE_RESOURCES, 
+      &iNumActiveElements);
+
+  const GLenum properties[3] = {GL_TYPE, GL_NAME_LENGTH, GL_LOCATION};
+  */
+
+  glGetProgramiv(_programHandle,
+      activeType,
+      &iNumActiveElements);
+
+  for (int i = 0; i < iNumActiveElements; ++i) {
+    GLchar szNameBuf[BUFSIZE];
+    GLsizei iActualNameLength = 0;
+    GLint iElementSize = 1;
+    GLenum eElementType;
+    GLint iElementLoc = -1;
 
     /*
     /* OpenGL 4.3 or arb_program_interface_query needed 
     /*
-    glGetProgramInterfaceiv(_programHandle, activeType, GL_ACTIVE_RESOURCES, 
-        &iNumActiveElements);
+    GLint values[3];       
+    glGetProgramResourceiv(_programHandle, activeType, i, 3, properties, 
+        BUFSIZE, NULL, values);
 
-    const GLenum properties[3] = {GL_TYPE, GL_NAME_LENGTH, GL_LOCATION};
+    eElementType = values[0];
+    iActualNameLength = values[1];
+    iElementLoc = values[2];
+
+    glGetProgramResourceName(_programHandle, activeType, i, BUFSIZE, 
+        &iActualNameLength, szNameBuf);
     */
 
-    glGetProgramiv(_programHandle,
-        activeType,
-        &iNumActiveElements);
-
-    for (int i = 0; i < iNumActiveElements; ++i) {
-        GLchar szNameBuf[BUFSIZE];
-        GLsizei iActualNameLength = 0;
-        GLint iElementSize = 1;
-        GLenum eElementType;
-        GLint iElementLoc = -1;
-
-        /*
-        /* OpenGL 4.3 or arb_program_interface_query needed 
-        /*
-        GLint values[3];       
-        glGetProgramResourceiv(_programHandle, activeType, i, 3, properties, 
-            BUFSIZE, NULL, values);
-
-        eElementType = values[0];
-        iActualNameLength = values[1];
-        iElementLoc = values[2];
-
-        glGetProgramResourceName(_programHandle, activeType, i, BUFSIZE, 
-            &iActualNameLength, szNameBuf);
-        */
-        
-        
-        
-        if (activeType == GL_ACTIVE_ATTRIBUTES) {
-            glGetActiveAttrib(_programHandle, i, BUFSIZE, &iActualNameLength,
-                &iElementSize, &eElementType, szNameBuf);
-            iElementLoc = glGetAttribLocation(_programHandle, szNameBuf);
-        }
-        if (activeType == GL_ACTIVE_UNIFORMS){
-            glGetActiveUniform(_programHandle, i, BUFSIZE, &iActualNameLength,
-                &iElementSize, &eElementType, szNameBuf);
-            iElementLoc = glGetUniformLocation(_programHandle, szNameBuf);
-        }
-
-        std::string szName = std::string(szNameBuf);
-        ShaderInput element;
-        element.name = szName;
-        element.type = eElementType;
-        element.size = iElementSize;
-        element.location = iElementLoc;
-        element.programHandle = _programHandle;
-        element.shader = this;
-
-        rInputVector.push_back(element);
+    if (activeType == GL_ACTIVE_ATTRIBUTES) {
+        glGetActiveAttrib(_programHandle, i, BUFSIZE, &iActualNameLength,
+            &iElementSize, &eElementType, szNameBuf);
+        iElementLoc = glGetAttribLocation(_programHandle, szNameBuf);
+    }
+    if (activeType == GL_ACTIVE_UNIFORMS){
+        glGetActiveUniform(_programHandle, i, BUFSIZE, &iActualNameLength,
+            &iElementSize, &eElementType, szNameBuf);
+        iElementLoc = glGetUniformLocation(_programHandle, szNameBuf);
     }
 
-    /*
-    /* OpenGL 4.3 or arb_program_interface_query needed 
-    /*
-    // For Uniform texture-types: add the textureUnit-field
-    if (activeType == GL_UNIFORM) {
-      GLuint texUnit = 0;
-      for (uint i = 0; i < rInputVector.size(); ++i) {
-        if (isSamplerType(rInputVector[i].type)) {
-          rInputVector[i].texUnit = texUnit;
-          ++texUnit;
+    std::string szName = std::string(szNameBuf);
+    ShaderInput element;
+    element.name = szName;
+    element.type = eElementType;
+    element.input_type = activeType;
+    element.size = iElementSize;
+    element.location = iElementLoc;
+    element.programHandle = _programHandle;
+    element.shader = this;
+
+    rInputVector.push_back(element);
+  }
+
+  /*
+  /* OpenGL 4.3 or arb_program_interface_query needed 
+  /*
+  // For Uniform texture-types: add the textureUnit-field
+  if (activeType == GL_UNIFORM) {
+    GLuint texUnit = 0;
+    for (uint i = 0; i < rInputVector.size(); ++i) {
+      if (isSamplerType(rInputVector[i].type)) {
+        rInputVector[i].texUnit = texUnit;
+        ++texUnit;
+      }
+    }
+  }
+  */
+
+  // For Uniform texture-types: add the textureUnit-field
+  if (activeType == GL_ACTIVE_UNIFORMS) {
+    ResourceManager* resourceManager = ResourceManager::getInstance();
+    GLuint texUnit = 0;
+    GLuint imgUnit = 0;
+    GLuint atomicCounterIndex = 0;  // e.g. for atomic counters.
+
+    for (uint i = 0; i < rInputVector.size(); ++i) {
+      if (isSamplerType(rInputVector[i].type)) {
+        rInputVector[i].texUnit = texUnit;
+        
+        TexSamplerProperties samplerProperties;
+        samplerProperties.type = rInputVector[i].type;
+                     
+        
+        const TextureSampler* sampler =
+          resourceManager->requestTextureSampler(samplerProperties);
+        
+        _vSamplers.push_back(sampler);
+        
+        ++texUnit;
+      }
+
+      // For Image-types: add the imgUnit-field,
+      // but don't create a sampler.
+      else if (isImageType(rInputVector[i].type)) {
+        rInputVector[i].imgUnit = imgUnit;
+        ++imgUnit;
+      
+        _imgAccessParams.push_back(GL_READ_WRITE);
+      }
+      
+      else if(isAtomicCounterType(rInputVector[i].type)) {
+        // First, get the bindingPoint (set with layout(binding = x) 
+        // in GLSL.
+        GLint bindingPoint;
+        glGetActiveAtomicCounterBufferiv(_programHandle,
+                                         atomicCounterIndex,
+                                         GL_ATOMIC_COUNTER_BUFFER_BINDING,
+                                         &bindingPoint);
+                      
+        rInputVector[i].atomicCounterBindingPoint = bindingPoint;
+        ++atomicCounterIndex;
+        
+        ResourceManager* resMgr = ResourceManager::getInstance();
+        
+        if (atomicCounterIndex >= resMgr->getNumIndexedBuffers()) {
+          // We need a new indexedBuffer
+          IndexedBuffer* acBuffer = new IndexedBuffer;
+          uint value = 0;
+          acBuffer->create(GL_ATOMIC_COUNTER_BUFFER, sizeof(GLuint), GL_DYNAMIC_COPY, &value);
+          rInputVector[i].additionalData = acBuffer;
+          resMgr->addIndexedBuffer(acBuffer);
+        } else {
+          // We can reuse an existing buffer from the resourceManager
+          IndexedBuffer* acBuffer = resMgr->getIndexedBufferByIndex(atomicCounterIndex);
+          rInputVector[i].additionalData = acBuffer;
         }
       }
     }
-    */
-
-    // For Uniform texture-types: add the textureUnit-field
-    if (activeType == GL_ACTIVE_UNIFORMS) {
-        ResourceManager* resourceManager = ResourceManager::getInstance();
-        GLuint texUnit = 0;
-        GLuint imgUnit = 0;
-        GLuint atomicCounterIndex = 0;  // e.g. for atomic counters.
-
-        for (uint i = 0; i < rInputVector.size(); ++i) {
-            if (isSamplerType(rInputVector[i].type)) {
-                rInputVector[i].texUnit = texUnit;
-
-                TexSamplerProperties samplerProperties;
-                samplerProperties.type = rInputVector[i].type;
-                             
-                
-                const TextureSampler* sampler =
-                  resourceManager->requestTextureSampler(samplerProperties);
-
-                _vSamplers.push_back(sampler);
-
-                ++texUnit;
-            }
-
-            // For Image-types: add the imgUnit-field,
-            // but don't create a sampler.
-            else if (isImageType(rInputVector[i].type)) {
-              rInputVector[i].imgUnit = imgUnit;
-              ++imgUnit;
-
-              _imgAccessParams.push_back(GL_READ_WRITE);
-            }
-
-            else if(isAtomicCounterType(rInputVector[i].type)) {
-              // First, get the bindingPoint (set with layout(binding = x) 
-              // in GLSL.
-              GLint bindingPoint;
-              glGetActiveAtomicCounterBufferiv(_programHandle,
-                                               atomicCounterIndex,
-                                               GL_ATOMIC_COUNTER_BUFFER_BINDING,
-                                               &bindingPoint);
-                            
-              rInputVector[i].atomicCounterBindingPoint = bindingPoint;
-              ++atomicCounterIndex;
-              
-              ResourceManager* resMgr = ResourceManager::getInstance();
-
-              if (atomicCounterIndex >= resMgr->getNumIndexedBuffers()) {
-                // We need a new indexedBuffer
-                IndexedBuffer* acBuffer = new IndexedBuffer;
-                uint value = 0;
-                acBuffer->create(GL_ATOMIC_COUNTER_BUFFER, sizeof(GLuint), GL_DYNAMIC_COPY, &value);
-                rInputVector[i].additionalData = acBuffer;
-                resMgr->addIndexedBuffer(acBuffer);
-              } else {
-                // We can reuse an existing buffer from the resourceManager
-                IndexedBuffer* acBuffer = resMgr->getIndexedBufferByIndex(atomicCounterIndex);
-                rInputVector[i].additionalData = acBuffer;
-              }
-        }
-    }
+  }
 }
-    }
 
 void kore::ShaderProgram::constructShaderOutputInfo(std::vector<ShaderOutput>& 
                                              rOutputVector) {

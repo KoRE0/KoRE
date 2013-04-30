@@ -38,7 +38,10 @@ koregui::ComponentItem::ComponentItem(kore::SceneNodeComponent* component,
   std::vector<kore::ShaderData> sdata = _component->getShaderData();
   for (uint i = 0; i < sdata.size(); i++) {
     const kore::ShaderData* tmp = _component->getShaderData(sdata[i].name);
-    ShaderDataItem* dataitem =  new ShaderDataItem(tmp, this);
+    ShaderDataItem* dataitem =
+      new ShaderDataItem(tmp,
+                         static_cast<koregui::NodeItem*>(parentItem()),
+                         this);
     _shaderDataItems.push_back(dataitem);
     dataitem->setVisible(false);
     dataitem->setPos(192, 30 + 30 * i);

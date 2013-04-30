@@ -50,6 +50,7 @@ void kore::ProjectLoader::saveProject(const std::string& path) const {
     texture->SetAttribute("height", prop.height);
     resources->LinkEndChild(texture);
   }
+  // Meshes
 
   // TODO(dospelt) the rest
 

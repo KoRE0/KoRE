@@ -29,7 +29,6 @@
 #include "KoRE/ResourceManager.h"
 #include "KoRE/RenderManager.h"
 
-#include "KoRE_GUI/KoRE_GUIStyle.h"
 #include "KoRE_GUI/SceneViewer.h"
 #include "KoRE_GUI/RenderViewer.h"
 #include "KoRE_GUI/ResourceViewer.h"
@@ -49,14 +48,15 @@ int main(int argc, char *argv[])
   win.show();
 
   // now  other widgets
-  //koregui::ResourceViewer resview;
+  koregui::ResourceViewer resview;
+  resview.show();
   koregui::RenderViewer rview;
-  //koregui::SceneViewer sview(&rview);
-  //sview.showScene(kore::SceneManager::getInstance()->getRootNode());
-
-  //sview.show();
   rview.show();
-  //resview.show();
+  koregui::SceneViewer sview(&rview);
+  sview.show();
+
+  kore::ResourceManager::getInstance()->loadScene("./assets/meshes/cube.dae");
+  sview.showScene(kore::SceneManager::getInstance()->getRootNode());
 
   return app.exec();
 }

@@ -35,7 +35,15 @@ kore::ShaderProgramPass::~ShaderProgramPass(void) {
   for (uint i = 0; i < _startupOperations.size(); ++i) {
     KORE_SAFE_DELETE(_startupOperations[i]);
   }
-
+  for (uint i = 0; i < _internalStartup.size(); ++i) {
+    KORE_SAFE_DELETE(_internalStartup[i]);
+  }
+  for (uint i = 0; i < _finishOperations.size(); ++i) {
+    KORE_SAFE_DELETE(_finishOperations[i]);
+  }
+  for (uint i = 0; i < _internalFinish.size(); ++i) {
+    KORE_SAFE_DELETE(_internalFinish[i]);
+  }
   for (uint i = 0; i < _nodePasses.size(); ++i) {
     KORE_SAFE_DELETE(_nodePasses[i]);
   }
@@ -44,10 +52,11 @@ kore::ShaderProgramPass::~ShaderProgramPass(void) {
 void kore::ShaderProgramPass::setShaderProgram(const ShaderProgram* program) {
   if (_program == program) return;
   if (_program != NULL) {
-    for (uint i = 0; i < _startupOperations.size(); ++i) {
-      KORE_SAFE_DELETE(_startupOperations[i]);
+    for (uint i = 0; i < _internalStartup.size(); ++i) {
+      KORE_SAFE_DELETE(_internalStartup[i]);
     }
-    _startupOperations.clear();
+    _internalStartup.clear();
+    _internalFinish.clear();
   }
 
   _program = program;
@@ -55,14 +64,61 @@ void kore::ShaderProgramPass::setShaderProgram(const ShaderProgram* program) {
   UseShaderProgram* pUseProgram = new UseShaderProgram;
   pUseProgram->connect(program);
 
-  _startupOperations.push_back(pUseProgram);
+  _internalStartup.push_back(pUseProgram);
 }
 
-void kore::ShaderProgramPass::addNodePass(NodePass* node) {
-  if (std::find(_nodePasses.begin(), _nodePasses.end(), node)
+void kore::ShaderProgramPass::addNodePass(NodePass* pass) {
+  if (std::find(_nodePasses.begin(), _nodePasses.end(), pass)
       != _nodePasses.end()) {
     return;
   }
+  _nodePasses.push_back(pass);
+}
 
-  _nodePasses.push_back(node);
+void kore::ShaderProgramPass::removeNodePass(NodePass* pass) {
+  auto it = std::find(_nodePasses.begin(), _nodePasses.end(), pass);
+  if (it == _nodePasses.end()) {
+      return;
+  } else {
+    _nodePasses.erase(it);
+  }
+}
+
+void kore::ShaderProgramPass
+  ::swapNodePass(NodePass* which, NodePass* towhere) {
+  auto it = std::find(_nodePasses.begin(), _nodePasses.end(), which);
+  auto it2 = std::find(_nodePasses.begin(), _nodePasses.end(), towhere);
+  if(it != _nodePasses.end() && it2 != _nodePasses.end()) {
+  std::iter_swap(it, it2);
+  }
+}
+
+void kore::ShaderProgramPass::addStartupOperation(Operation* op) {
+  if (std::find(_startupOperations.begin(), _startupOperations.end(), op)
+    != _startupOperations.end()) {
+      return;
+  }
+  _startupOperations.push_back(op);
+}
+
+void kore::ShaderProgramPass::removeStartupOperation(Operation* op) {
+  auto it = std::find(_startupOperations.begin(), _startupOperations.end(), op);
+  if(it != _startupOperations.end()) {
+    _startupOperations.erase(it);
+  }
+}
+
+void kore::ShaderProgramPass::addFinishOperation(Operation* op) {
+  if (std::find(_finishOperations.begin(), _finishOperations.end(), op)
+    != _finishOperations.end()) {
+      return;
+  }
+  _finishOperations.push_back(op);
+}
+
+void kore::ShaderProgramPass::removeFinishOperation(Operation* op) {
+  auto it = std::find(_finishOperations.begin(), _finishOperations.end(), op);
+  if(it != _finishOperations.end()) {
+    _finishOperations.erase(it);
+  }
 }
