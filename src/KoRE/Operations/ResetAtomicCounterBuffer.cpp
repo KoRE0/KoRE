@@ -25,14 +25,14 @@
 
 
 kore::ResetAtomicCounterBuffer::ResetAtomicCounterBuffer()
-  : _shaderInput(NULL), _value(0) {
+  : _shaderData(NULL), _value(0) {
     _type = OP_RESETATOMICCOUNTER;
 }
 
 kore::ResetAtomicCounterBuffer::
-  ResetAtomicCounterBuffer(const ShaderInput* shaderInput, const uint value) {
+  ResetAtomicCounterBuffer(const ShaderData* shaderData, const uint value) {
     _type = OP_RESETATOMICCOUNTER;
-    connect(shaderInput, value);
+    connect(shaderData, value);
 }
 
 kore::ResetAtomicCounterBuffer::~ResetAtomicCounterBuffer() {
@@ -45,17 +45,17 @@ void kore::ResetAtomicCounterBuffer::reset(void) {
 }
 
 bool kore::ResetAtomicCounterBuffer::isValid() const {
-  return _shaderInput != NULL;
+  return _shaderData != NULL;
 }
 
 bool kore::ResetAtomicCounterBuffer::dependsOn(const void* thing) const {
-  return thing == _shaderInput;
+  return thing == _shaderData;
 }
 
 void kore::ResetAtomicCounterBuffer::doExecute() const {
-  uint bindingPoint = _shaderInput->atomicCounterBindingPoint;
+  uint bindingPoint = 0;
   
-  IndexedBuffer* acBuffer = static_cast<IndexedBuffer*>(_shaderInput->additionalData);
+  IndexedBuffer* acBuffer = static_cast<IndexedBuffer*>(_shaderData->data);
 
   if (acBuffer != NULL) {
     _renderManager
@@ -64,17 +64,17 @@ void kore::ResetAtomicCounterBuffer::doExecute() const {
                        acBuffer->getHandle());
 
     GLuint* ptr = (GLuint*)glMapBufferRange(GL_ATOMIC_COUNTER_BUFFER, 0,
-      sizeof(GLuint),
-      GL_MAP_WRITE_BIT | 
-      GL_MAP_INVALIDATE_BUFFER_BIT | 
-      GL_MAP_UNSYNCHRONIZED_BIT);
+                                            sizeof(GLuint),
+                                            GL_MAP_WRITE_BIT | 
+                                            GL_MAP_INVALIDATE_BUFFER_BIT | 
+                                            GL_MAP_UNSYNCHRONIZED_BIT);
     ptr[0] = _value;
     glUnmapBuffer(GL_ATOMIC_COUNTER_BUFFER);
   }
 }
 
-void kore::ResetAtomicCounterBuffer::connect(const ShaderInput* shaderInput,
+void kore::ResetAtomicCounterBuffer::connect(const ShaderData* shaderData,
                                              const uint value) {
-  _shaderInput = shaderInput;
+  _shaderData = shaderData;
   _value = value;
 }

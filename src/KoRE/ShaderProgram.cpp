@@ -318,31 +318,14 @@ void kore::ShaderProgram::constructShaderInputInfo(const GLenum activeType,
       }
       
       else if(isAtomicCounterType(rInputVector[i].type)) {
-        // First, get the bindingPoint (set with layout(binding = x) 
-        // in GLSL.
+        // Get the bindingPoint (set with layout(binding = x) 
         GLint bindingPoint;
         glGetActiveAtomicCounterBufferiv(_programHandle,
                                          atomicCounterIndex,
                                          GL_ATOMIC_COUNTER_BUFFER_BINDING,
                                          &bindingPoint);
-                      
-        rInputVector[i].atomicCounterBindingPoint = bindingPoint;
         ++atomicCounterIndex;
-        
-        ResourceManager* resMgr = ResourceManager::getInstance();
-        
-        if (atomicCounterIndex >= resMgr->getNumIndexedBuffers()) {
-          // We need a new indexedBuffer
-          IndexedBuffer* acBuffer = new IndexedBuffer;
-          uint value = 0;
-          acBuffer->create(GL_ATOMIC_COUNTER_BUFFER, sizeof(GLuint), GL_DYNAMIC_COPY, &value);
-          rInputVector[i].additionalData = acBuffer;
-          resMgr->addIndexedBuffer(acBuffer);
-        } else {
-          // We can reuse an existing buffer from the resourceManager
-          IndexedBuffer* acBuffer = resMgr->getIndexedBufferByIndex(atomicCounterIndex);
-          rInputVector[i].additionalData = acBuffer;
-        }
+        rInputVector[i].atomicCounterBindingPoint = bindingPoint;
       }
     }
   }
@@ -524,7 +507,7 @@ kore::ShaderProgram::getUniform(const std::string& name) const {
     }
   }
 
-  Log::getInstance()->write("[ERROR] Uniform '%s' not found in shader '%s'",
+  Log::getInstance()->write("[ERROR] Uniform '%s' not found in shader '%s'\n",
     name.c_str(), _name.c_str());
   return NULL;
 }

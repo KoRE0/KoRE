@@ -17,34 +17,32 @@
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef KORE_SRC_KORE_OPERATIONS_USEATOMICCOUNTERBUFFER_H_
-#define KORE_SRC_KORE_OPERATIONS_USEATOMICCOUNTERBUFFER_H_
+#ifndef KORE_SRC_KORE_OPERATIONS_BINDATOMICCOUNTERBUFFER_H_
+#define KORE_SRC_KORE_OPERATIONS_BINDATOMICCOUNTERBUFFER_H_
 
 #include "KoRE/Common.h"
-#include "KoRE/Operations/Operation.h"
+#include "KoRE/Operations/BindOperations/BindOperation.h"
 #include "KoRE/ShaderInput.h"
 
 namespace kore {
-  class UseAtomicCounterBuffer : public Operation {
+  class BindAtomicCounterBuffer : public BindOperation {
     public:
-      UseAtomicCounterBuffer();
-      explicit UseAtomicCounterBuffer(const ShaderInput* shaderInput);
-      virtual ~UseAtomicCounterBuffer();
+      BindAtomicCounterBuffer();
+      explicit BindAtomicCounterBuffer(const ShaderData* data,
+                                       const ShaderInput* shaderInput);
+      virtual ~BindAtomicCounterBuffer();
 
-      void connect(const ShaderInput* ShaderInput);
+      void connect(const ShaderData* bufData, const ShaderInput* ShaderInput);
 
       virtual void update(void);
       virtual void reset(void);
-      virtual bool isValid() const;
-      virtual bool dependsOn(const void* thing) const;
 
     private:
-      const ShaderInput* _shaderInput;
-      
+
       virtual void doExecute() const;
   };
 }
 
 
 
-#endif  // KORE_SRC_KORE_OPERATIONS_USEATOMICCOUNTERBUFFER_H_
+#endif  // KORE_SRC_KORE_OPERATIONS_BINDATOMICCOUNTERBUFFER_H_

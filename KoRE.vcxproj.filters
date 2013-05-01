@@ -139,9 +139,6 @@
     <ClCompile Include="src\KoRE\Operations\OperationFactory.cpp">
       <Filter>src\Operations</Filter>
     </ClCompile>
-    <ClCompile Include="src\KoRE\Operations\UseAtomicCounterBuffer.cpp">
-      <Filter>src\Operations</Filter>
-    </ClCompile>
     <ClCompile Include="src\KoRE\Operations\ResetAtomicCounterBuffer.cpp">
       <Filter>src\Operations</Filter>
     </ClCompile>
@@ -173,6 +170,9 @@
       <Filter>src\Operations\BindOperations</Filter>
     </ClCompile>
     <ClCompile Include="src\KoRE\StdAfx.cpp" />
+    <ClCompile Include="src\KoRE\Operations\BindOperations\BindAtomicCounterBuffer.cpp">
+      <Filter>src\Operations\BindOperations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\KoRE\Operations\SelectNodes.h">
@@ -325,9 +325,6 @@
     <ClInclude Include="src\KoRE\Operations\OperationFactory.h">
       <Filter>src\Operations</Filter>
     </ClInclude>
-    <ClInclude Include="src\KoRE\Operations\UseAtomicCounterBuffer.h">
-      <Filter>src\Operations</Filter>
-    </ClInclude>
     <ClInclude Include="src\KoRE\Operations\ResetAtomicCounterBuffer.h">
       <Filter>src\Operations</Filter>
     </ClInclude>
@@ -359,6 +356,9 @@
       <Filter>src\Operations\BindOperations</Filter>
     </ClInclude>
     <ClInclude Include="src\KoRE\StdAfx.h" />
+    <ClInclude Include="src\KoRE\Operations\BindOperations\BindAtomicCounterBuffer.h">
+      <Filter>src\Operations\BindOperations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
