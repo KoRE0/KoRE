@@ -16,12 +16,14 @@ kore::ProjectLoader* kore::ProjectLoader::getInstance() {
   return &instance;
 }
 
-void kore::ProjectLoader::loadProject(const std::string& path) const {
-  // TODO(dospelt)
-  kore::Log::getInstance()->write("[Debug] project loading not yet implemented\n");
+void kore::ProjectLoader::loadProject(const std::string& path) {
+  kore::Log::getInstance()->write("[Debug] Loading '%s'\n", path.c_str());
+  // loading resources
+  // loading scenegraph
+  // loading renderflow
 }
 
-void kore::ProjectLoader::saveProject(const std::string& path) const {
+void kore::ProjectLoader::saveProject(const std::string& path) {
   ResourceManager* ResMgr = ResourceManager::getInstance();
 
   TiXmlDocument doc;
@@ -55,12 +57,9 @@ void kore::ProjectLoader::saveProject(const std::string& path) const {
   // TODO(dospelt) the rest
 
   TiXmlElement* scene = new TiXmlElement("Scene");
-  doc.LinkEndChild(scene);
   kore::SceneNode* root = kore::SceneManager::getInstance()->getRootNode();
-
-  //saveSceneNode(scene, root);
-
-  
+  saveSceneNode(scene, root);
+  doc.LinkEndChild(scene);
 
   // finally, save to file
   if(doc.SaveFile(path.c_str())) {
@@ -76,4 +75,18 @@ void kore::ProjectLoader::saveProject(const std::string& path) const {
 
   // delete resources;
   // delete comment;
+}
+
+void kore::ProjectLoader::saveSceneNode(TiXmlElement* parent,
+                                        kore::SceneNode* node) {
+  TiXmlElement* scenenode = new TiXmlElement("Node");
+  scenenode->SetAttribute("ID", node->getID());
+  scenenode->SetAttribute("Name", node->getName().c_str());
+  node->getComponents();
+  //for (uint);
+  std::vector<kore::SceneNode*> children = node->getChildren();
+  for (uint i = 0; i < children.size(); i++) {
+    saveSceneNode(scenenode, children[i]);
+  }
+  parent->LinkEndChild(scenenode);
 }

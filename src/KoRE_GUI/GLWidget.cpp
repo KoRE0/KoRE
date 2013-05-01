@@ -46,11 +46,12 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent) {
     cformat.setProfile(QGLFormat::CoreProfile);
 
     this->setFormat(cformat);
-    resize(800,600);
+    this->setMinimumSize(200,200);
+    resize(100,100);
 
     QTimer* timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateGL()));
-    timer->start(200);
+    timer->start(18);
     setFocusPolicy(Qt::FocusPolicy::StrongFocus);
 }
 
@@ -79,6 +80,11 @@ void GLWidget::initializeGL() {
         "GLSL version: %s\n",
         reinterpret_cast<const char*>
         (glGetString(GL_SHADING_LANGUAGE_VERSION)));
+
+    // enable culling and depthtest
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 }
 
 void GLWidget::resizeGL(int x, int y) {
@@ -88,9 +94,14 @@ void GLWidget::resizeGL(int x, int y) {
 }
 
 void GLWidget::paintGL() {
+  std::vector<kore::SceneNode*> node;
+  kore::SceneManager::getInstance()->getSceneNodesByName("Cube", node);
+  for (uint i = 0; i < node.size(); i++) {
+    node[i]->rotate(1.5, glm::vec3(0.0, 1.0, 0.0), kore::SPACE_WORLD);
+  }
+  kore::SceneManager::getInstance()->update();
   // TODO all GL handling is provided by KoRE itself
-  if (_foo > 1.0) {_foo-= 1.0f;}else{_foo+=0.02f;}
-  glClearColor(_foo,0.1,0.1,1);
+  glClearColor(0.089, 0.089, 0.089, 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   kore::RenderManager::getInstance()->renderFrame();
 }

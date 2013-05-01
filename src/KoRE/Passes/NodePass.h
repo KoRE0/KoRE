@@ -35,12 +35,25 @@ namespace kore {
       getOperations() {return _operations;}
     inline const SceneNode* getSceneNode() {return _node;}
 
+    inline std::vector<Operation*>&
+      getStartupOperations() {return _startupOperations;}
+    inline std::vector<Operation*>&
+      getFinishOperations() {return _finishOperations;}
+
     void addOperation(Operation* op);
     void removeOperation(Operation* op);
+
+    void addStartupOperation(Operation* op);
+    void removeStartupOperation(Operation* op);
+
+    void addFinishOperation(Operation* op);
+    void removeFinishOperation(Operation* op);
 
   private:
     const SceneNode* _node;
     uint64 _id;
+    std::vector<Operation*> _startupOperations;
+    std::vector<Operation*> _finishOperations;
     std::vector<Operation*> _operations;
   };
 }

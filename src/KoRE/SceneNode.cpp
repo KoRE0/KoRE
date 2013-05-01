@@ -98,7 +98,7 @@ const std::vector<kore::SceneNode*>& kore::SceneNode::getChildren() const {
   return _children;
 }
 
-const std::vector<kore::SceneNodeComponent*>
+const std::vector<kore::SceneNodeComponent*>&
     kore::SceneNode::getComponents() const {
     return _components;
 }

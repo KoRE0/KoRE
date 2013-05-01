@@ -27,8 +27,7 @@
 #include <GL/glew.h>
 #include <QGLWidget>
 
-class GLWidget : public QGLWidget
-{
+class GLWidget : public QGLWidget {
     Q_OBJECT
 
 public:
@@ -52,6 +51,5 @@ protected:
 
 private:
     QOpenGLContext* _context;
-    float _foo;
 };
 #endif  // GLWINDOW_H

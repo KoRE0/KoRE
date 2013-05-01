@@ -107,6 +107,14 @@ void koregui::ComponentItem::paint(QPainter* painter,
     b.setColor(QColor(250,123,28));
     t.setText("Light");
     break;
+  case kore::COMPONENT_MATERIAL:
+    b.setColor(QColor(153,97,251));
+    t.setText("Material");
+    break;
+  case kore::COMPONENT_TEXTURES:
+    b.setColor(QColor(255,254,186));
+    t.setText("Textures");
+    break;
   case kore::COMPONENT_UNKNOWN:
   default:
     b.setColor(Qt::GlobalColor::red);

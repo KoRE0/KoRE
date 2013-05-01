@@ -75,6 +75,14 @@ void kore::SimpleOptimizer::
         programPasses[iProgram]->getNodePasses();
 
       for (uint iNode = 0; iNode < nodePasses.size(); ++iNode) {
+        // Node pass startup
+        const std::vector<Operation*>& nodeStartupOps =
+          nodePasses[iNode]->getStartupOperations();
+
+        for (uint iStartupOp = 0; iStartupOp < nodeStartupOps.size(); ++iStartupOp) {
+          operationList.push_back(nodeStartupOps[iStartupOp]);
+        }
+
         const std::vector<Operation*>& operations =
           nodePasses[iNode]->getOperations();
 
@@ -85,6 +93,14 @@ void kore::SimpleOptimizer::
                       operationList.push_back(operations[iOperation]);
                     }
         }  // Operations
+
+        // Node pass finish
+        const std::vector<Operation*>& nodeFinishOps =
+          nodePasses[iNode]->getFinishOperations();
+
+        for (uint iFinishOp = 0; iFinishOp < nodeFinishOps.size(); ++iFinishOp) {
+          operationList.push_back(nodeFinishOps[iFinishOp]);
+        }
       }  // Node Passes
       // Program pass finish
       const std::vector<Operation*>& programFinishOps =

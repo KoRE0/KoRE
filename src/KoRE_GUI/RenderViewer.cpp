@@ -40,13 +40,16 @@
 
 koregui::RenderViewer::RenderViewer(QWidget *parent)
   : _currentpath(NULL),
+    _activePath(NULL),
     _bindTarget(NULL),
     QGraphicsView(parent) {
   setWindowTitle("RenderView");
   _scene.setBackgroundBrush(QBrush(QColor(23,23,23)));
   _scene.setParent(this);
   setScene(&_scene);
-  setMinimumSize(800,600);
+  setMinimumSize(400,400);
+  connect(&_pathanim, SIGNAL(timeout()), this, SLOT(animatePath()));
+  _pathanim.start(200);
 }
 
 koregui::RenderViewer::~RenderViewer() {
@@ -71,6 +74,7 @@ void koregui::RenderViewer::keyPressEvent(QKeyEvent * event) {
       QGraphicsItem* itemPtr = sceneset[i];
       // Deletion of BindPathItem
       if(itemPtr->data(0) == QVariant("BINDPATH")) {
+        _activePath = NULL;
         _scene.removeItem(itemPtr);
         delete(itemPtr);
       }
@@ -135,17 +139,27 @@ void koregui::RenderViewer::contextMenuEvent(QContextMenuEvent *event) {
 
 void koregui::RenderViewer::mousePressEvent(QMouseEvent * event) {
   QGraphicsItem* item = itemAt(event->pos());
-  if (item && item->data(0).toString() == "SHADERDATA") {
+  if (item) {
+    if (item->data(0).toString() == "SHADERDATA") {
       _currentpath = new BindPathItem(static_cast<ShaderDataItem*>(item),0);
       _currentpath->setDest(mapToScene(event->pos()));
       _scene.addItem(_currentpath);
-  }
-  if (item && item->data(0).toString() == "SHADERINPUT") {
-    ShaderInputItem* inputitem = static_cast<ShaderInputItem*>(item);
-    if (inputitem->getBinding() != NULL) {
-      _currentpath = inputitem->getBinding();
-      _currentpath->removeBinding();
-      _currentpath->setDest(mapToScene(event->pos()));
+    } else if (item->data(0).toString() == "SHADERINPUT") {
+      ShaderInputItem* inputitem = static_cast<ShaderInputItem*>(item);
+      if (inputitem->getBinding() != NULL) {
+        _currentpath = inputitem->getBinding();
+        _currentpath->removeBinding();
+        _currentpath->setDest(mapToScene(event->pos()));
+      }
+    } else if (item->data(0).toString() == "BINDPATH") {
+      BindPathItem* binditem = static_cast<BindPathItem*>(item);
+      _activePath = binditem;
+      _activePath->setAnimation(true);
+    }
+  } else {
+    if(_activePath) {
+      _activePath->setAnimation(false);
+      _activePath = NULL;
     }
   }
   QGraphicsView::mousePressEvent(event);
@@ -259,4 +273,10 @@ void koregui::RenderViewer::createEmptyNode(void) {
 
 void koregui::RenderViewer::createEmptyGroup(void) {
 
+}
+
+void koregui::RenderViewer::animatePath(void) {
+  if(_activePath) {
+    _activePath->animate();
+  }
 }

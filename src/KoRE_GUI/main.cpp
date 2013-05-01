@@ -23,40 +23,78 @@
 
 #include <GL/glew.h>
 #include <QApplication>
+#include <QMainWindow>
+#include <QTabWidget>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QCommonStyle>
 
 #include "KoRE/SceneManager.h"
 #include "KoRE/ResourceManager.h"
 #include "KoRE/RenderManager.h"
 
+#include "KoRE/Components/TexturesComponent.h"
+
 #include "KoRE_GUI/SceneViewer.h"
 #include "KoRE_GUI/RenderViewer.h"
 #include "KoRE_GUI/ResourceViewer.h"
+#include "KoRE_GUI/OperationFlow.h"
 #include "KoRE_GUI/GLWidget.h"
-#include "KoRE_GUI/FrameBufferEditor.h"
-#include "KoRE_GUI/ShaderEditor.h"
+#include "KoRE_GUI/MainWidget.h"
 
-int main(int argc, char *argv[])
-{
-
+int main(int argc, char *argv[]) {
   // initialize Qt
   QApplication app(argc, argv);
-  //app.setStyle(new koregui::KoRE_GUIStyle);
+
+  //MainWidget* editor = new MainWidget();
+  //editor->show();
 
   // need of GL-Context
-  GLWidget win;
-  win.show();
+  GLWidget* win = new GLWidget;
 
   // now  other widgets
-  koregui::ResourceViewer resview;
-  resview.show();
-  koregui::RenderViewer rview;
-  rview.show();
-  koregui::SceneViewer sview(&rview);
-  sview.show();
+  koregui::RenderViewer* rview = new koregui::RenderViewer;
+  koregui::ResourceViewer* resview = new koregui::ResourceViewer;
+  koregui::OperationFlow* oview = new koregui::OperationFlow;
+  koregui::SceneViewer* sview = new koregui::SceneViewer(rview);
 
+  /*QWidget* central = new QWidget;
+  QTabWidget* tab = new QTabWidget;
+  tab->addTab(rview, "RenderView");
+  tab->addTab(sview, "SceneViewe");
+
+
+  QHBoxLayout* hbox = new QHBoxLayout;
+  hbox->setMargin(0);
+  hbox->setSpacing(0);
+  hbox->addWidget(tab);
+  hbox->addWidget(win);
+ 
+  QVBoxLayout* vbox = new QVBoxLayout;
+  vbox->setMargin(0);
+  vbox->setSpacing(0);
+  vbox->addLayout(hbox);
+  vbox->addWidget(oview);
+
+  central->setLayout(vbox);
+  central->show();*/
+
+  win->show();
+  rview->show();
+  sview->show();
+
+  // demo startup loading
   kore::ResourceManager::getInstance()->loadScene("./assets/meshes/cube.dae");
-  sview.showScene(kore::SceneManager::getInstance()->getRootNode());
+  std::vector<kore::SceneNode*> cube;
+  kore::SceneManager::getInstance()->getSceneNodesByName("Cube", cube);
+  kore::Texture* tex = kore::ResourceManager::getInstance()->loadTexture("./assets/textures/checkerboard.png");
+  kore::Texture* tex2 = kore::ResourceManager::getInstance()->loadTexture("./assets/textures/stonewall.png");
+  kore::TexturesComponent* pTexComponent = new kore::TexturesComponent;
+  pTexComponent->addTexture(tex);
+  pTexComponent->addTexture(tex2);
+  cube[0]->addComponent(pTexComponent);
+  kore::SceneManager::getInstance()->update();
+  sview->showScene(kore::SceneManager::getInstance()->getRootNode());
 
   return app.exec();
 }

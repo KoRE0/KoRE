@@ -35,6 +35,10 @@ namespace kore {
     ShaderInput(void);
     virtual ~ShaderInput(void) {};
 
+    bool isSamplerType(void);
+    bool isImageType(void);
+    bool isAtomicCounterType(void);
+
     GLenum type;             // e.g. GL_FLOAT_VEC3
     GLenum input_type;       // e.g. GL_ACTIVE_UNIFORMS
     GLuint size;             // number of components in units of type(always 1)
@@ -50,6 +54,7 @@ namespace kore {
     GLuint programHandle;    // GLhandle of the shader program
     ShaderProgram* shader;
     void* additionalData;   // additional data used by some operations.
+
   };
 }
 

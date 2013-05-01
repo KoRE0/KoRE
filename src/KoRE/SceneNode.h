@@ -43,7 +43,7 @@ namespace kore {
     //                       EComponentType types) const;
     const SceneNode* getParent(void) const;
     const std::vector<SceneNode*>& getChildren() const;
-    const std::vector<SceneNodeComponent*> getComponents() const;
+    const std::vector<SceneNodeComponent*>& getComponents() const;
     const Transform* getTransform(void) const;
     kore::Transform* getTransform();
     SceneNodeComponent* getComponent(EComponentType type);

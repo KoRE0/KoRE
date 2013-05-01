@@ -149,7 +149,6 @@ void kore::RenderManager::setOptimizer(const Optimizer* optimizer) {
   if (_optimizer != NULL) {
     KORE_SAFE_DELETE(_optimizer);
   }
-
   _optimizer = optimizer;
 }
 

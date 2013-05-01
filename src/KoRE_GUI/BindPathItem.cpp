@@ -37,6 +37,10 @@ koregui::BindPathItem::BindPathItem(ShaderDataItem* start,
                                     QGraphicsItem* parent)
                                   : _start(start),
                                     _end(end),
+                                    _bindOP(NULL),
+                                    _dragend(0,0),
+                                    _animOffset(0),
+                                    _animated(false),
                                     QGraphicsPathItem(parent){
   setData(0, "BINDPATH");
   setFlag(QGraphicsItem::ItemIsSelectable, true);
@@ -53,21 +57,32 @@ QRectF koregui::BindPathItem::boundingRect() const {
   return path().boundingRect().adjusted(-2,-2,2,2);
 }
 
-void koregui::BindPathItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+void koregui::BindPathItem::paint(QPainter* painter,
+                                  const QStyleOptionGraphicsItem* option,
+                                  QWidget* widget) {
   // TODO(dospelt) use QPainterPathStroker
   QPointF start = mapFromItem(_start,6,6);
   QPointF dest = (_end)?mapFromItem(_end,6,6):_dragend;
   QPointF dist = QPointF((dest.x()- start.x())/2, 0);
   QPainterPath path(start);
   path.cubicTo(start + dist, dest - dist, dest);
-
   setPath(path);
 
+  QPen p;
+  p.setWidth(2);
+
   if (isSelected()) {
-    painter->setPen(QPen(QColor(200, 200, 200), 2));
+    p.setColor(QColor(100, 255, 255));
   } else {
-    painter->setPen(QPen(QColor(100, 255, 100), 2));
+    p.setColor(QColor(200, 200, 200));
   }
+  if(_animated) {
+    QVector<qreal> dashes;
+    dashes << 4 << 3;
+    p.setDashPattern(dashes);
+    p.setDashOffset(_animOffset);
+  }
+  painter->setPen(p);
   painter->drawPath(path);
 }
 
@@ -93,31 +108,41 @@ bool koregui::BindPathItem::initBinding(void) {
     _end->getShaderPass()->getProgramPass()->addNodePass(nodePass);
   }
 
+  kore::ShaderInput* target = const_cast<kore::ShaderInput*>(_end->getInput());
   kore::ShaderProgram* prog = const_cast<kore::ShaderProgram*>(
     _end->getShaderPass()->getProgramPass()->getShaderProgram());
 
   // attribute binding
-  if (_end->getInput()->input_type == GL_ACTIVE_ATTRIBUTES) {
+  if (target->input_type == GL_ACTIVE_ATTRIBUTES) {
     _bindOP = new kore::BindAttribute(_start->getData(), _end->getInput());
     nodePass->addOperation(_bindOP);
     if(_start->getData()->component->getType() == kore::COMPONENT_MESH) {
       // add renderMesh Op, if necessary
-      std::vector<kore::Operation*> ops = nodePass->getOperations();
-      if (ops[ops.size()-1]->getType() != kore::OP_RENDERMESH) {
-        kore::RenderMesh* _renderOP = new kore::RenderMesh(
-          static_cast<kore::MeshComponent*>(_start->getData()->component));
-          nodePass->addOperation(_renderOP);
+      std::vector<kore::Operation*> finishOps =
+          nodePass->getFinishOperations();
+      for(auto it = finishOps.begin(); it != finishOps.end(); it++) {
+        if ((*it)->getType() == kore::OP_RENDERMESH) return true;
       }
+      kore::RenderMesh* _renderOP = new kore::RenderMesh(
+        static_cast<kore::MeshComponent*>(_start->getData()->component));
+      nodePass->addOperation(_renderOP);
     }
    return true;
   }
 
   // uniform binding
-  if(_end->getInput()->input_type == GL_ACTIVE_UNIFORMS) {
-    _bindOP = new kore::BindUniform(_start->getData(), _end->getInput());
+  if(target->input_type == GL_ACTIVE_UNIFORMS) {
+    if(target->isImageType()) {
+      _bindOP = new kore::BindImageTexture(_start->getData(),
+                                           _end->getInput());
+    } else if (target->isSamplerType()) {
+       _bindOP = new kore::BindTexture(_start->getData(),
+                                       _end->getInput());
+    } else {
+      _bindOP = new kore::BindUniform(_start->getData(),
+                                      _end->getInput());
+    }
     nodePass->addOperation(_bindOP);
-    // texture binding
-    // TODO(dospelt)*/
     return true;
   }
   return false;
@@ -138,11 +163,8 @@ void koregui::BindPathItem::removeBinding() {
   }
 }
 
-void koregui::BindPathItem::startAnimation() {
-}
-
-void koregui::BindPathItem::stopAnimation() {
-}
-
 void koregui::BindPathItem::animate() {
+  _animOffset -= 1;
+  if(_animOffset <= -7) _animOffset += 7;
+  update();
 }

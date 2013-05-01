@@ -59,6 +59,8 @@ namespace koregui {
     /// Create an empty NodeGroup
     void createEmptyGroup(void);
 
+    void animatePath(void);
+
   protected:
     void keyPressEvent(QKeyEvent* event);
     void keyReleaseEvent(QKeyEvent * event);
@@ -76,6 +78,8 @@ namespace koregui {
       QPoint _lastpos;
       std::vector<FrameBufferStageItem*> _framebufferStages;
       ShaderInputItem* _bindTarget;
+      QTimer _pathanim;
+      BindPathItem* _activePath;
   };
 }
 #endif // SRC_KOREGUI_RENDERVIEWER_H_

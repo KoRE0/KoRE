@@ -293,7 +293,7 @@ void kore::ShaderProgram::constructShaderInputInfo(const GLenum activeType,
     GLuint atomicCounterIndex = 0;  // e.g. for atomic counters.
 
     for (uint i = 0; i < rInputVector.size(); ++i) {
-      if (isSamplerType(rInputVector[i].type)) {
+      if (rInputVector[i].isSamplerType()) {
         rInputVector[i].texUnit = texUnit;
         
         TexSamplerProperties samplerProperties;
@@ -310,14 +310,14 @@ void kore::ShaderProgram::constructShaderInputInfo(const GLenum activeType,
 
       // For Image-types: add the imgUnit-field,
       // but don't create a sampler.
-      else if (isImageType(rInputVector[i].type)) {
+      else if (rInputVector[i].isImageType()) {
         rInputVector[i].imgUnit = imgUnit;
         ++imgUnit;
       
         _imgAccessParams.push_back(GL_READ_WRITE);
       }
       
-      else if(isAtomicCounterType(rInputVector[i].type)) {
+      else if(rInputVector[i].isAtomicCounterType()) {
         // First, get the bindingPoint (set with layout(binding = x) 
         // in GLSL.
         GLint bindingPoint;
@@ -335,12 +335,16 @@ void kore::ShaderProgram::constructShaderInputInfo(const GLenum activeType,
           // We need a new indexedBuffer
           IndexedBuffer* acBuffer = new IndexedBuffer;
           uint value = 0;
-          acBuffer->create(GL_ATOMIC_COUNTER_BUFFER, sizeof(GLuint), GL_DYNAMIC_COPY, &value);
+          acBuffer->create(GL_ATOMIC_COUNTER_BUFFER,
+                           sizeof(GLuint),
+                           GL_DYNAMIC_COPY,
+                           &value);
           rInputVector[i].additionalData = acBuffer;
           resMgr->addIndexedBuffer(acBuffer);
         } else {
           // We can reuse an existing buffer from the resourceManager
-          IndexedBuffer* acBuffer = resMgr->getIndexedBufferByIndex(atomicCounterIndex);
+          IndexedBuffer* acBuffer =
+              resMgr->getIndexedBufferByIndex(atomicCounterIndex);
           rInputVector[i].additionalData = acBuffer;
         }
       }
@@ -415,94 +419,6 @@ bool kore::ShaderProgram::checkProgramLinkStatus(const GLuint programHandle,
   return success == GL_TRUE;
 }
 
-bool kore::ShaderProgram::isSamplerType(const GLuint uniformType) {
-  switch (uniformType) {
-    case GL_SAMPLER_1D:
-    case GL_SAMPLER_2D:
-    case GL_SAMPLER_3D:
-    case GL_SAMPLER_CUBE:
-    case GL_SAMPLER_1D_SHADOW:
-    case GL_SAMPLER_2D_SHADOW:
-    case GL_SAMPLER_CUBE_SHADOW:
-    case GL_SAMPLER_1D_ARRAY:
-    case GL_SAMPLER_2D_ARRAY:
-    case GL_SAMPLER_1D_ARRAY_SHADOW:
-    case GL_SAMPLER_2D_ARRAY_SHADOW:
-    case GL_SAMPLER_2D_MULTISAMPLE:
-    case GL_SAMPLER_2D_MULTISAMPLE_ARRAY:
-    case GL_SAMPLER_BUFFER:
-    case GL_SAMPLER_2D_RECT:
-    case GL_SAMPLER_2D_RECT_SHADOW:
-    case GL_INT_SAMPLER_1D:
-    case GL_INT_SAMPLER_2D:
-    case GL_INT_SAMPLER_3D:
-    case GL_INT_SAMPLER_CUBE:
-    case GL_INT_SAMPLER_1D_ARRAY:
-    case GL_INT_SAMPLER_2D_ARRAY:
-    case GL_INT_SAMPLER_2D_MULTISAMPLE:
-    case GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY:
-    case GL_INT_SAMPLER_BUFFER:
-    case GL_INT_SAMPLER_2D_RECT:
-    case GL_UNSIGNED_INT_SAMPLER_1D:
-    case GL_UNSIGNED_INT_SAMPLER_2D:
-    case GL_UNSIGNED_INT_SAMPLER_3D:
-    case GL_UNSIGNED_INT_SAMPLER_CUBE:
-    case GL_UNSIGNED_INT_SAMPLER_1D_ARRAY:
-    case GL_UNSIGNED_INT_SAMPLER_2D_ARRAY:
-    case GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE:
-    case GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY:
-    case GL_UNSIGNED_INT_SAMPLER_BUFFER:
-    case GL_UNSIGNED_INT_SAMPLER_2D_RECT:
-      return true;
-  default:
-    return false;
-  }
-}
-
-
-bool kore::ShaderProgram::isImageType(const GLuint uniformType) {
-  switch (uniformType) {
-    case GL_IMAGE_1D: 
-    case GL_IMAGE_2D: 
-    case GL_IMAGE_3D: 
-    case GL_IMAGE_2D_RECT: 
-    case GL_IMAGE_CUBE: 
-    case GL_IMAGE_BUFFER: 
-    case GL_IMAGE_1D_ARRAY: 
-    case GL_IMAGE_2D_ARRAY: 
-    case GL_IMAGE_2D_MULTISAMPLE: 
-    case GL_IMAGE_2D_MULTISAMPLE_ARRAY: 
-    case GL_INT_IMAGE_1D: 
-    case GL_INT_IMAGE_2D: 
-    case GL_INT_IMAGE_3D: 
-    case GL_INT_IMAGE_2D_RECT: 
-    case GL_INT_IMAGE_CUBE: 
-    case GL_INT_IMAGE_BUFFER: 
-    case GL_INT_IMAGE_1D_ARRAY: 
-    case GL_INT_IMAGE_2D_ARRAY: 
-    case GL_INT_IMAGE_2D_MULTISAMPLE: 
-    case GL_INT_IMAGE_2D_MULTISAMPLE_ARRAY: 
-    case GL_UNSIGNED_INT_IMAGE_1D: 
-    case GL_UNSIGNED_INT_IMAGE_2D: 
-    case GL_UNSIGNED_INT_IMAGE_3D: 
-    case GL_UNSIGNED_INT_IMAGE_2D_RECT: 
-    case GL_UNSIGNED_INT_IMAGE_CUBE: 
-    case GL_UNSIGNED_INT_IMAGE_BUFFER: 
-    case GL_UNSIGNED_INT_IMAGE_1D_ARRAY: 
-    case GL_UNSIGNED_INT_IMAGE_2D_ARRAY: 
-    case GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE: 
-    case GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY:
-      return true;
-  default:
-      return false;
-  }
-}
-
-bool kore::ShaderProgram::isAtomicCounterType(const GLuint uniformType) {
-  return uniformType == GL_UNSIGNED_INT_ATOMIC_COUNTER;
-}
-
-
 const kore::ShaderInput*
 kore::ShaderProgram::getAttribute(const std::string& name) const {
   for (uint i = 0; i < _attributes.size(); ++i) {
@@ -511,8 +427,9 @@ kore::ShaderProgram::getAttribute(const std::string& name) const {
     }
   }
 
-  Log::getInstance()->write("[ERROR] Attribute '%s' not found in shader '%s'\n",
-                            name.c_str(), _name.c_str());
+  Log::getInstance()->write(
+      "[ERROR] Attribute '%s' not found in shader '%s'\n",
+      name.c_str(), _name.c_str());
   return NULL;
 }
 

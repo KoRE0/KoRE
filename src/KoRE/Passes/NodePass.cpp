@@ -52,3 +52,33 @@ void kore::NodePass::removeOperation(Operation* op) {
     _operations.erase(it);
   }
 }
+
+void kore::NodePass::addStartupOperation(Operation* op) {
+  if (std::find(_startupOperations.begin(), _startupOperations.end(), op)
+    != _startupOperations.end()) {
+      return;
+  }
+  _startupOperations.push_back(op);
+}
+
+void kore::NodePass::removeStartupOperation(Operation* op) {
+  auto it = std::find(_startupOperations.begin(), _startupOperations.end(), op);
+  if(it != _startupOperations.end()) {
+    _startupOperations.erase(it);
+  }
+}
+
+void kore::NodePass::addFinishOperation(Operation* op) {
+  if (std::find(_finishOperations.begin(), _finishOperations.end(), op)
+    != _finishOperations.end()) {
+      return;
+  }
+  _finishOperations.push_back(op);
+}
+
+void kore::NodePass::removeFinishOperation(Operation* op) {
+  auto it = std::find(_finishOperations.begin(), _finishOperations.end(), op);
+  if(it != _finishOperations.end()) {
+    _finishOperations.erase(it);
+  }
+}

@@ -30,11 +30,11 @@ namespace kore {
     static ProjectLoader* getInstance();
     ~ProjectLoader(){};
 
-    void loadProject(const std::string& path) const;
-    void saveProject(const std::string& path) const;
+    void loadProject(const std::string& path);
+    void saveProject(const std::string& path);
 
   private:
-    void saveSceneNode(TiXmlElement* scene, SceneNode* node);
+    void saveSceneNode(TiXmlElement* parent, SceneNode* node);
     ProjectLoader(void){};
   };
 };

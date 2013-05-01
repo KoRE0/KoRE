@@ -100,11 +100,6 @@ namespace kore {
     static bool checkProgramLinkStatus(const GLuint programHandle,
                                        const std::string& name);
 
-    static bool isSamplerType(const GLuint uniformType);
-
-    static bool isImageType(const GLuint uniformType);
-    static bool isAtomicCounterType(const GLuint uniformType);
-
     void destroyProgram();
 
     void getAttributeInfo();

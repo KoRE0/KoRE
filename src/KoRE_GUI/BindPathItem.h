@@ -35,7 +35,9 @@ namespace koregui {
   class NodeItem;
   class BindPathItem : public QGraphicsPathItem {
   public:
-    BindPathItem(ShaderDataItem* start, ShaderInputItem* end, QGraphicsItem* parent = 0);
+    BindPathItem(ShaderDataItem* start,
+                 ShaderInputItem* end,
+                 QGraphicsItem* parent = 0);
     ~BindPathItem(void);
 
     QRectF boundingRect() const;
@@ -44,12 +46,10 @@ namespace koregui {
                QWidget* widget);
     void setDest(QPointF dest) {_dragend = dest;}
     void setEnd(ShaderInputItem* end) {_end = end;}
-    inline QTimer* getTimer() {return &_timer;}
     bool checkBinding(ShaderInputItem* target);
     bool initBinding(void);
     void removeBinding(void);
-    void startAnimation(void);
-    void stopAnimation(void);
+    inline void setAnimation(bool anim) {_animated = anim;}
     void animate();
 
   private:
@@ -57,7 +57,8 @@ namespace koregui {
     ShaderInputItem* _end;
     kore::BindOperation* _bindOP;
     QPointF _dragend;
-    QTimer _timer;
+    bool _animated;
+    int _animOffset;
   };
 }
 #endif  // BINDPATHITEM_H_

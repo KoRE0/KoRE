@@ -7,6 +7,7 @@ koregui::OperationFlow::OperationFlow(QWidget* parent)
   _scene.setParent(this);
   setScene(&_scene);
   setMinimumSize(800,200);
+  setFixedHeight(200);
 }
 
 koregui::OperationFlow::~OperationFlow() {
