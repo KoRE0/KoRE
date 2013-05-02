@@ -23,16 +23,17 @@
 #include "KoRE/Common.h"
 #include "KoRE/Operations/Operation.h"
 #include "KoRE/ShaderInput.h"
+#include "KoRE/ShaderData.h"
 
 namespace kore {
   class ResetAtomicCounterBuffer : public Operation {
   public:
     ResetAtomicCounterBuffer();
-    explicit ResetAtomicCounterBuffer(const ShaderInput* shaderInput,
+    explicit ResetAtomicCounterBuffer(const ShaderData* data,
                                       const uint value);
     virtual ~ResetAtomicCounterBuffer();
 
-    void connect(const ShaderInput* ShaderInput, const uint value);
+    void connect(const ShaderData* shaderData, const uint value);
 
     virtual void update(void);
     virtual void reset(void);
@@ -40,7 +41,7 @@ namespace kore {
     virtual bool dependsOn(const void* thing) const;
 
   private:
-    const ShaderInput* _shaderInput;
+    const ShaderData* _shaderData;
     uint _value;
 
     virtual void doExecute() const;

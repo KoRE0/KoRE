@@ -77,8 +77,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalOptions> /Zm1000 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(SolutionDir)ext/include;$(SolutionDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ext/include;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -92,7 +91,7 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;GLFW_INCLUDE_GL3;CMAKE_INTDIR="Debug";_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>Debug</AssemblerListingLocation>
       <ObjectFileName>$(IntDir)</ObjectFileName>
-      <ProgramDataBaseFileName>$(SolutionDir)lib/Debug/KoRE.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(ProjectDir)lib/Debug/KoRE.pdb</ProgramDataBaseFileName>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
@@ -223,15 +222,15 @@
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindAttribute.cpp" />
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindImageTexture.cpp" />
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindTexture.cpp" />
-    <ClCompile Include="src\KoRE\Operations\BindOperations\BindTextureBuffer.cpp" />
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindUniform.cpp" />
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindOperation.cpp" />
+    <ClCompile Include="src\KoRE\Operations\BindOperations\BindAtomicCounterBuffer.cpp" />
     <ClCompile Include="src\KoRE\Operations\ColorMaskOp.cpp" />
     <ClCompile Include="src\KoRE\Operations\EnableDisableOp.cpp" />
+    <ClCompile Include="src\KoRE\Operations\FunctionOp.cpp" />
     <ClCompile Include="src\KoRE\Operations\MemoryBarrierOp.cpp" />
     <ClCompile Include="src\KoRE\Operations\OperationFactory.cpp" />
     <ClCompile Include="src\KoRE\Operations\ResetAtomicCounterBuffer.cpp" />
-    <ClCompile Include="src\KoRE\Operations\UseAtomicCounterBuffer.cpp" />
     <ClCompile Include="src\KoRE\Operations\UseFBO.cpp" />
     <ClCompile Include="src\KoRE\Operations\UseShaderProgram.cpp" />
     <ClCompile Include="src\KoRE\Operations\ViewportOp.cpp" />
@@ -276,18 +275,18 @@
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindAttribute.h" />
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindImageTexture.h" />
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindTexture.h" />
-    <ClInclude Include="src\KoRE\Operations\BindOperations\BindTextureBuffer.h" />
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindUniform.h" />
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindOperation.h" />
+    <ClInclude Include="src\KoRE\Operations\BindOperations\BindAtomicCounterBuffer.h" />
     <ClInclude Include="src\KoRE\Operations\ColorMaskOp.h" />
     <ClInclude Include="src\KoRE\Operations\EnableDisableOp.h" />
+    <ClInclude Include="src\KoRE\Operations\FunctionOp.h" />
     <ClInclude Include="src\KoRE\Operations\MemoryBarrierOp.h" />
     <ClInclude Include="src\KoRE\Operations\Operation.h" />
     <ClInclude Include="src\KoRE\Operations\OperationFactory.h" />
     <ClInclude Include="src\KoRE\Operations\RenderMesh.h" />
     <ClInclude Include="src\KoRE\Operations\ResetAtomicCounterBuffer.h" />
     <ClInclude Include="src\KoRE\Operations\SelectNodes.h" />
-    <ClInclude Include="src\KoRE\Operations\UseAtomicCounterBuffer.h" />
     <ClInclude Include="src\KoRE\Operations\UseFBO.h" />
     <ClInclude Include="src\KoRE\Operations\UseShaderProgram.h" />
     <ClInclude Include="src\KoRE\Operations\ViewportOp.h" />
