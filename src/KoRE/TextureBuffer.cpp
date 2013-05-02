@@ -56,6 +56,9 @@ bool kore::TextureBuffer::create(const STextureBufferProperties& properties,
   renderMgr->bindTexture(GL_TEXTURE_BUFFER, 0);
   renderMgr->bindBuffer(GL_TEXTURE_BUFFER, 0);
   
+  if (success) {
+    _properties = properties;
+  }
 
   return success;
 }
