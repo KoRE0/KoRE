@@ -166,9 +166,6 @@
     <ClCompile Include="src\KoRE\TextureBuffer.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\KoRE\Operations\BindOperations\BindTextureBuffer.cpp">
-      <Filter>src\Operations\BindOperations</Filter>
-    </ClCompile>
     <ClCompile Include="src\KoRE\StdAfx.cpp" />
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindAtomicCounterBuffer.cpp">
       <Filter>src\Operations\BindOperations</Filter>
@@ -354,9 +351,6 @@
     </ClInclude>
     <ClInclude Include="src\KoRE\TextureBuffer.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\KoRE\Operations\BindOperations\BindTextureBuffer.h">
-      <Filter>src\Operations\BindOperations</Filter>
     </ClInclude>
     <ClInclude Include="src\KoRE\StdAfx.h" />
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindAtomicCounterBuffer.h">

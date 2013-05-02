@@ -222,7 +222,6 @@
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindAttribute.cpp" />
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindImageTexture.cpp" />
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindTexture.cpp" />
-    <ClCompile Include="src\KoRE\Operations\BindOperations\BindTextureBuffer.cpp" />
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindUniform.cpp" />
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindOperation.cpp" />
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindAtomicCounterBuffer.cpp" />
@@ -276,7 +275,6 @@
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindAttribute.h" />
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindImageTexture.h" />
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindTexture.h" />
-    <ClInclude Include="src\KoRE\Operations\BindOperations\BindTextureBuffer.h" />
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindUniform.h" />
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindOperation.h" />
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindAtomicCounterBuffer.h" />
