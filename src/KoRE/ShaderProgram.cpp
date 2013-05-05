@@ -326,9 +326,6 @@ void kore::ShaderProgram::constructShaderInputInfo(const GLenum activeType,
                                          &bindingPoint);
         ++atomicCounterIndex;
         rInputVector[i].atomicCounterBindingPoint = bindingPoint;
-                           sizeof(GLuint),
-                           GL_DYNAMIC_COPY,
-                           &value);
       }
     }
   }
