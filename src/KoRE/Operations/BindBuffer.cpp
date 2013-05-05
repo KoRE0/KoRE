@@ -24,15 +24,15 @@
 #include "KoRE/IndexedBuffer.h"
 
 
-kore::BindBuffer::BindBuffer() : _buf(NULL), _bufTarget(0) {
+kore::BindBuffer::BindBuffer() : _buf(0), _bufTarget(0) {
     _type = OP_BINDBUFFER;
 }
 
 kore::BindBuffer::
-  BindBuffer(const GLenum bufferTarget, const IndexedBuffer* buf)
-    : _buf(NULL), _bufTarget(0) {
+  BindBuffer(const GLenum bufferTarget, const GLuint bufLoc)
+    : _buf(0), _bufTarget(0) {
     _type = OP_BINDBUFFER;
-    connect(bufferTarget, buf);
+    connect(bufferTarget, bufLoc);
 }
 
 kore::BindBuffer::~BindBuffer() {
@@ -45,22 +45,20 @@ void kore::BindBuffer::reset(void) {
 }
 
 bool kore::BindBuffer::isValid() const {
-  // Has a bool-operator overloaded
-  return _buf != NULL;
+  return true;;
 }
 
 bool kore::BindBuffer::dependsOn(const void* thing) const {
-  return thing == _buf;
+  return false;
 }
 
 void kore::BindBuffer::doExecute() const {
  if (_buf) {
-   _renderManager->bindBuffer(_bufTarget, _buf->getHandle());
+   _renderManager->bindBuffer(_bufTarget, _buf);
  }
 }
 
-void kore::BindBuffer::connect(const GLenum bufferTarget,
-                               const IndexedBuffer* buf) {
+void kore::BindBuffer::connect(const GLenum bufferTarget, const GLuint bufLoc) {
   _bufTarget = bufferTarget;
-  _buf = buf;
+  _buf = bufLoc;
 }

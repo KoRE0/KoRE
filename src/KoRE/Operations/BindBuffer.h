@@ -28,10 +28,10 @@ namespace kore {
   class BindBuffer : public Operation {
   public:
     BindBuffer();
-    explicit BindBuffer(const GLenum bufferTarget, const IndexedBuffer* buf);
+    explicit BindBuffer(const GLenum bufferTarget, const GLuint bufLoc);
     virtual ~BindBuffer();
 
-    void connect(const GLenum bufferTarget, const IndexedBuffer* _buf);
+    void connect(const GLenum bufferTarget, const GLuint bufLoc);
 
     virtual void update(void);
     virtual void reset(void);
@@ -39,7 +39,7 @@ namespace kore {
     virtual bool dependsOn(const void* thing) const;
 
   private:
-    const IndexedBuffer* _buf;
+    GLuint _buf;
     GLenum _bufTarget;
 
     virtual void doExecute() const;
