@@ -173,6 +173,12 @@
     <ClCompile Include="src\KoRE\Operations\FunctionOp.cpp">
       <Filter>src\Operations</Filter>
     </ClCompile>
+    <ClCompile Include="src\KoRE\Operations\BindBuffer.cpp">
+      <Filter>src\Operations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE\Operations\DrawIndirectOp.cpp">
+      <Filter>src\Operations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\KoRE\Operations\SelectNodes.h">
@@ -357,6 +363,15 @@
       <Filter>src\Operations\BindOperations</Filter>
     </ClInclude>
     <ClInclude Include="src\KoRE\Operations\FunctionOp.h">
+      <Filter>src\Operations</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\Operations\BindBuffer.h">
+      <Filter>src\Operations</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\Operations\DrawIndirectOp.h">
+      <Filter>src\Operations</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\Operations\Operations.h">
       <Filter>src\Operations</Filter>
     </ClInclude>
   </ItemGroup>
