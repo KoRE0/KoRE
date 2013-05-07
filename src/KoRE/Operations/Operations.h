@@ -33,3 +33,5 @@
 #include "UseFBO.h"
 #include "UseShaderProgram.h"
 #include "ViewportOp.h"
+#include "BindBuffer.h"
+#include "DrawIndirectOp.h"

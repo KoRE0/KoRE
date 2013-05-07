@@ -41,7 +41,9 @@ namespace kore {
     OP_ENABLEDISABLE,
     OP_COLORMASK,
     OP_VIEWPORT,
-    OP_FUNCTION
+    OP_FUNCTION,
+    OP_DRAWINDIRECT,
+    OP_BINDBUFFER
   };
 
   class SceneNodeComponent;

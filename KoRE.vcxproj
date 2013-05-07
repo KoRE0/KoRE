@@ -219,6 +219,7 @@
     <ClCompile Include="src\KoRE\Loader\SceneLoader.cpp" />
     <ClCompile Include="src\KoRE\Loader\TextureLoader.cpp" />
     <ClCompile Include="src\KoRE\Mesh.cpp" />
+    <ClCompile Include="src\KoRE\Operations\BindBuffer.cpp" />
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindAttribute.cpp" />
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindImageTexture.cpp" />
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindTexture.cpp" />
@@ -226,6 +227,7 @@
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindOperation.cpp" />
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindAtomicCounterBuffer.cpp" />
     <ClCompile Include="src\KoRE\Operations\ColorMaskOp.cpp" />
+    <ClCompile Include="src\KoRE\Operations\DrawIndirectOp.cpp" />
     <ClCompile Include="src\KoRE\Operations\EnableDisableOp.cpp" />
     <ClCompile Include="src\KoRE\Operations\FunctionOp.cpp" />
     <ClCompile Include="src\KoRE\Operations\MemoryBarrierOp.cpp" />
@@ -272,6 +274,7 @@
     <ClInclude Include="src\KoRE\Loader\TextureLoader.h" />
     <ClInclude Include="src\KoRE\Log.h" />
     <ClInclude Include="src\KoRE\Mesh.h" />
+    <ClInclude Include="src\KoRE\Operations\BindBuffer.h" />
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindAttribute.h" />
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindImageTexture.h" />
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindTexture.h" />
@@ -279,11 +282,13 @@
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindOperation.h" />
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindAtomicCounterBuffer.h" />
     <ClInclude Include="src\KoRE\Operations\ColorMaskOp.h" />
+    <ClInclude Include="src\KoRE\Operations\DrawIndirectOp.h" />
     <ClInclude Include="src\KoRE\Operations\EnableDisableOp.h" />
     <ClInclude Include="src\KoRE\Operations\FunctionOp.h" />
     <ClInclude Include="src\KoRE\Operations\MemoryBarrierOp.h" />
     <ClInclude Include="src\KoRE\Operations\Operation.h" />
     <ClInclude Include="src\KoRE\Operations\OperationFactory.h" />
+    <ClInclude Include="src\KoRE\Operations\Operations.h" />
     <ClInclude Include="src\KoRE\Operations\RenderMesh.h" />
     <ClInclude Include="src\KoRE\Operations\ResetAtomicCounterBuffer.h" />
     <ClInclude Include="src\KoRE\Operations\SelectNodes.h" />
