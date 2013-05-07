@@ -197,7 +197,9 @@ void koregui::ShaderEditor::applyChanges(void) {
   QLineEdit* lineedit;
   QComboBox* stype;
   for (int i = 0; i < ui.shaderTable->rowCount(); i++) {
-     lineedit = static_cast<QLineEdit*>(ui.shaderTable->cellWidget(i, 1));
+     lineedit = static_cast<QLineEdit*>(ui.shaderTable
+                                        ->cellWidget(i, 1)
+                                        ->childAt(1,1));
      stype = static_cast<QComboBox*>(ui.shaderTable->cellWidget(i, 0));
      std::string path = lineedit->text().toStdString();
      GLenum typ = stype->itemData(stype->currentIndex()).toUInt();
@@ -217,7 +219,9 @@ void koregui::ShaderEditor::pathButtonPressed(int row) {
       "./assets/",
       tr("Shader (*.vp *.vert *.fp *.frag *.gp *.geom *.shader)"));
    QString s = QDir::currentPath();
-   QLineEdit* led = static_cast<QLineEdit*>(ui.shaderTable->cellWidget(row,1));
+   fileName.remove(s);
+   fileName.prepend(".");
+   QLineEdit* led = static_cast<QLineEdit*>(ui.shaderTable->cellWidget(row,1)->childAt(1,1));
    if (fileName != "") led->setText(fileName);
 }
 

@@ -67,6 +67,9 @@
       <Filter>GeneratedFiles</Filter>
     </ClCompile>
     <ClCompile Include="src\KoRE_GUI\TextureEditor.cpp" />
+    <ClCompile Include="src\KoRE_GUI\FlowItem.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\KoRE_GUI\ComponentItem.h" />
@@ -86,6 +89,9 @@
     </ClInclude>
     <ClInclude Include="src\KoRE_GUI\GeneratedFiles\ui_TextureEditor.h">
       <Filter>GeneratedFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE_GUI\FlowItem.h">
+      <Filter>Header Dateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -108,6 +114,16 @@
   <ItemGroup>
     <Filter Include="GeneratedFiles">
       <UniqueIdentifier>{c25fc98e-e0ef-430f-81aa-b7932db20124}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Dateien">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Source Dateien">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+      <ParseFiles>true</ParseFiles>
     </Filter>
   </ItemGroup>
 </Project>
