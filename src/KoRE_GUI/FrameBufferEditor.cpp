@@ -3,11 +3,12 @@
 #include "KoRE/Common.h"
 #include "KoRE/Texture.h"
 
-koregui::FrameBufferEditor::FrameBufferEditor(koregui::FrameBufferStageItem* stage,
-                                              QWidget *parent)
-                                            : _currentitem(stage),
-                                              _currentbuffer(NULL),
-                                              QWidget(parent) {
+koregui::FrameBufferEditor::FrameBufferEditor(
+    koregui::FrameBufferStageItem* stage,
+    QWidget *parent)
+  : _currentitem(stage),
+    _currentbuffer(NULL),
+    QWidget(parent) {
   ui.setupUi(this);
   
   std::vector<kore::FrameBuffer*> bufferlist
@@ -68,6 +69,8 @@ void koregui::FrameBufferEditor::addNewAttachment(void) {
   combo->addItem("GL_COLOR_ATTACHMENT5", QVariant(GL_COLOR_ATTACHMENT5));
   combo->addItem("GL_COLOR_ATTACHMENT6", QVariant(GL_COLOR_ATTACHMENT6));
   combo->addItem("GL_COLOR_ATTACHMENT7", QVariant(GL_COLOR_ATTACHMENT7));
+  combo->addItem("GL_DEPTH_ATTACHMENT", QVariant(GL_DEPTH_ATTACHMENT));
+  combo->addItem("GL_STENCIL_ATTACHMENT", QVariant(GL_STENCIL_ATTACHMENT));
   ui.tableWidget->setCellWidget(ui.tableWidget->rowCount() -1, 0, combo);
 }
 
@@ -97,7 +100,9 @@ void koregui::FrameBufferEditor::framebufferChanged(int index) {
 
 void koregui::FrameBufferEditor::nameChanged(const QString& name) {
   if(!_currentbuffer) return;
-  ui.framebufferselect->setItemText(ui.framebufferselect->currentIndex(), name);
+  ui.framebufferselect->setItemText(ui.framebufferselect->currentIndex(),
+                                    name);
   _currentbuffer->setName(name.toStdString());
-  refresh();
+  //_currentitem->refresh();
+  //_currentitem->update();
 }

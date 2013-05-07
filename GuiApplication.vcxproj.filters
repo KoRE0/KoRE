@@ -13,7 +13,6 @@
     <ClCompile Include="src\KoRE_GUI\ResourceViewer.cpp" />
     <ClCompile Include="src\KoRE_GUI\SceneViewer.cpp" />
     <ClCompile Include="src\KoRE_GUI\ShaderDataItem.cpp" />
-    <ClCompile Include="src\KoRE_GUI\ShaderEditor.cpp" />
     <ClCompile Include="src\KoRE_GUI\ShaderInputItem.cpp" />
     <ClCompile Include="src\KoRE_GUI\ShaderPassItem.cpp" />
     <ClCompile Include="src\KoRE_GUI\GeneratedFiles\Debug\moc_FrameBufferEditor.cpp">
@@ -60,6 +59,14 @@
     <ClCompile Include="src\KoRE_GUI\GeneratedFiles\Release\moc_MainWidget.cpp">
       <Filter>GeneratedFiles</Filter>
     </ClCompile>
+    <ClCompile Include="src\KoRE_GUI\ShaderEditor.cpp" />
+    <ClCompile Include="src\KoRE_GUI\GeneratedFiles\Debug\moc_TextureEditor.cpp">
+      <Filter>GeneratedFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE_GUI\GeneratedFiles\Release\moc_TextureEditor.cpp">
+      <Filter>GeneratedFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE_GUI\TextureEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\KoRE_GUI\ComponentItem.h" />
@@ -77,6 +84,9 @@
     <ClInclude Include="src\KoRE_GUI\GeneratedFiles\ui_MainWidget.h">
       <Filter>GeneratedFiles</Filter>
     </ClInclude>
+    <ClInclude Include="src\KoRE_GUI\GeneratedFiles\ui_TextureEditor.h">
+      <Filter>GeneratedFiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="src\KoRE_GUI\FrameBufferEditor.h" />
@@ -92,25 +102,12 @@
     <CustomBuild Include="src\KoRE_GUI\MainWidget.h" />
     <CustomBuild Include="src\KoRE_GUI\FrameBufferEditor.ui" />
     <CustomBuild Include="src\KoRE_GUI\MainWidget.ui" />
+    <CustomBuild Include="src\KoRE_GUI\TextureEditor.h" />
+    <CustomBuild Include="src\KoRE_GUI\TextureEditor.ui" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GeneratedFiles">
       <UniqueIdentifier>{c25fc98e-e0ef-430f-81aa-b7932db20124}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Generierte Dateien">
-      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
-      <Extensions>moc;h;cpp</Extensions>
-      <ParseFiles>true</ParseFiles>
-    </Filter>
-    <Filter Include="Generierte Dateien\Debug">
-      <UniqueIdentifier>{3a13eeff-fbd7-473d-b15b-3fee397793b6}</UniqueIdentifier>
-      <Extensions>cpp;moc</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
-    </Filter>
-    <Filter Include="Generierte Dateien\Release">
-      <UniqueIdentifier>{05393b3b-1309-4b6c-a3f7-56b308d83680}</UniqueIdentifier>
-      <Extensions>cpp;moc</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
     </Filter>
   </ItemGroup>
 </Project>

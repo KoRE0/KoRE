@@ -50,9 +50,7 @@ void kore::ShaderProgram::destroyProgram() {
     _programHandle = KORE_GLUINT_HANDLE_INVALID;
   }
 
-
   _outputs.clear();
-  _name = "";
   _uniforms.clear();
   _attributes.clear();
   _imgAccessParams.clear();
@@ -326,9 +324,6 @@ void kore::ShaderProgram::constructShaderInputInfo(const GLenum activeType,
                                          &bindingPoint);
         ++atomicCounterIndex;
         rInputVector[i].atomicCounterBindingPoint = bindingPoint;
-                           sizeof(GLuint),
-                           GL_DYNAMIC_COPY,
-                           &value);
       }
     }
   }

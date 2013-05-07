@@ -17,9 +17,7 @@
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
@@ -31,35 +29,24 @@ QT_BEGIN_NAMESPACE
 class Ui_FrameBufferEditor
 {
 public:
+    QGridLayout *gridLayout_2;
     QLineEdit *nameEdit;
-    QWidget *horizontalLayoutWidget;
-    QHBoxLayout *topLayout;
-    QComboBox *framebufferselect;
-    QSpacerItem *horizontalSpacer;
-    QPushButton *newbutton;
-    QWidget *horizontalLayoutWidget_2;
-    QHBoxLayout *lineLayout;
     QFrame *line;
-    QWidget *gridLayoutWidget;
-    QGridLayout *gridLayout;
     QPushButton *applyButton;
-    QPushButton *newattach;
-    QSpacerItem *verticalSpacer;
     QPushButton *closeButton;
-    QSpacerItem *horizontalSpacer_2;
-    QPushButton *pushButton;
-    QWidget *horizontalLayoutWidget_3;
-    QHBoxLayout *horizontalLayout_3;
+    QComboBox *framebufferselect;
+    QPushButton *newbutton;
     QTableWidget *tableWidget;
-    QLineEdit *lineEdit;
-    QLabel *label;
+    QSpacerItem *horizontalSpacer;
+    QPushButton *newattach;
+    QSpacerItem *horizontalSpacer_2;
 
     void setupUi(QWidget *FrameBufferEditor)
     {
         if (FrameBufferEditor->objectName().isEmpty())
             FrameBufferEditor->setObjectName(QStringLiteral("FrameBufferEditor"));
-        FrameBufferEditor->resize(480, 500);
-        FrameBufferEditor->setMinimumSize(QSize(480, 500));
+        FrameBufferEditor->resize(480, 300);
+        FrameBufferEditor->setMinimumSize(QSize(480, 300));
         FrameBufferEditor->setMaximumSize(QSize(16777215, 16777215));
         FrameBufferEditor->setMouseTracking(false);
         FrameBufferEditor->setStyleSheet(QLatin1String("QToolTip\n"
@@ -534,111 +521,65 @@ public:
 ""
                         "}"));
         FrameBufferEditor->setLocale(QLocale(QLocale::English, QLocale::UnitedStates));
+        gridLayout_2 = new QGridLayout(FrameBufferEditor);
+        gridLayout_2->setSpacing(6);
+        gridLayout_2->setContentsMargins(11, 11, 11, 11);
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         nameEdit = new QLineEdit(FrameBufferEditor);
         nameEdit->setObjectName(QStringLiteral("nameEdit"));
-        nameEdit->setGeometry(QRect(20, 80, 181, 31));
         QFont font;
         font.setFamily(QStringLiteral("Arial"));
         font.setPointSize(10);
         font.setBold(true);
         font.setWeight(75);
         nameEdit->setFont(font);
-        horizontalLayoutWidget = new QWidget(FrameBufferEditor);
-        horizontalLayoutWidget->setObjectName(QStringLiteral("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(20, 10, 441, 31));
-        topLayout = new QHBoxLayout(horizontalLayoutWidget);
-        topLayout->setSpacing(6);
-        topLayout->setContentsMargins(11, 11, 11, 11);
-        topLayout->setObjectName(QStringLiteral("topLayout"));
-        topLayout->setContentsMargins(0, 0, 0, 0);
-        framebufferselect = new QComboBox(horizontalLayoutWidget);
-        framebufferselect->setObjectName(QStringLiteral("framebufferselect"));
-        framebufferselect->setMinimumSize(QSize(150, 0));
-        framebufferselect->setEditable(false);
 
-        topLayout->addWidget(framebufferselect);
+        gridLayout_2->addWidget(nameEdit, 3, 0, 1, 1);
 
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        topLayout->addItem(horizontalSpacer);
-
-        newbutton = new QPushButton(horizontalLayoutWidget);
-        newbutton->setObjectName(QStringLiteral("newbutton"));
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(newbutton->sizePolicy().hasHeightForWidth());
-        newbutton->setSizePolicy(sizePolicy);
-        newbutton->setMinimumSize(QSize(80, 0));
-        newbutton->setCheckable(false);
-
-        topLayout->addWidget(newbutton);
-
-        horizontalLayoutWidget_2 = new QWidget(FrameBufferEditor);
-        horizontalLayoutWidget_2->setObjectName(QStringLiteral("horizontalLayoutWidget_2"));
-        horizontalLayoutWidget_2->setGeometry(QRect(0, 50, 481, 21));
-        lineLayout = new QHBoxLayout(horizontalLayoutWidget_2);
-        lineLayout->setSpacing(6);
-        lineLayout->setContentsMargins(11, 11, 11, 11);
-        lineLayout->setObjectName(QStringLiteral("lineLayout"));
-        lineLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
-        lineLayout->setContentsMargins(0, 0, 0, 0);
-        line = new QFrame(horizontalLayoutWidget_2);
+        line = new QFrame(FrameBufferEditor);
         line->setObjectName(QStringLiteral("line"));
         line->setFrameShape(QFrame::HLine);
         line->setFrameShadow(QFrame::Sunken);
 
-        lineLayout->addWidget(line);
+        gridLayout_2->addWidget(line, 2, 0, 1, 4);
 
-        gridLayoutWidget = new QWidget(FrameBufferEditor);
-        gridLayoutWidget->setObjectName(QStringLiteral("gridLayoutWidget"));
-        gridLayoutWidget->setGeometry(QRect(20, 400, 441, 81));
-        gridLayout = new QGridLayout(gridLayoutWidget);
-        gridLayout->setSpacing(6);
-        gridLayout->setContentsMargins(11, 11, 11, 11);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        gridLayout->setContentsMargins(0, 0, 0, 0);
-        applyButton = new QPushButton(gridLayoutWidget);
+        applyButton = new QPushButton(FrameBufferEditor);
         applyButton->setObjectName(QStringLiteral("applyButton"));
         applyButton->setMinimumSize(QSize(70, 0));
 
-        gridLayout->addWidget(applyButton, 0, 3, 1, 1);
+        gridLayout_2->addWidget(applyButton, 6, 3, 1, 1);
 
-        newattach = new QPushButton(gridLayoutWidget);
-        newattach->setObjectName(QStringLiteral("newattach"));
-
-        gridLayout->addWidget(newattach, 0, 0, 1, 1);
-
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        gridLayout->addItem(verticalSpacer, 1, 3, 1, 1);
-
-        closeButton = new QPushButton(gridLayoutWidget);
+        closeButton = new QPushButton(FrameBufferEditor);
         closeButton->setObjectName(QStringLiteral("closeButton"));
+        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(closeButton->sizePolicy().hasHeightForWidth());
         closeButton->setSizePolicy(sizePolicy);
-        closeButton->setMinimumSize(QSize(70, 0));
+        closeButton->setMinimumSize(QSize(0, 0));
 
-        gridLayout->addWidget(closeButton, 2, 3, 1, 1);
+        gridLayout_2->addWidget(closeButton, 8, 3, 1, 1);
 
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        framebufferselect = new QComboBox(FrameBufferEditor);
+        framebufferselect->setObjectName(QStringLiteral("framebufferselect"));
+        framebufferselect->setMinimumSize(QSize(150, 0));
+        framebufferselect->setEditable(false);
 
-        gridLayout->addItem(horizontalSpacer_2, 0, 2, 1, 1);
+        gridLayout_2->addWidget(framebufferselect, 1, 0, 1, 1);
 
-        pushButton = new QPushButton(gridLayoutWidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
+        newbutton = new QPushButton(FrameBufferEditor);
+        newbutton->setObjectName(QStringLiteral("newbutton"));
+        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(newbutton->sizePolicy().hasHeightForWidth());
+        newbutton->setSizePolicy(sizePolicy1);
+        newbutton->setMinimumSize(QSize(80, 0));
+        newbutton->setCheckable(false);
 
-        gridLayout->addWidget(pushButton, 0, 1, 1, 1);
+        gridLayout_2->addWidget(newbutton, 1, 3, 1, 1);
 
-        horizontalLayoutWidget_3 = new QWidget(FrameBufferEditor);
-        horizontalLayoutWidget_3->setObjectName(QStringLiteral("horizontalLayoutWidget_3"));
-        horizontalLayoutWidget_3->setGeometry(QRect(20, 210, 441, 171));
-        horizontalLayout_3 = new QHBoxLayout(horizontalLayoutWidget_3);
-        horizontalLayout_3->setSpacing(6);
-        horizontalLayout_3->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        horizontalLayout_3->setContentsMargins(0, 0, 0, 0);
-        tableWidget = new QTableWidget(horizontalLayoutWidget_3);
+        tableWidget = new QTableWidget(FrameBufferEditor);
         if (tableWidget->columnCount() < 4)
             tableWidget->setColumnCount(4);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
@@ -651,17 +592,26 @@ public:
         tableWidget->setHorizontalHeaderItem(3, __qtablewidgetitem3);
         tableWidget->setObjectName(QStringLiteral("tableWidget"));
         tableWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        tableWidget->setShowGrid(false);
+        tableWidget->setGridStyle(Qt::NoPen);
         tableWidget->setCornerButtonEnabled(false);
+        tableWidget->horizontalHeader()->setStretchLastSection(true);
 
-        horizontalLayout_3->addWidget(tableWidget);
+        gridLayout_2->addWidget(tableWidget, 4, 0, 1, 4);
 
-        lineEdit = new QLineEdit(FrameBufferEditor);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
-        lineEdit->setGeometry(QRect(250, 90, 113, 20));
-        label = new QLabel(FrameBufferEditor);
-        label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(30, 150, 91, 31));
-        label->setTextInteractionFlags(Qt::LinksAccessibleByMouse|Qt::TextEditable);
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_2->addItem(horizontalSpacer, 1, 1, 1, 1);
+
+        newattach = new QPushButton(FrameBufferEditor);
+        newattach->setObjectName(QStringLiteral("newattach"));
+
+        gridLayout_2->addWidget(newattach, 6, 0, 1, 1);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_2->addItem(horizontalSpacer_2, 6, 1, 1, 2);
+
 
         retranslateUi(FrameBufferEditor);
         QObject::connect(closeButton, SIGNAL(clicked()), FrameBufferEditor, SLOT(close()));
@@ -673,11 +623,9 @@ public:
     {
         FrameBufferEditor->setWindowTitle(QApplication::translate("FrameBufferEditor", "Framebuffer Stage", 0));
         nameEdit->setText(QApplication::translate("FrameBufferEditor", "<none>", 0));
-        newbutton->setText(QApplication::translate("FrameBufferEditor", "New FBO", 0));
         applyButton->setText(QApplication::translate("FrameBufferEditor", "Apply", 0));
-        newattach->setText(QApplication::translate("FrameBufferEditor", "New Attachment", 0));
         closeButton->setText(QApplication::translate("FrameBufferEditor", "Close", 0));
-        pushButton->setText(QApplication::translate("FrameBufferEditor", "Attach Texture", 0));
+        newbutton->setText(QApplication::translate("FrameBufferEditor", "New FBO", 0));
         QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("FrameBufferEditor", "Attachment", 0));
         QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);
@@ -686,7 +634,7 @@ public:
         ___qtablewidgetitem2->setText(QApplication::translate("FrameBufferEditor", "PixelType", 0));
         QTableWidgetItem *___qtablewidgetitem3 = tableWidget->horizontalHeaderItem(3);
         ___qtablewidgetitem3->setText(QApplication::translate("FrameBufferEditor", "Format", 0));
-        label->setText(QApplication::translate("FrameBufferEditor", "TextLabel", 0));
+        newattach->setText(QApplication::translate("FrameBufferEditor", "New Attachment", 0));
     } // retranslateUi
 
 };

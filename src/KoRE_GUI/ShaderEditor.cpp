@@ -21,7 +21,7 @@
 /* \author Dominik Ospelt                                               */
 /************************************************************************/
 
-#include "ShaderEditor.h"
+#include "KoRE_GUI/ShaderEditor.h"
 #include <QLabel>
 #include <QLineEdit>
 #include <QToolBox>
@@ -86,14 +86,28 @@ void koregui::ShaderEditor::addShader(void) {
   typeselect->addItem("TESS_EVALUATION", QVariant(GL_TESS_EVALUATION_SHADER));
   ui.shaderTable->setCellWidget(row, 0, typeselect);
 
+  QHBoxLayout* hlay = new QHBoxLayout;
+  hlay->setMargin(0);
+  hlay->setSpacing(0);
+  QWidget* nameeditor = new QWidget;
+  nameeditor->setLayout(hlay);
+
+  ui.shaderTable->setCellWidget(row, 1, nameeditor);
+
   QLineEdit* path = new QLineEdit("<empty>");
-  ui.shaderTable->setCellWidget(row, 1, path);
+  path->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,
+                                  QSizePolicy::Expanding));
+  hlay->addWidget(path);
   QPushButton* tbutton = new QPushButton("...");
-  ui.shaderTable->setCellWidget(row, 2, tbutton);
+  tbutton->setFixedWidth(30);
+  tbutton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
+  hlay->addWidget(tbutton);
   connect(tbutton, SIGNAL(clicked()), &_loadmapper, SLOT(map()));
   _loadmapper.setMapping(tbutton, row);
   QPushButton* xbutton = new QPushButton("x");
-  ui.shaderTable->setCellWidget(row, 3, xbutton);
+  xbutton->setFixedWidth(30);
+  xbutton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
+  hlay->addWidget(xbutton);
   connect(xbutton, SIGNAL(clicked()), &_delmapper, SLOT(map()));
   _delmapper.setMapping(xbutton, row);
 }
@@ -111,7 +125,7 @@ void koregui::ShaderEditor::refresh(void) {
   ui.shaderTable->setRowCount(0);
   if(!_currentprogram)return;
   ui.nameEdit->setText(_currentprogram->getName().c_str());
-  kore::Shader* shader(NULL);
+  kore::Shader* shader = NULL;
   shader = _currentprogram->getShader(GL_VERTEX_SHADER);
   if (shader) addShaderInfo(shader);
   shader = _currentprogram->getShader(GL_FRAGMENT_SHADER);
@@ -149,15 +163,30 @@ void koregui::ShaderEditor::addShaderInfo(kore::Shader* shader) {
   typesel-> setCurrentIndex(typesel->findData(QVariant(shader->getType())));
   ui.shaderTable->setCellWidget(row, 0, typesel);
 
+  QHBoxLayout* hlay = new QHBoxLayout;
+  hlay->setMargin(0);
+  hlay->setSpacing(0);
+  QWidget* nameeditor = new QWidget;
+  nameeditor->setLayout(hlay);
+
+  ui.shaderTable->setCellWidget(row, 1, nameeditor);
+
   QLineEdit* path = new QLineEdit("<empty>");
-  path->setText(shader->getName().c_str());
-  ui.shaderTable->setCellWidget(row, 1, path);
+  path->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,
+                                  QSizePolicy::Expanding));
+  hlay->addWidget(path);
+  path->setText(kore::IDManager::getInstance()
+                ->getURL(shader->getID()).c_str());
   QPushButton* tbutton = new QPushButton("...");
-  ui.shaderTable->setCellWidget(row, 2, tbutton);
+  tbutton->setFixedWidth(30);
+  tbutton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
+  hlay->addWidget(tbutton);
   connect(tbutton, SIGNAL(clicked()), &_loadmapper, SLOT(map()));
   _loadmapper.setMapping(tbutton, row);
   QPushButton* xbutton = new QPushButton("x");
-  ui.shaderTable->setCellWidget(row, 3, xbutton);
+  xbutton->setFixedWidth(30);
+  xbutton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
+  hlay->addWidget(xbutton);
   connect(xbutton, SIGNAL(clicked()), &_delmapper, SLOT(map()));
   _delmapper.setMapping(xbutton, row);
 }
@@ -165,14 +194,14 @@ void koregui::ShaderEditor::addShaderInfo(kore::Shader* shader) {
 void koregui::ShaderEditor::applyChanges(void) {
   if(!_currentprogram) return;
   _currentprogram->removeShaders();
-  QLineEdit* path;
+  QLineEdit* lineedit;
   QComboBox* stype;
   for (int i = 0; i < ui.shaderTable->rowCount(); i++) {
-     path = static_cast<QLineEdit*>(ui.shaderTable->cellWidget(i,1));
-     stype = static_cast<QComboBox*>(ui.shaderTable->cellWidget(i,0));
-     std::string bla = path->text().toStdString();
+     lineedit = static_cast<QLineEdit*>(ui.shaderTable->cellWidget(i, 1));
+     stype = static_cast<QComboBox*>(ui.shaderTable->cellWidget(i, 0));
+     std::string path = lineedit->text().toStdString();
      GLenum typ = stype->itemData(stype->currentIndex()).toUInt();
-    _currentprogram->loadShader(bla,typ);
+    _currentprogram->loadShader(path, typ);
   }
   _currentprogram->init();
   _currentitem->refresh();

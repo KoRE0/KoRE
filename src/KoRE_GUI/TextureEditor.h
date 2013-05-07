@@ -21,38 +21,26 @@
 /* \author Dominik Ospelt                                               */
 /************************************************************************/
 
-#ifndef FRAMEBUFFEREDITOR_H_
-#define FRAMEBUFFEREDITOR_H_
+#ifndef TEXTUREEDITOR_H
+#define TEXTUREEDITOR_H
 
 #include <QWidget>
-
-#include "ui_FrameBufferEditor.h"
-
-#include "KoRE/FrameBuffer.h"
-#include "KoRE_GUI/FrameBufferStageItem.h"
+#include "ui_TextureEditor.h"
+#include "KoRE/Texture.h"
 
 namespace koregui {
-  class FrameBufferEditor : public QWidget {
-      Q_OBJECT
+  class TextureEditor : public QWidget {
+    Q_OBJECT
 
   public:
-    FrameBufferEditor(FrameBufferStageItem* stage, QWidget *parent = 0);
-    ~FrameBufferEditor();
-
-      void setFramebuffer(const QString& name);
+    TextureEditor(QWidget *parent = 0);
+    ~TextureEditor();
 
   public slots:
-    void addNewFramebuffer(void);
-    void framebufferChanged(int index);
-    void nameChanged(const QString& name);
-    void applySettings(void);
-    void addNewAttachment(void);
-    void refresh(void);
+    void refresh();
 
   private:
-    Ui::FrameBufferEditor ui;
-    kore::FrameBuffer* _currentbuffer;
-    FrameBufferStageItem* _currentitem;
+    Ui::TextureEditor ui;
   };
 }
-#endif // FRAMEBUFFEREDITOR_H_
+#endif  // TEXTUREEDITOR_H

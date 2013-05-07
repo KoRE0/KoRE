@@ -15,9 +15,11 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QFrame>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QWidget>
 
@@ -26,20 +28,23 @@ QT_BEGIN_NAMESPACE
 class Ui_ShaderEditor
 {
 public:
+    QGridLayout *gridLayout;
+    QPushButton *applyButton;
+    QPushButton *addShaderButton;
+    QFrame *line;
+    QPushButton *newButton;
     QComboBox *programSelection;
     QLineEdit *nameEdit;
-    QFrame *line;
-    QTableWidget *shaderTable;
-    QPushButton *addShaderButton;
     QPushButton *closeButton;
-    QPushButton *newButton;
-    QPushButton *applyButton;
+    QSpacerItem *horizontalSpacer;
+    QTableWidget *shaderTable;
 
     void setupUi(QWidget *ShaderEditor)
     {
         if (ShaderEditor->objectName().isEmpty())
             ShaderEditor->setObjectName(QStringLiteral("ShaderEditor"));
-        ShaderEditor->resize(429, 533);
+        ShaderEditor->resize(480, 300);
+        ShaderEditor->setMinimumSize(QSize(480, 300));
         ShaderEditor->setStyleSheet(QLatin1String("QToolTip\n"
 "{\n"
 "     border: 1px solid black;\n"
@@ -511,15 +516,22 @@ public:
 "    border: 1px solid #444;\n"
 ""
                         "}"));
-        programSelection = new QComboBox(ShaderEditor);
-        programSelection->setObjectName(QStringLiteral("programSelection"));
-        programSelection->setGeometry(QRect(20, 20, 111, 22));
-        nameEdit = new QLineEdit(ShaderEditor);
-        nameEdit->setObjectName(QStringLiteral("nameEdit"));
-        nameEdit->setGeometry(QRect(20, 80, 113, 20));
+        gridLayout = new QGridLayout(ShaderEditor);
+        gridLayout->setSpacing(6);
+        gridLayout->setContentsMargins(11, 11, 11, 11);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        applyButton = new QPushButton(ShaderEditor);
+        applyButton->setObjectName(QStringLiteral("applyButton"));
+
+        gridLayout->addWidget(applyButton, 5, 2, 1, 1);
+
+        addShaderButton = new QPushButton(ShaderEditor);
+        addShaderButton->setObjectName(QStringLiteral("addShaderButton"));
+
+        gridLayout->addWidget(addShaderButton, 5, 0, 1, 1);
+
         line = new QFrame(ShaderEditor);
         line->setObjectName(QStringLiteral("line"));
-        line->setGeometry(QRect(0, 50, 431, 16));
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -527,37 +539,63 @@ public:
         line->setSizePolicy(sizePolicy);
         line->setFrameShape(QFrame::HLine);
         line->setFrameShadow(QFrame::Sunken);
+
+        gridLayout->addWidget(line, 2, 0, 1, 3);
+
+        newButton = new QPushButton(ShaderEditor);
+        newButton->setObjectName(QStringLiteral("newButton"));
+        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(newButton->sizePolicy().hasHeightForWidth());
+        newButton->setSizePolicy(sizePolicy1);
+
+        gridLayout->addWidget(newButton, 0, 2, 1, 1);
+
+        programSelection = new QComboBox(ShaderEditor);
+        programSelection->setObjectName(QStringLiteral("programSelection"));
+
+        gridLayout->addWidget(programSelection, 0, 0, 1, 1);
+
+        nameEdit = new QLineEdit(ShaderEditor);
+        nameEdit->setObjectName(QStringLiteral("nameEdit"));
+        nameEdit->setMaxLength(16);
+
+        gridLayout->addWidget(nameEdit, 3, 0, 1, 1);
+
+        closeButton = new QPushButton(ShaderEditor);
+        closeButton->setObjectName(QStringLiteral("closeButton"));
+
+        gridLayout->addWidget(closeButton, 6, 2, 1, 1);
+
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer, 0, 1, 1, 1);
+
         shaderTable = new QTableWidget(ShaderEditor);
-        if (shaderTable->columnCount() < 4)
-            shaderTable->setColumnCount(4);
+        if (shaderTable->columnCount() < 2)
+            shaderTable->setColumnCount(2);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
         shaderTable->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
         shaderTable->setHorizontalHeaderItem(1, __qtablewidgetitem1);
-        QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
-        shaderTable->setHorizontalHeaderItem(2, __qtablewidgetitem2);
-        QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
-        shaderTable->setHorizontalHeaderItem(3, __qtablewidgetitem3);
         shaderTable->setObjectName(QStringLiteral("shaderTable"));
-        shaderTable->setGeometry(QRect(20, 120, 401, 192));
+        shaderTable->setMinimumSize(QSize(0, 0));
+        shaderTable->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        shaderTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         shaderTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        shaderTable->setAlternatingRowColors(true);
+        shaderTable->setShowGrid(false);
         shaderTable->setGridStyle(Qt::NoPen);
         shaderTable->setCornerButtonEnabled(false);
         shaderTable->horizontalHeader()->setDefaultSectionSize(120);
+        shaderTable->horizontalHeader()->setHighlightSections(false);
         shaderTable->horizontalHeader()->setMinimumSectionSize(30);
+        shaderTable->horizontalHeader()->setStretchLastSection(true);
         shaderTable->verticalHeader()->setVisible(false);
-        addShaderButton = new QPushButton(ShaderEditor);
-        addShaderButton->setObjectName(QStringLiteral("addShaderButton"));
-        addShaderButton->setGeometry(QRect(20, 330, 75, 23));
-        closeButton = new QPushButton(ShaderEditor);
-        closeButton->setObjectName(QStringLiteral("closeButton"));
-        closeButton->setGeometry(QRect(340, 490, 75, 23));
-        newButton = new QPushButton(ShaderEditor);
-        newButton->setObjectName(QStringLiteral("newButton"));
-        newButton->setGeometry(QRect(340, 20, 75, 23));
-        applyButton = new QPushButton(ShaderEditor);
-        applyButton->setObjectName(QStringLiteral("applyButton"));
-        applyButton->setGeometry(QRect(340, 330, 75, 23));
+
+        gridLayout->addWidget(shaderTable, 4, 0, 1, 3);
+
 
         retranslateUi(ShaderEditor);
         QObject::connect(closeButton, SIGNAL(clicked()), ShaderEditor, SLOT(close()));
@@ -568,14 +606,14 @@ public:
     void retranslateUi(QWidget *ShaderEditor)
     {
         ShaderEditor->setWindowTitle(QApplication::translate("ShaderEditor", "Program Pass", 0));
+        applyButton->setText(QApplication::translate("ShaderEditor", "Apply", 0));
+        addShaderButton->setText(QApplication::translate("ShaderEditor", "Add Shader", 0));
+        newButton->setText(QApplication::translate("ShaderEditor", "Create New", 0));
+        closeButton->setText(QApplication::translate("ShaderEditor", "Close", 0));
         QTableWidgetItem *___qtablewidgetitem = shaderTable->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("ShaderEditor", "Shader Type", 0));
         QTableWidgetItem *___qtablewidgetitem1 = shaderTable->horizontalHeaderItem(1);
         ___qtablewidgetitem1->setText(QApplication::translate("ShaderEditor", "Path", 0));
-        addShaderButton->setText(QApplication::translate("ShaderEditor", "Add Shader", 0));
-        closeButton->setText(QApplication::translate("ShaderEditor", "close", 0));
-        newButton->setText(QApplication::translate("ShaderEditor", "New", 0));
-        applyButton->setText(QApplication::translate("ShaderEditor", "Apply", 0));
     } // retranslateUi
 
 };

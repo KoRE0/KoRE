@@ -80,8 +80,8 @@ int main(int argc, char *argv[]) {
   central->show();*/
 
   win->show();
-  rview->show();
   sview->show();
+  rview->show();
 
   // demo startup loading
   kore::ResourceManager::getInstance()->loadScene("./assets/meshes/cube.dae");
