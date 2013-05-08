@@ -35,7 +35,8 @@ namespace koregui {
     FLOW_FRAMEBUFFERSTAGE,
     FLOW_PROGRAMPASS,
     FLOW_NODEPASS,
-    FLOW_OPERATION
+    FLOW_OPERATION,
+    FLOW_UNKNOWN
   };
   class FlowItem : public QGraphicsItem {
   public:
@@ -46,6 +47,11 @@ namespace koregui {
     inline int getHeight(void) {return _itemheight;}
     inline int getWidth(void) {return _itemwidth;}
     inline EFlowType getType(void) {return _type;}
+
+    inline void setFrameBufferStage(kore::FrameBufferStage* stage) {_stage = stage;}
+    inline void setProgramPass(kore::ShaderProgramPass* pass) {_programpass = pass;}
+    inline void setNodePass(kore::NodePass* pass) {_nodepass = pass;}
+    inline void setOperation(kore::Operation* op) {_op = op;}
 
   protected:
     QRectF boundingRect() const;

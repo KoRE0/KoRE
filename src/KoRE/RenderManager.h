@@ -103,7 +103,10 @@ namespace kore {
     * Note that this method has to be called manually from the UI.*/
     inline void setScreenResolution(const glm::ivec2& screenRes)
     {_screenRes = screenRes;}
-    
+
+    inline std::vector<FrameBufferStage*>&
+      getFrameBufferStages() {return _frameBufferStages;}
+
     glm::ivec2 getRenderResolution() const;
     const glm::ivec4& getViewport() const;
     void setViewport(const glm::ivec4& newViewport);

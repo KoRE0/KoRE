@@ -26,7 +26,7 @@ kore::ShaderProgramPass::ShaderProgramPass(void)
   : _program(NULL) {
 }
 
-kore::ShaderProgramPass::ShaderProgramPass(const ShaderProgram* prog)
+kore::ShaderProgramPass::ShaderProgramPass(ShaderProgram* prog)
   : _program(NULL) {
   setShaderProgram(prog);
 }
@@ -49,7 +49,7 @@ kore::ShaderProgramPass::~ShaderProgramPass(void) {
   }
 }
 
-void kore::ShaderProgramPass::setShaderProgram(const ShaderProgram* program) {
+void kore::ShaderProgramPass::setShaderProgram(ShaderProgram* program) {
   if (_program == program) return;
   if (_program != NULL) {
     for (uint i = 0; i < _internalStartup.size(); ++i) {

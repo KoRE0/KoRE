@@ -28,7 +28,7 @@
 namespace kore {
   class ShaderProgramPass {
   public:
-    explicit ShaderProgramPass(const ShaderProgram* prog);
+    explicit ShaderProgramPass(ShaderProgram* prog);
     ShaderProgramPass(void);
     virtual ~ShaderProgramPass(void);
 
@@ -44,9 +44,9 @@ namespace kore {
     inline std::vector<Operation*>&
       getInternalFinishOperations() {return _internalFinish;}
 
-    inline const ShaderProgram* getShaderProgram() const {return _program;}
+    inline ShaderProgram* getShaderProgram() {return _program;}
     
-    void setShaderProgram(const ShaderProgram* program);
+    void setShaderProgram(ShaderProgram* program);
 
     void addNodePass(NodePass* pass);
     void removeNodePass(NodePass* pass);
@@ -61,7 +61,7 @@ namespace kore {
 
   private:
     uint64 _id;
-    const ShaderProgram* _program;
+    ShaderProgram* _program;
 
     std::vector<Operation*> _startupOperations;
     std::vector<Operation*> _finishOperations;

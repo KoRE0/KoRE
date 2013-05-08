@@ -58,10 +58,10 @@ int main(int argc, char *argv[]) {
   koregui::OperationFlow* oview = new koregui::OperationFlow;
   koregui::SceneViewer* sview = new koregui::SceneViewer(rview);
 
-  /*QWidget* central = new QWidget;
+  /*QWidget* editor = new QWidget;
   QTabWidget* tab = new QTabWidget;
   tab->addTab(rview, "RenderView");
-  tab->addTab(sview, "SceneViewe");
+  tab->addTab(sview, "SceneViewer");
 
 
   QHBoxLayout* hbox = new QHBoxLayout;
@@ -76,12 +76,13 @@ int main(int argc, char *argv[]) {
   vbox->addLayout(hbox);
   vbox->addWidget(oview);
 
-  central->setLayout(vbox);
-  central->show();*/
+  editor->setLayout(vbox);
+  editor->show();*/
 
   win->show();
   sview->show();
   rview->show();
+  oview->show();
 
   // demo startup loading
   kore::ResourceManager::getInstance()->loadScene("./assets/meshes/TestEnv.dae");

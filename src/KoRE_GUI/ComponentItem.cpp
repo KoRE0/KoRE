@@ -118,6 +118,7 @@ void koregui::ComponentItem::paint(QPainter* painter,
   case kore::COMPONENT_UNKNOWN:
   default:
     b.setColor(Qt::GlobalColor::red);
+    t.setText("Unknown");
   }
 
   // draw component color

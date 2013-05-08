@@ -51,6 +51,7 @@ namespace koregui {
 
 
   protected:
+    void mousePressEvent(QMouseEvent * event);
 
   private:
       QGraphicsScene _scene;

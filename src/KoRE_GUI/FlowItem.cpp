@@ -24,6 +24,7 @@
 #include "KoRE_GUI/FlowItem.h"
 
 #include <QPainter>
+#include <QStaticText>
 
 koregui::FlowItem::FlowItem(EFlowType flowType, QGraphicsItem* parent) {
 
@@ -38,11 +39,44 @@ void koregui::FlowItem::refresh(void) {
 }
 
 QRectF koregui::FlowItem::boundingRect() const {
-  return QRectF(0,0,10,10);
+  return QRectF(0,0,100,100);
 }
 
 void koregui::FlowItem::paint(QPainter* painter,
                               const QStyleOptionGraphicsItem* option,
                               QWidget* widget ) {
- painter->drawRect(0,0,10,10);
+  QBrush b;
+  QPen p;
+  QStaticText t;
+  QFont font("Arial");
+
+  font.setBold(true);
+  font.setPointSize(9);
+  painter->setFont(font);
+  p.setStyle(Qt::PenStyle::NoPen);
+  painter->setPen(p);
+  b.setStyle(Qt::BrushStyle::SolidPattern);
+
+  switch (_type) {
+  case FLOW_FRAMEBUFFERSTAGE:
+    b.setColor(QColor(255,254,186));
+    t.setText(_stage->getFrameBuffer()->getName().c_str());
+    break;
+  case FLOW_PROGRAMPASS:
+    b.setColor(QColor(252,210,89));
+    t.setText(_programpass->getShaderProgram()->getName().c_str());
+    break;
+  case FLOW_NODEPASS:
+    b.setColor(QColor(35,203,173));
+    t.setText(_nodepass->getSceneNode()->getName().c_str());
+    break;
+  case FLOW_OPERATION:
+    b.setColor(QColor(250,123,28));
+    t.setText("OPERATION");
+    break;
+  default:
+    b.setColor(Qt::GlobalColor::red);
+    t.setText("UNKNOWN");
+  }
+ painter->drawRect(0,0,100,100);
 }

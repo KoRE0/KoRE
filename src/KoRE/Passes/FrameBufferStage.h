@@ -42,6 +42,7 @@ namespace kore {
       getInternalStartupOperations() {return _internalStartup;}
     inline std::vector<Operation*>&
       getInternalFinishOperations() {return _internalFinish;}
+    inline const FrameBuffer* getFrameBuffer() {return _frameBuffer;}
 
     void setFrameBuffer(const kore::FrameBuffer* frameBuffer,
                         const GLenum frameBufferTarget,
