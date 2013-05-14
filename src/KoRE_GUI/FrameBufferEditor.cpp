@@ -60,6 +60,7 @@ void koregui::FrameBufferEditor::addNewFramebuffer(void) {
 void koregui::FrameBufferEditor::addNewAttachment(void) {
   if(!_currentbuffer) return;
   ui.tableWidget->setRowCount(ui.tableWidget->rowCount() + 1);
+  // Attachments
   QComboBox* combo = new QComboBox();
   combo->addItem("GL_COLOR_ATTACHMENT0", QVariant(GL_COLOR_ATTACHMENT0));
   combo->addItem("GL_COLOR_ATTACHMENT1", QVariant(GL_COLOR_ATTACHMENT1));
@@ -72,6 +73,40 @@ void koregui::FrameBufferEditor::addNewAttachment(void) {
   combo->addItem("GL_DEPTH_ATTACHMENT", QVariant(GL_DEPTH_ATTACHMENT));
   combo->addItem("GL_STENCIL_ATTACHMENT", QVariant(GL_STENCIL_ATTACHMENT));
   ui.tableWidget->setCellWidget(ui.tableWidget->rowCount() -1, 0, combo);
+
+  // Pixel type
+  combo = new QComboBox();
+  combo->addItem("GL_FLOAT", QVariant(GL_FLOAT));
+  combo->addItem("GL_UNSIGNED_BYTE", QVariant(GL_UNSIGNED_BYTE));
+
+  // Format
+  combo = new QComboBox();
+  combo->addItem("GL_RGBA", QVariant(GL_RGBA));
+
+  // Internal format
+  combo = new QComboBox();
+  combo->addItem("GL_RGBA8", QVariant(GL_RGBA8));
+  combo->addItem("GL_FLOAT", QVariant(GL_FLOAT));
+
+  /*STextureProperties()
+    : width(0),
+    height(0),
+    depth(0),
+    border(0),
+    pixelType(KORE_GLUINT_HANDLE_INVALID),
+    targetType(KORE_GLUINT_HANDLE_INVALID),
+    format(KORE_GLUINT_HANDLE_INVALID),
+    internalFormat(KORE_GLUINT_HANDLE_INVALID){
+  }
+
+  /// The Format of the texture (e.g. GL_RGBA).
+  GLuint format;
+
+  /// The Pixel type of the texture (e.g. GL_FLOAT, GL_UNSIGNED_BYTE,...).
+  GLuint pixelType;
+
+  /// The Internal format (e.g. GL_RGBA8, GL_FLOAT32,...).
+  GLuint internalFormat;*/
 }
 
 void koregui::FrameBufferEditor::applySettings(void) {

@@ -43,11 +43,12 @@ namespace kore {
     inline std::vector<Operation*>&
       getInternalFinishOperations() {return _internalFinish;}
     inline const FrameBuffer* getFrameBuffer() {return _frameBuffer;}
+    inline const GLenum* getActiveAttachments() {return _activeBuffers;}
+    inline const uint numActiveAttachments() {return _numActiveBuffers;}
 
-    void setFrameBuffer(const kore::FrameBuffer* frameBuffer,
-                        const GLenum frameBufferTarget,
-                        const GLenum* drawBuffers,
-                        const uint numDrawBuffers);
+    void setActiveAttachments(GLenum* activeBuffers, uint numBuffers);
+
+    void setFrameBuffer(const kore::FrameBuffer* frameBuffer);
 
     void addProgramPass(ShaderProgramPass* progPass);
 
@@ -70,6 +71,8 @@ namespace kore {
     std::vector<Operation*> _internalFinish;
     std::vector<ShaderProgramPass*> _programPasses;
     uint64 _id;
+    GLenum* _activeBuffers;
+    uint _numActiveBuffers;
   };
 }
 #endif  // KORE_FRAMEBUFFERSTAGE_H_

@@ -26,7 +26,15 @@
 #include <QPainter>
 #include <QStaticText>
 
-koregui::FlowItem::FlowItem(EFlowType flowType, QGraphicsItem* parent) {
+koregui::FlowItem::FlowItem(EFlowType flowType, QGraphicsItem* parent)
+  : _type(flowType),
+    _stage(NULL),
+    _programpass(NULL),
+    _nodepass(NULL),
+    _op(NULL),
+    _itemheight(30),
+    _itemwidth(50),
+    QGraphicsItem(parent){
 
 }
 
@@ -60,15 +68,19 @@ void koregui::FlowItem::paint(QPainter* painter,
   switch (_type) {
   case FLOW_FRAMEBUFFERSTAGE:
     b.setColor(QColor(255,254,186));
-    t.setText(_stage->getFrameBuffer()->getName().c_str());
+    if(_stage->getFrameBuffer()) {
+      t.setText(_stage->getFrameBuffer()->getName().c_str());
+    } else {
+      t.setText("<empty>");
+    }
     break;
   case FLOW_PROGRAMPASS:
     b.setColor(QColor(252,210,89));
-    t.setText(_programpass->getShaderProgram()->getName().c_str());
+    //t.setText(_programpass->getShaderProgram()->getName().c_str());
     break;
   case FLOW_NODEPASS:
     b.setColor(QColor(35,203,173));
-    t.setText(_nodepass->getSceneNode()->getName().c_str());
+    //t.setText(_nodepass->getSceneNode()->getName().c_str());
     break;
   case FLOW_OPERATION:
     b.setColor(QColor(250,123,28));
@@ -78,5 +90,13 @@ void koregui::FlowItem::paint(QPainter* painter,
     b.setColor(Qt::GlobalColor::red);
     t.setText("UNKNOWN");
   }
- painter->drawRect(0,0,100,100);
+  painter->setBrush(b);
+  painter->drawRect(0,0,100,100);
+
+  // text
+  p.setColor(QColor(33,33,33));
+  p.setStyle(Qt::PenStyle::SolidLine);
+  p.setWidth(2);
+  painter->setPen(p);
+  painter->drawStaticText(0, 0, t);
 }

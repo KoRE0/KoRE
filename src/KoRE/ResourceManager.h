@@ -220,7 +220,7 @@ namespace kore {
     std::map<uint64, Mesh*> _meshes;  // id || mesh
     std::map<uint64, kore::Texture*> _textures;  // id || texture    
     std::map<uint64, ShaderProgram*> _shaderPrograms;  // id || program
-    std::map<uint64, kore::FrameBuffer*> _frameBuffers; // name, framebuffer
+    std::map<uint64, kore::FrameBuffer*> _frameBuffers; // name,  || framebuffer
     std::map<uint64, Material*> _materials;
     std::map<uint64, IndexedBuffer*> _indexedBuffers;
 

@@ -38,6 +38,8 @@ namespace kore {
     static const FrameBuffer* BACKBUFFER;
 
     inline const GLuint getHandle() const {return _handle;}
+    inline const GLenum* getDrawBuffers() const {return &_activeBuffers[0];}
+    inline const uint numDrawBuffers() const {return _activeBuffers.size();}
     const Texture* getTexture(const std::string& name) const;
 
     /*! \brief Change the name of the framebuffer. It is applied if the new 
@@ -86,6 +88,7 @@ namespace kore {
     std::vector<const Texture*> _textures;
     std::vector<STextureInfo*> _textureInfos;
     GLuint _handle;
+    std::vector<GLenum> _activeBuffers;
   };
 };
 #endif  // SRC_KORE_FRAMEBUFFER_H_

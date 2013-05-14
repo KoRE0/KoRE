@@ -25,21 +25,21 @@
 #include "KoRE/IDManager.h"
 #include <algorithm>
 
-// Create the backbuffer as a static const sharedptr.
+// Create the backbuffer as a static const pointer.
 const kore::FrameBuffer* kore::FrameBuffer::BACKBUFFER = new kore::FrameBuffer(0);
 
 kore::FrameBuffer::FrameBuffer(const std::string& name)
 : _name(name),
-  _handle(KORE_GLUINT_HANDLE_INVALID), 
+  _handle(KORE_GLUINT_HANDLE_INVALID),
   kore::BaseResource() {
   glGenFramebuffers(1, &_handle);
 }
 
 // Private constructor - only for internal use!
-kore::FrameBuffer::FrameBuffer(GLuint handle) {
-  _name = "BACKBUFFER";
-  _handle = handle;
-
+kore::FrameBuffer::FrameBuffer(GLuint handle)
+  : _name("BACKBUFFER"),
+    _handle(handle),
+    kore::BaseResource() {
   ResourceManager::getInstance()->addFramebuffer(this);
 }
 
@@ -52,7 +52,6 @@ void kore::FrameBuffer::setName(const std::string& name) {
     || name == kore::FrameBuffer::BACKBUFFER->getName()) {
     return;
   }
-
   _name = name;
 }
 
@@ -65,11 +64,12 @@ void kore::FrameBuffer::destroy() {
   glDeleteFramebuffers(1, &_handle);
   _handle = 0;
 
-  for (uint i = 0; i < _textures.size(); ++i) {
+  // Maybe we want to use the Textures elsewhere,
+  // or they are bound to another FBO
+  /* for (uint i = 0; i < _textures.size(); ++i) {
     ResourceManager::getInstance()->removeTexture(_textures[i]);
-  }
+  }*/
   _textures.clear();
-
   for (uint i = 0; i < _textureInfos.size(); ++i) {
     KORE_SAFE_DELETE(_textureInfos[i]);
   }
@@ -80,17 +80,32 @@ void kore::FrameBuffer::destroy() {
 
 void kore::FrameBuffer::addTextureAttachment(const Texture* tex,
                                              GLuint attatchment) {
-  if (_handle == 0 || _handle == KORE_GLUINT_HANDLE_INVALID) {
+  // check if we have a valid FrameBuffer
+  if (!tex || _handle == 0 || _handle == KORE_GLUINT_HANDLE_INVALID) {
     return;
   }
 
+  // check if attachment is already bound, clear for overwrite
+  for (uint i = 0; i<_activeBuffers.size(); i++) {
+    if (attatchment == _activeBuffers[i]) {
+      _textures.erase(_textures.begin()+i);
+      _textureInfos.erase(_textureInfos.begin()+i);
+      _textureOutputs.erase(_textureOutputs.begin()+i);
+      _activeBuffers.erase(_activeBuffers.begin()+i);
+      break;
+    }
+  }
+
   if (std::find(_textures.begin(), _textures.end(), tex) != _textures.end()) {
+    Log::getInstance()
+      ->write("[ERROR] '%s' : Cannot attach '%s', Texture already attached!\n",
+              _name.c_str(), tex->getName().c_str());
     return;
   }
 
   kore::RenderManager::getInstance()->bindFrameBuffer(GL_FRAMEBUFFER, _handle);
-  kore::RenderManager::getInstance()->
-                         bindTexture(tex->getProperties().targetType, _handle);
+  kore::RenderManager::getInstance()
+    ->bindTexture(tex->getProperties().targetType, _handle);
 
   glFramebufferTexture2D(GL_FRAMEBUFFER,
                          attatchment,
@@ -98,7 +113,7 @@ void kore::FrameBuffer::addTextureAttachment(const Texture* tex,
                          tex->getHandle(), 0);
   _textures.push_back(tex);
 
-
+  _activeBuffers.push_back(attatchment);
 
   STextureInfo* texInfo = new STextureInfo;
   texInfo->texLocation = tex->getHandle();
@@ -129,19 +144,18 @@ void kore::FrameBuffer::
     addTextureAttachment(pTex, attatchment);
   } else {
     Log::getInstance()->write("[ERROR] Requested Texture could not be"
-                              "created for the FBO");
+                              "created for the FBO '%s'", _name.c_str());
     KORE_SAFE_DELETE(pTex);
   }
 }
 
 const kore::Texture*
-  kore::FrameBuffer::getTexture( const std::string& name ) const {
+  kore::FrameBuffer::getTexture(const std::string& name) const {
     for(uint i = 0; i < _textures.size(); ++i) {
       if (_textures[i]->getName() == name) {
         return _textures[i];
       }
     }
-
     return NULL;
 }
 
@@ -149,7 +163,6 @@ bool kore::FrameBuffer::checkFBOcompleteness() {
   if (_handle == KORE_GLUINT_HANDLE_INVALID) {
     return false;
   }
-
   RenderManager::getInstance()->bindFrameBuffer(GL_FRAMEBUFFER, _handle);
   return GLerror::gl_ValidateFBO(_name);
 }

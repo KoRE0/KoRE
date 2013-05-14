@@ -19,16 +19,10 @@
     <ClCompile Include="src\KoRE\Operations\Operation.cpp">
       <Filter>src\Operations</Filter>
     </ClCompile>
-    <ClCompile Include="src\KoRE\Components\Camera.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\KoRE\DataTypes.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\KoRE\Log.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\KoRE\Mesh.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\KoRE\RenderManager.cpp">
@@ -41,9 +35,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\KoRE\SceneNode.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\KoRE\Texture.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\KoRE\Timer.cpp">
@@ -73,9 +64,6 @@
     <ClCompile Include="src\KoRE\Components\LightComponent.cpp">
       <Filter>src\Components</Filter>
     </ClCompile>
-    <ClCompile Include="src\KoRE\FrameBuffer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\KoRE\ShaderInput.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -95,9 +83,6 @@
       <Filter>src\Operations\BindOperations</Filter>
     </ClCompile>
     <ClCompile Include="src\KoRE\CompatibleNodeGroup.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\KoRE\ShaderProgram.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindOperation.cpp">
@@ -130,9 +115,6 @@
     <ClCompile Include="src\KoRE\Operations\MemoryBarrierOp.cpp">
       <Filter>src\Operations</Filter>
     </ClCompile>
-    <ClCompile Include="src\KoRE\Components\Material.cpp">
-      <Filter>src\Components</Filter>
-    </ClCompile>
     <ClCompile Include="src\KoRE\Components\MaterialComponent.cpp">
       <Filter>src\Components</Filter>
     </ClCompile>
@@ -145,26 +127,14 @@
     <ClCompile Include="src\KoRE\IDManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\KoRE\BaseResource.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\KoRE\IndexedBuffer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\KoRE\Operations\EnableDisableOp.cpp">
       <Filter>src\Operations</Filter>
-    </ClCompile>
-    <ClCompile Include="src\KoRE\Shader.cpp">
-      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\KoRE\Operations\ColorMaskOp.cpp">
       <Filter>src\Operations</Filter>
     </ClCompile>
     <ClCompile Include="src\KoRE\Operations\ViewportOp.cpp">
       <Filter>src\Operations</Filter>
-    </ClCompile>
-    <ClCompile Include="src\KoRE\TextureBuffer.cpp">
-      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\KoRE\StdAfx.cpp" />
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindAtomicCounterBuffer.cpp">
@@ -178,6 +148,36 @@
     </ClCompile>
     <ClCompile Include="src\KoRE\Operations\DrawIndirectOp.cpp">
       <Filter>src\Operations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE\Components\Camera.cpp">
+      <Filter>src\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE\BaseResource.cpp">
+      <Filter>src\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE\FrameBuffer.cpp">
+      <Filter>src\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE\Components\Material.cpp">
+      <Filter>src\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE\Mesh.cpp">
+      <Filter>src\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE\Shader.cpp">
+      <Filter>src\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE\ShaderProgram.cpp">
+      <Filter>src\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE\Texture.cpp">
+      <Filter>src\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE\TextureBuffer.cpp">
+      <Filter>src\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KoRE\IndexedBuffer.cpp">
+      <Filter>src\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,9 +199,6 @@
     <ClInclude Include="src\KoRE\Operations\Operation.h">
       <Filter>src\Operations</Filter>
     </ClInclude>
-    <ClInclude Include="src\KoRE\Components\Camera.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\KoRE\Common.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -209,9 +206,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\KoRE\Log.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\KoRE\Mesh.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\KoRE\RenderManager.h">
@@ -224,9 +218,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\KoRE\SceneNode.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\KoRE\Texture.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\KoRE\Timer.h">
@@ -262,9 +253,6 @@
     <ClInclude Include="src\KoRE\Components\LightComponent.h">
       <Filter>src\Components</Filter>
     </ClInclude>
-    <ClInclude Include="src\KoRE\FrameBuffer.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\KoRE\ShaderInput.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -284,9 +272,6 @@
       <Filter>src\Operations\BindOperations</Filter>
     </ClInclude>
     <ClInclude Include="src\KoRE\CompatibleNodeGroup.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\KoRE\ShaderProgram.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindOperation.h">
@@ -322,9 +307,6 @@
     <ClInclude Include="src\KoRE\Events.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\KoRE\Components\Material.h">
-      <Filter>src\Components</Filter>
-    </ClInclude>
     <ClInclude Include="src\KoRE\Components\MaterialComponent.h">
       <Filter>src\Components</Filter>
     </ClInclude>
@@ -337,15 +319,6 @@
     <ClInclude Include="src\KoRE\IDManager.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\KoRE\BaseResource.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\KoRE\IndexedBuffer.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\KoRE\Shader.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\KoRE\Operations\EnableDisableOp.h">
       <Filter>src\Operations</Filter>
     </ClInclude>
@@ -354,9 +327,6 @@
     </ClInclude>
     <ClInclude Include="src\KoRE\Operations\ViewportOp.h">
       <Filter>src\Operations</Filter>
-    </ClInclude>
-    <ClInclude Include="src\KoRE\TextureBuffer.h">
-      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\KoRE\StdAfx.h" />
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindAtomicCounterBuffer.h">
@@ -373,6 +343,36 @@
     </ClInclude>
     <ClInclude Include="src\KoRE\Operations\Operations.h">
       <Filter>src\Operations</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\Components\Camera.h">
+      <Filter>src\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\BaseResource.h">
+      <Filter>src\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\FrameBuffer.h">
+      <Filter>src\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\Components\Material.h">
+      <Filter>src\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\Mesh.h">
+      <Filter>src\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\Shader.h">
+      <Filter>src\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\ShaderProgram.h">
+      <Filter>src\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\TextureBuffer.h">
+      <Filter>src\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\Texture.h">
+      <Filter>src\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\IndexedBuffer.h">
+      <Filter>src\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -396,6 +396,9 @@
     </Filter>
     <Filter Include="src\Optimization">
       <UniqueIdentifier>{2dfa9b56-9e40-44a1-925f-cda5d4cff627}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Resources">
+      <UniqueIdentifier>{55d5f6ac-3e20-478c-81d9-1a8ea56cad81}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

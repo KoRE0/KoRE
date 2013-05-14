@@ -24,7 +24,9 @@
 #include <algorithm>
 
 kore::FrameBufferStage::FrameBufferStage(void)
-  : _frameBuffer(NULL) {
+  : _frameBuffer(NULL),
+    _activeBuffers(NULL),
+    _numActiveBuffers(0){
 }
 
 kore::FrameBufferStage::~FrameBufferStage(void) {
@@ -45,6 +47,21 @@ kore::FrameBufferStage::~FrameBufferStage(void) {
   }
 }
 
+void kore::FrameBufferStage::setActiveAttachments(GLenum* activeBuffers,
+                                                  uint numBuffers) {
+  _activeBuffers = activeBuffers;
+  _numActiveBuffers = numBuffers;
+  for (uint i = 0; i < _internalStartup.size(); i++) {
+    if (_internalStartup[i]->getType() == OP_USEFBO) {
+      static_cast<UseFBO*>(_internalStartup[i])->connect(_frameBuffer,
+                                                         GL_FRAMEBUFFER,
+                                                         activeBuffers,
+                                                         numBuffers);
+      return;
+    }
+  }
+}
+
 void kore::FrameBufferStage::
   addProgramPass(ShaderProgramPass* progPass) {
     if (std::find(_programPasses.begin(), _programPasses.end(), progPass)
@@ -56,10 +73,7 @@ void kore::FrameBufferStage::
 }
 
 void kore::FrameBufferStage::
-  setFrameBuffer(const FrameBuffer* frameBuffer,
-                 const GLenum frameBufferTarget,
-                 const GLenum* drawBuffers,
-                 const uint numDrawBuffers) {
+  setFrameBuffer(const FrameBuffer* frameBuffer) {
 
   for (uint i = 0; i < _startupOperations.size(); ++i) {
     KORE_SAFE_DELETE(_startupOperations[i]);
@@ -71,8 +85,9 @@ void kore::FrameBufferStage::
   _frameBuffer = frameBuffer;
 
   UseFBO* pUseFBO = new UseFBO;
-  pUseFBO->connect(frameBuffer, frameBufferTarget,
-                   drawBuffers, numDrawBuffers);
+  pUseFBO->connect(_frameBuffer, GL_FRAMEBUFFER,
+                   _frameBuffer->getDrawBuffers(),
+                   _frameBuffer->numDrawBuffers());
   _internalStartup.push_back(pUseFBO);
 }
 

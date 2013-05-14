@@ -120,6 +120,7 @@ void koregui::FrameBufferStageItem
 void koregui::FrameBufferStageItem
   ::setFrameBuffer(kore::FrameBuffer* framebuffer) {
   _frameBuffer = framebuffer;
+  _bufferstage->setFrameBuffer(_frameBuffer);
   refresh();
 }
 
