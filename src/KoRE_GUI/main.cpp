@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
   win->show();
   sview->show();
   rview->show();
-  oview->show();
+  //oview->show();
 
   // demo startup loading
   kore::ResourceManager::getInstance()->loadScene("./assets/meshes/TestEnv.dae");

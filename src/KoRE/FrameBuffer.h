@@ -38,7 +38,9 @@ namespace kore {
     static const FrameBuffer* BACKBUFFER;
 
     inline const GLuint getHandle() const {return _handle;}
-    inline const GLenum* getDrawBuffers() const {return &_activeBuffers[0];}
+    inline const GLenum* getDrawBuffers() const {
+      return (_activeBuffers.size()==0)? NULL : &_activeBuffers[0];
+    }
     inline const uint numDrawBuffers() const {return _activeBuffers.size();}
     const Texture* getTexture(const std::string& name) const;
 

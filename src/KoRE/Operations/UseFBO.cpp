@@ -56,8 +56,8 @@ void kore::UseFBO::doExecute(void) const {
     bindFrameBuffer(_frameBufferTarget, _frameBuffer->getHandle());
 
   _renderManager->drawBuffers(_frameBuffer->getHandle(),
-                              _drawBuffers.size(),
-                              &_drawBuffers[0]);
+                         _drawBuffers.size(),
+                         (_drawBuffers.size() > 0) ? &_drawBuffers[0] : NULL);
 }
 
 void kore::UseFBO::update(void) {

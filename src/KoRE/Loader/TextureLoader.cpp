@@ -75,7 +75,9 @@ kore::Texture*
       texProperties.pixelType = GL_UNSIGNED_BYTE;
     }
 
-    if (tex->create(texProperties, filepath, &imageData[0])) {
+    std::string name = filepath.substr(filepath.find_last_of('/')+1);
+
+    if (tex->create(texProperties, name, &imageData[0])) {
       ResourceManager::getInstance()->addTexture(tex);
       kore::Log::getInstance()
         ->write("[DEBUG] Texture '%s' successfully loaded\n",

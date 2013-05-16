@@ -119,7 +119,7 @@ void koregui::FrameBufferEditor::applySettings(void) {
 }
 
 void koregui::FrameBufferEditor::refresh(void) {
-  ui.nameEdit->setText(_currentbuffer->getName().c_str());
+  if(_currentbuffer) ui.nameEdit->setText(_currentbuffer->getName().c_str());
   ui.tableWidget->clearContents();
 }
 
@@ -138,6 +138,6 @@ void koregui::FrameBufferEditor::nameChanged(const QString& name) {
   ui.framebufferselect->setItemText(ui.framebufferselect->currentIndex(),
                                     name);
   _currentbuffer->setName(name.toStdString());
-  //_currentitem->refresh();
-  //_currentitem->update();
+  _currentitem->refresh();
+  _currentitem->update();
 }
