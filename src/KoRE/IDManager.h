@@ -49,7 +49,7 @@ namespace kore {
     */
     void registerURL(uint64 id, const std::string& url);
 
-    /*! /brief
+    /*! \brief
     */
     std::string genURL(const std::string& name,
                        const std::string& filepath = "",

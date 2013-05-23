@@ -45,8 +45,8 @@ class Camera : public SceneNodeComponent {
      inline const std::string& getName() const {return _name;}
      inline void setName(const std::string& name) {_name = name;}
      
-     inline const glm::mat4&  getView() const           {return _matView;}
-     inline const glm::mat4&  getProjection() const   {return _matProjection;}
+     inline const glm::mat4&  getView() const {return _matView;}
+     inline const glm::mat4&  getProjection() const {return _matProjection;}
      inline const glm::mat4   getViewProjection() const {return _matViewProj;}
 
      inline glm::mat4 const   getViewInvT() const
@@ -61,16 +61,16 @@ class Camera : public SceneNodeComponent {
      inline glm::mat4 const   getViewT() const
      {return glm::transpose(_matView);}
 
-     inline void              setFarPlane(float fFar) {_fFar = fFar;}
-     inline float             getFarPlane() const       {return _fFar;}
-     inline float             getNearPlane() const      {return _fNear;}
+     inline void setFarPlane(float fFar) {_fFar = fFar;}
+     inline float getFarPlane() const       {return _fFar;}
+     inline float getNearPlane() const      {return _fNear;}
 
-     inline float             getFovRad() const
+     inline float getFovRad() const
      {return glm::radians(_fFovDeg);}
 
-     inline float             getFovDeg() const         {return _fFovDeg;}
+     inline float getFovDeg() const         {return _fFovDeg;}
 
-     inline float             getAspectRatio() const
+     inline float getAspectRatio() const
      {return _fWidth / _fHeight;}
 
      glm::vec3 getPosition() const;
@@ -78,24 +78,26 @@ class Camera : public SceneNodeComponent {
      glm::vec3 getForward() const;
      glm::vec3 getUp() const;
 
-     void      moveForward(float fSpeed);
-     void      moveSideways(float fSpeed);
+     void setAspectRatio(float ratio);
+
+     void moveForward(float fSpeed);
+     void moveSideways(float fSpeed);
    
-     bool      isVisible(const glm::vec3& rSphereCenterWS,
-                         const float fRadius) const;
+     bool isVisible(const glm::vec3& rSphereCenterWS,
+                    const float fRadius) const;
 
-     void      setProjectionPersp(float yFov_deg, float fWidth,
-                                   float fHeight, float fNear, float fFar);
+     void setProjectionPersp(float yFov_deg, float fWidth,
+                             float fHeight, float fNear, float fFar);
 
-     void      setProjectionPersp(float yFov_deg, float fAspect,
-                                  float fNear, float fFar);
+     void setProjectionPersp(float yFov_deg, float fAspect,
+                             float fNear, float fFar);
 
-     void      setProjectionOrtho(float fLeft, float fRight,
-                                   float fBottom, float fTop,
-                                   float fNear, float fFar);
+     void setProjectionOrtho(float fLeft, float fRight,
+                             float fBottom, float fTop,
+                             float fNear, float fFar);
 
      std::vector<glm::vec3>  getWSfrustumCorners();
-     void      rotateFromMouseMove(float dx, float dy);
+     void rotateFromMouseMove(float dx, float dy);
 
  private:
      enum EFrustumPlane {

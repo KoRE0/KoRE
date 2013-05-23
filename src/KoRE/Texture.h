@@ -84,7 +84,7 @@ namespace kore {
     * \return True, if the creation was successful,
               False if creation failed (see Log for infos why)
     */
-    bool create(const STextureProperties& properties, const std::string& name,
+    bool init(const STextureProperties& properties, const std::string& name,
                 const GLvoid* pixelData = NULL);
 
     /*! \brief Generates a mipmap-hierarchy for this texture.

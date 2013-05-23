@@ -19,6 +19,7 @@
 
 #include "KoRE/Loader/TextureLoader.h"
 #include "KoRE/ResourceManager.h"
+#include "KoRE/IDManager.h"
 #include "KoRE/Loader/lodepng.h"
 #include "KoRE/Log.h"
 #include "KoRE/Texture.h"
@@ -77,16 +78,17 @@ kore::Texture*
 
     std::string name = filepath.substr(filepath.find_last_of('/')+1);
 
-    if (tex->create(texProperties, name, &imageData[0])) {
+    if (tex->init(texProperties, name, &imageData[0])) {
       ResourceManager::getInstance()->addTexture(tex);
+      IDManager::getInstance()->registerURL(tex->getID(), filepath);
       kore::Log::getInstance()
-        ->write("[DEBUG] Texture '%s' successfully loaded\n",
+        ->write("[DEBUG] Texture '%s' successfully loaded.\n",
         filepath.c_str());
       tex->genMipmapHierarchy();
       return tex;
     } else {
       kore::Log::getInstance()
-        ->write("[ERROR] Texture '%s' could not be loaded\n",
+        ->write("[ERROR] Texture '%s' could not be loaded.\n",
         filepath.c_str());
       KORE_SAFE_DELETE(tex);
       return NULL;

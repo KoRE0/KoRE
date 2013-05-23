@@ -155,6 +155,15 @@ glm::vec3 kore::Camera::getPosition() const {
     return glm::vec3(_matViewInverse[ 3 ]);
 }
 
+void kore::Camera::setAspectRatio(float ratio) {
+  if (!_bIsOrtho) {
+    _matProjection = glm::perspective(_fFovDeg, ratio, _fNear, _fFar);
+    paramsChanged();
+  } else {
+    //TODO (dospelt) not implemented yet
+  }
+}
+
 void kore::Camera::setProjectionOrtho(float fLeft, float fRight, float fBottom,
                                 float fTop, float fNear, float fFar) {
     _matProjection = glm::ortho(fLeft, fRight, fBottom, fTop, fNear, fFar);

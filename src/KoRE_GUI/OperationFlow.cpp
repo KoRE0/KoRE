@@ -48,11 +48,12 @@ int koregui::OperationFlow
     int nodewidth = startcoord;
     std::vector<kore::Operation*> & operations =
       pass->getOperations();
-    if(operations.size() == 0) nodewidth += 150;
+    nodewidth += 150;
+    /*if(operations.size() == 0) nodewidth += 150;
     for (uint i = 0; i < operations.size(); i++) {
       //nodewidth = initNodeOperations(nodepasses[i], nodewidth);
       nodewidth += 150;
-    }
+    }*/
     return nodewidth;
 }
 

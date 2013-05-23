@@ -51,6 +51,7 @@ int main(int argc, char *argv[]) {
 
   // need of GL-Context
   GLWidget* win = new GLWidget;
+  win->show();
 
   // now  other widgets
   koregui::RenderViewer* rview = new koregui::RenderViewer;
@@ -58,7 +59,7 @@ int main(int argc, char *argv[]) {
   koregui::OperationFlow* oview = new koregui::OperationFlow;
   koregui::SceneViewer* sview = new koregui::SceneViewer(rview);
 
-  /*QWidget* editor = new QWidget;
+  QWidget* editor = new QWidget;
   QTabWidget* tab = new QTabWidget;
   tab->addTab(rview, "RenderView");
   tab->addTab(sview, "SceneViewer");
@@ -77,12 +78,12 @@ int main(int argc, char *argv[]) {
   vbox->addWidget(oview);
 
   editor->setLayout(vbox);
-  editor->show();*/
+  editor->show();
 
-  win->show();
-  sview->show();
-  rview->show();
-  oview->show();
+  //win->show();
+  //sview->show();
+  //rview->show();
+  //oview->show();
 
   // demo startup loading
   kore::ResourceManager::getInstance()->loadScene("./assets/meshes/TestEnv.dae");

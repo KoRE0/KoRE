@@ -43,7 +43,7 @@ void kore::Texture::destroy() {
   _properties = STextureProperties();
 }
 
-bool kore::Texture::create(const STextureProperties& properties,
+bool kore::Texture::init(const STextureProperties& properties,
                            const std::string& name,
                            const GLvoid* pixelData /*= NULL*/) {
   GLuint texTarget;
@@ -65,55 +65,96 @@ bool kore::Texture::create(const STextureProperties& properties,
     texTarget = GL_TEXTURE_3D;
 
   } else {
-    Log::getInstance()->write("[ERROR] Invalid texture dimensions provided");
+    Log::getInstance()
+      ->write("[ERROR] '%s' : Invalid texture dimensions provided.\n",
+              name.c_str());
     return false;
   }
 
-  destroy();
-
   GLerror::gl_ErrorCheckStart();
-  glGenTextures(1, &_handle);
+  if(_handle != KORE_GLUINT_HANDLE_INVALID) {
+    glGenTextures(1, &_handle);
+  }
+
   glBindTexture(texTarget, _handle);
   
-  if (texTarget == GL_TEXTURE_1D) {
+  switch(texTarget) {
+  case GL_TEXTURE_1D:
+    if (_handle != KORE_GLUINT_HANDLE_INVALID) {
+      glTexImage1D(texTarget,
+        0,
+        _properties.internalFormat,
+        _properties.width,
+        _properties.border,
+        _properties.format,
+        _properties.pixelType,
+        NULL);
+    }
     glTexImage1D(texTarget,
-                 0,
-                 properties.internalFormat,
-                 properties.width,
-                 properties.border,
-                 properties.format,
-                 properties.pixelType,
-                 pixelData);
-
-  } else if (texTarget == GL_TEXTURE_2D) {
+      0,
+      properties.internalFormat,
+      properties.width,
+      properties.border,
+      properties.format,
+      properties.pixelType,
+      pixelData);
+    break;
+  case GL_TEXTURE_2D:
+    if (_handle != KORE_GLUINT_HANDLE_INVALID) {
+      glTexImage2D(texTarget,
+        0,
+        _properties.internalFormat,
+        _properties.width,
+        _properties.height,
+        _properties.border,
+        _properties.format,
+        _properties.pixelType,
+        NULL);
+    }
     glTexImage2D(texTarget,
-                 0,
-                 properties.internalFormat,
-                 properties.width,
-                 properties.height,
-                 properties.border,
-                 properties.format,
-                 properties.pixelType,
-                 pixelData);
-
-  } else {
+      0,
+      properties.internalFormat,
+      properties.width,
+      properties.height,
+      properties.border,
+      properties.format,
+      properties.pixelType,
+      pixelData);
+    break;
+  case GL_TEXTURE_3D:
+    if (_handle != KORE_GLUINT_HANDLE_INVALID) {
+      glTexImage3D(texTarget,
+        0,
+        _properties.internalFormat,
+        _properties.width,
+        _properties.height,
+        _properties.depth,
+        _properties.border,
+        _properties.format,
+        _properties.pixelType,
+        NULL);
+    }
     glTexImage3D(texTarget,
-                 0,
-                 properties.internalFormat,
-                 properties.width,
-                 properties.height,
-                 properties.depth,
-                 properties.border,
-                 properties.format,
-                 properties.pixelType,
-                 pixelData);
+      0,
+      properties.internalFormat,
+      properties.width,
+      properties.height,
+      properties.depth,
+      properties.border,
+      properties.format,
+      properties.pixelType,
+      pixelData);
+    break;
+  default:
+    break;
   }
 
   glBindTexture(texTarget, 0);
 
-  bool bSuccess = GLerror::gl_ErrorCheckFinish("Texture::create()");
+  bool bSuccess = GLerror::gl_ErrorCheckFinish("Texture::init()");
   if (!bSuccess) {
-    Log::getInstance()->write("[ERROR]: Texture could not be created!");
+    Log::getInstance()->write("[ERROR]:'%s' Texture could not be initialized!",
+                              name.c_str());
     destroy();
     return false;
   }

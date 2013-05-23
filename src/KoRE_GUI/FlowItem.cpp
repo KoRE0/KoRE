@@ -39,7 +39,6 @@ koregui::FlowItem::FlowItem(EFlowType flowType, QGraphicsItem* parent)
 }
 
 koregui::FlowItem::~FlowItem(void) {
-  kore::Log::getInstance()->write("Deleted Flow Item\n");
 }
 
 void koregui::FlowItem::refresh(void) {

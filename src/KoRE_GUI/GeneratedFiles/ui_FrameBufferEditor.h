@@ -33,19 +33,21 @@ public:
     QLineEdit *nameEdit;
     QFrame *line;
     QPushButton *applyButton;
-    QPushButton *closeButton;
     QComboBox *framebufferselect;
     QPushButton *newbutton;
     QTableWidget *tableWidget;
     QSpacerItem *horizontalSpacer;
-    QPushButton *newattach;
     QSpacerItem *horizontalSpacer_2;
+    QPushButton *closeButton;
+    QPushButton *addattach;
+    QPushButton *newattach;
+    QSpacerItem *horizontalSpacer_3;
 
     void setupUi(QWidget *FrameBufferEditor)
     {
         if (FrameBufferEditor->objectName().isEmpty())
             FrameBufferEditor->setObjectName(QStringLiteral("FrameBufferEditor"));
-        FrameBufferEditor->resize(656, 318);
+        FrameBufferEditor->resize(611, 414);
         FrameBufferEditor->setMinimumSize(QSize(480, 300));
         FrameBufferEditor->setMaximumSize(QSize(16777215, 16777215));
         FrameBufferEditor->setMouseTracking(false);
@@ -534,50 +536,39 @@ public:
         font.setWeight(75);
         nameEdit->setFont(font);
 
-        gridLayout_2->addWidget(nameEdit, 3, 0, 1, 1);
+        gridLayout_2->addWidget(nameEdit, 3, 1, 1, 1);
 
         line = new QFrame(FrameBufferEditor);
         line->setObjectName(QStringLiteral("line"));
         line->setFrameShape(QFrame::HLine);
         line->setFrameShadow(QFrame::Sunken);
 
-        gridLayout_2->addWidget(line, 2, 0, 1, 4);
+        gridLayout_2->addWidget(line, 2, 1, 1, 5);
 
         applyButton = new QPushButton(FrameBufferEditor);
         applyButton->setObjectName(QStringLiteral("applyButton"));
         applyButton->setMinimumSize(QSize(70, 0));
 
-        gridLayout_2->addWidget(applyButton, 6, 3, 1, 1);
-
-        closeButton = new QPushButton(FrameBufferEditor);
-        closeButton->setObjectName(QStringLiteral("closeButton"));
-        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(closeButton->sizePolicy().hasHeightForWidth());
-        closeButton->setSizePolicy(sizePolicy);
-        closeButton->setMinimumSize(QSize(0, 0));
-
-        gridLayout_2->addWidget(closeButton, 8, 3, 1, 1);
+        gridLayout_2->addWidget(applyButton, 6, 5, 1, 1);
 
         framebufferselect = new QComboBox(FrameBufferEditor);
         framebufferselect->setObjectName(QStringLiteral("framebufferselect"));
         framebufferselect->setMinimumSize(QSize(150, 0));
         framebufferselect->setEditable(false);
 
-        gridLayout_2->addWidget(framebufferselect, 1, 0, 1, 1);
+        gridLayout_2->addWidget(framebufferselect, 1, 1, 1, 1);
 
         newbutton = new QPushButton(FrameBufferEditor);
         newbutton->setObjectName(QStringLiteral("newbutton"));
-        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(newbutton->sizePolicy().hasHeightForWidth());
-        newbutton->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(newbutton->sizePolicy().hasHeightForWidth());
+        newbutton->setSizePolicy(sizePolicy);
         newbutton->setMinimumSize(QSize(80, 0));
         newbutton->setCheckable(false);
 
-        gridLayout_2->addWidget(newbutton, 1, 3, 1, 1);
+        gridLayout_2->addWidget(newbutton, 1, 5, 1, 1);
 
         tableWidget = new QTableWidget(FrameBufferEditor);
         if (tableWidget->columnCount() < 5)
@@ -603,20 +594,40 @@ public:
         tableWidget->verticalHeader()->setVisible(false);
         tableWidget->verticalHeader()->setHighlightSections(false);
 
-        gridLayout_2->addWidget(tableWidget, 4, 0, 1, 4);
+        gridLayout_2->addWidget(tableWidget, 4, 1, 1, 5);
 
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout_2->addItem(horizontalSpacer, 1, 1, 1, 1);
+        gridLayout_2->addItem(horizontalSpacer, 1, 3, 1, 1);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_2->addItem(horizontalSpacer_2, 6, 3, 1, 2);
+
+        closeButton = new QPushButton(FrameBufferEditor);
+        closeButton->setObjectName(QStringLiteral("closeButton"));
+        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(closeButton->sizePolicy().hasHeightForWidth());
+        closeButton->setSizePolicy(sizePolicy1);
+        closeButton->setMinimumSize(QSize(0, 0));
+
+        gridLayout_2->addWidget(closeButton, 8, 5, 1, 1);
+
+        addattach = new QPushButton(FrameBufferEditor);
+        addattach->setObjectName(QStringLiteral("addattach"));
+
+        gridLayout_2->addWidget(addattach, 6, 1, 1, 1);
 
         newattach = new QPushButton(FrameBufferEditor);
         newattach->setObjectName(QStringLiteral("newattach"));
 
-        gridLayout_2->addWidget(newattach, 6, 0, 1, 1);
+        gridLayout_2->addWidget(newattach, 6, 2, 1, 1);
 
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout_2->addItem(horizontalSpacer_2, 6, 1, 1, 2);
+        gridLayout_2->addItem(horizontalSpacer_3, 1, 2, 1, 1);
 
 
         retranslateUi(FrameBufferEditor);
@@ -630,7 +641,6 @@ public:
         FrameBufferEditor->setWindowTitle(QApplication::translate("FrameBufferEditor", "Framebuffer Stage", 0));
         nameEdit->setText(QApplication::translate("FrameBufferEditor", "<none>", 0));
         applyButton->setText(QApplication::translate("FrameBufferEditor", "Apply", 0));
-        closeButton->setText(QApplication::translate("FrameBufferEditor", "Close", 0));
         newbutton->setText(QApplication::translate("FrameBufferEditor", "New FBO", 0));
         QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("FrameBufferEditor", "Attachment", 0));
@@ -642,7 +652,9 @@ public:
         ___qtablewidgetitem3->setText(QApplication::translate("FrameBufferEditor", "InternalFormat", 0));
         QTableWidgetItem *___qtablewidgetitem4 = tableWidget->horizontalHeaderItem(4);
         ___qtablewidgetitem4->setText(QApplication::translate("FrameBufferEditor", "TexName", 0));
-        newattach->setText(QApplication::translate("FrameBufferEditor", "New Attachment", 0));
+        closeButton->setText(QApplication::translate("FrameBufferEditor", "Close", 0));
+        addattach->setText(QApplication::translate("FrameBufferEditor", "Add", 0));
+        newattach->setText(QApplication::translate("FrameBufferEditor", "New", 0));
     } // retranslateUi
 
 };

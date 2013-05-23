@@ -46,13 +46,13 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent) {
     cformat.setProfile(QGLFormat::CoreProfile);
 
     this->setFormat(cformat);
-    this->setMinimumSize(200,200);
-    resize(100,100);
+    this->setMinimumSize(640,480);
+    resize(640,480);
 
     QTimer* timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateGL()));
     timer->start(18);
-    setFocusPolicy(Qt::FocusPolicy::StrongFocus);
+    setFocusPolicy(Qt::FocusPolicy::NoFocus);
 }
 
 GLWidget::~GLWidget() {
@@ -89,8 +89,17 @@ void GLWidget::initializeGL() {
 
 void GLWidget::resizeGL(int x, int y) {
     //kore::RenderManager::getInstance()->setRenderResolution(glm::ivec2(width(), height()));
+    //TODO (dospelt) remove placeholder
+    std::vector<kore::SceneNode*> finder;
+    kore::SceneManager::getInstance()->getSceneNodesByName("Camera", finder);
+    kore::SceneNode* camnode = (finder.size() > 0) ? finder[0] : NULL;
+    if (camnode) {
+      kore::Camera* cam = static_cast<kore::Camera*>(camnode->getComponent(kore::COMPONENT_CAMERA));
+      if (cam) {
+        cam->setAspectRatio((width()*1.0f)/height());
+      }
+    }
     glViewport(0, 0, width(), height());
-    //updateGL();
 }
 
 void GLWidget::paintGL() {
