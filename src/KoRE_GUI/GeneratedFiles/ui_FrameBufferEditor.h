@@ -45,7 +45,7 @@ public:
     {
         if (FrameBufferEditor->objectName().isEmpty())
             FrameBufferEditor->setObjectName(QStringLiteral("FrameBufferEditor"));
-        FrameBufferEditor->resize(480, 300);
+        FrameBufferEditor->resize(656, 318);
         FrameBufferEditor->setMinimumSize(QSize(480, 300));
         FrameBufferEditor->setMaximumSize(QSize(16777215, 16777215));
         FrameBufferEditor->setMouseTracking(false);
@@ -580,8 +580,8 @@ public:
         gridLayout_2->addWidget(newbutton, 1, 3, 1, 1);
 
         tableWidget = new QTableWidget(FrameBufferEditor);
-        if (tableWidget->columnCount() < 4)
-            tableWidget->setColumnCount(4);
+        if (tableWidget->columnCount() < 5)
+            tableWidget->setColumnCount(5);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
         tableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
@@ -590,12 +590,18 @@ public:
         tableWidget->setHorizontalHeaderItem(2, __qtablewidgetitem2);
         QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
         tableWidget->setHorizontalHeaderItem(3, __qtablewidgetitem3);
+        QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
+        tableWidget->setHorizontalHeaderItem(4, __qtablewidgetitem4);
         tableWidget->setObjectName(QStringLiteral("tableWidget"));
         tableWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         tableWidget->setShowGrid(false);
         tableWidget->setGridStyle(Qt::NoPen);
         tableWidget->setCornerButtonEnabled(false);
+        tableWidget->horizontalHeader()->setHighlightSections(false);
+        tableWidget->horizontalHeader()->setMinimumSectionSize(100);
         tableWidget->horizontalHeader()->setStretchLastSection(true);
+        tableWidget->verticalHeader()->setVisible(false);
+        tableWidget->verticalHeader()->setHighlightSections(false);
 
         gridLayout_2->addWidget(tableWidget, 4, 0, 1, 4);
 
@@ -629,11 +635,13 @@ public:
         QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("FrameBufferEditor", "Attachment", 0));
         QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);
-        ___qtablewidgetitem1->setText(QApplication::translate("FrameBufferEditor", "TexName", 0));
+        ___qtablewidgetitem1->setText(QApplication::translate("FrameBufferEditor", "PixelType", 0));
         QTableWidgetItem *___qtablewidgetitem2 = tableWidget->horizontalHeaderItem(2);
-        ___qtablewidgetitem2->setText(QApplication::translate("FrameBufferEditor", "PixelType", 0));
+        ___qtablewidgetitem2->setText(QApplication::translate("FrameBufferEditor", "Format", 0));
         QTableWidgetItem *___qtablewidgetitem3 = tableWidget->horizontalHeaderItem(3);
-        ___qtablewidgetitem3->setText(QApplication::translate("FrameBufferEditor", "Format", 0));
+        ___qtablewidgetitem3->setText(QApplication::translate("FrameBufferEditor", "InternalFormat", 0));
+        QTableWidgetItem *___qtablewidgetitem4 = tableWidget->horizontalHeaderItem(4);
+        ___qtablewidgetitem4->setText(QApplication::translate("FrameBufferEditor", "TexName", 0));
         newattach->setText(QApplication::translate("FrameBufferEditor", "New Attachment", 0));
     } // retranslateUi
 

@@ -59,17 +59,10 @@ void koregui::FrameBufferEditor::addNewFramebuffer(void) {
 
 void koregui::FrameBufferEditor::addNewAttachment(void) {
   if(!_currentbuffer) return;
-  ui.tableWidget->setRowCount(ui.tableWidget->rowCount() + 1);
+  /*ui.tableWidget->setRowCount(ui.tableWidget->rowCount() + 1);
   // Attachments
   QComboBox* combo = new QComboBox();
-  combo->addItem("GL_COLOR_ATTACHMENT0", QVariant(GL_COLOR_ATTACHMENT0));
-  combo->addItem("GL_COLOR_ATTACHMENT1", QVariant(GL_COLOR_ATTACHMENT1));
-  combo->addItem("GL_COLOR_ATTACHMENT2", QVariant(GL_COLOR_ATTACHMENT2));
-  combo->addItem("GL_COLOR_ATTACHMENT3", QVariant(GL_COLOR_ATTACHMENT3));
-  combo->addItem("GL_COLOR_ATTACHMENT4", QVariant(GL_COLOR_ATTACHMENT4));
-  combo->addItem("GL_COLOR_ATTACHMENT5", QVariant(GL_COLOR_ATTACHMENT5));
-  combo->addItem("GL_COLOR_ATTACHMENT6", QVariant(GL_COLOR_ATTACHMENT6));
-  combo->addItem("GL_COLOR_ATTACHMENT7", QVariant(GL_COLOR_ATTACHMENT7));
+  combo->addItem("GL_COLOR_ATTACHMENT", QVariant(GL_COLOR_ATTACHMENT0));
   combo->addItem("GL_DEPTH_ATTACHMENT", QVariant(GL_DEPTH_ATTACHMENT));
   combo->addItem("GL_STENCIL_ATTACHMENT", QVariant(GL_STENCIL_ATTACHMENT));
   ui.tableWidget->setCellWidget(ui.tableWidget->rowCount() -1, 0, combo);
@@ -78,15 +71,19 @@ void koregui::FrameBufferEditor::addNewAttachment(void) {
   combo = new QComboBox();
   combo->addItem("GL_FLOAT", QVariant(GL_FLOAT));
   combo->addItem("GL_UNSIGNED_BYTE", QVariant(GL_UNSIGNED_BYTE));
+  ui.tableWidget->setCellWidget(ui.tableWidget->rowCount() -1, 1, combo);
 
   // Format
   combo = new QComboBox();
   combo->addItem("GL_RGBA", QVariant(GL_RGBA));
+  ui.tableWidget->setCellWidget(ui.tableWidget->rowCount() -1, 2, combo);
 
   // Internal format
   combo = new QComboBox();
   combo->addItem("GL_RGBA8", QVariant(GL_RGBA8));
   combo->addItem("GL_FLOAT", QVariant(GL_FLOAT));
+  combo->addItem("GL_DEPTH24_STENCIL8", QVariant(GL_DEPTH24_STENCIL8));
+  ui.tableWidget->setCellWidget(ui.tableWidget->rowCount() -1, 3, combo);*/
 
   /*STextureProperties()
     : width(0),
@@ -107,20 +104,34 @@ void koregui::FrameBufferEditor::addNewAttachment(void) {
 
   /// The Internal format (e.g. GL_RGBA8, GL_FLOAT32,...).
   GLuint internalFormat;*/
+
+  kore::STextureProperties props;
+  props.border = 0;
+  props.targetType = GL_TEXTURE_2D;
+  props.width = 512;
+  props.height = 512;
+  props.format = GL_RGBA;
+  props.internalFormat = GL_RGBA8;
+  props.pixelType = GL_UNSIGNED_BYTE;
+  if (_currentbuffer) {
+    _currentbuffer->addTextureAttachment(props, "newAttachTex", GL_COLOR_ATTACHMENT0);
+  }
 }
 
 void koregui::FrameBufferEditor::applySettings(void) {
   if(!_currentbuffer) return;
-  for(int i = 0; i < ui.tableWidget->rowCount(); i++) {
+  /*for(int i = 0; i < ui.tableWidget->rowCount(); i++) {
     kore::STextureProperties props;
     props.pixelType = ui.tableWidget->item(i,0)->data(Qt::UserRole).toUInt();
     props.format = ui.tableWidget->item(i,1)->data(Qt::UserRole).toUInt();
-  }
+  }*/
+  refresh();
 }
 
 void koregui::FrameBufferEditor::refresh(void) {
   if(_currentbuffer) ui.nameEdit->setText(_currentbuffer->getName().c_str());
   ui.tableWidget->clearContents();
+  //_currentbuffer->
 }
 
 void koregui::FrameBufferEditor::framebufferChanged(int index) {

@@ -88,6 +88,7 @@ namespace kore {
     std::string _name;
     std::vector<ShaderData> _textureOutputs;
     std::vector<const Texture*> _textures;
+    std::map<uint, Texture*> _attachments;
     std::vector<STextureInfo*> _textureInfos;
     GLuint _handle;
     std::vector<GLenum> _activeBuffers;

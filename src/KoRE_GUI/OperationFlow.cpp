@@ -35,35 +35,63 @@ void koregui::OperationFlow::showFlow() {
     kore::RenderManager::getInstance()->getFrameBufferStages();
   int stagewidth = 0;
   for (uint i = 0; i < stages.size(); i++) {
-    koregui::FlowItem* stageit = new koregui::FlowItem(FLOW_FRAMEBUFFERSTAGE);
-    stageit->setFrameBufferStage(stages[i]);
-    stageit->setPos(stagewidth, 0);
-    stagewidth += 150;
-    _scene.addItem(stageit);
+    stagewidth = initFBOOperations(stages[i], stagewidth);
   }
 }
 
 int koregui::OperationFlow
   ::initNodeOperations(kore::NodePass* pass, int startcoord) {
-  return startcoord + 0;
+    koregui::FlowItem* stageit = new koregui::FlowItem(FLOW_NODEPASS);
+    stageit->setNodePass(pass);
+    stageit->setPos(startcoord, 80);
+    _scene.addItem(stageit);
+    int nodewidth = startcoord;
+    std::vector<kore::Operation*> & operations =
+      pass->getOperations();
+    if(operations.size() == 0) nodewidth += 150;
+    for (uint i = 0; i < operations.size(); i++) {
+      //nodewidth = initNodeOperations(nodepasses[i], nodewidth);
+      nodewidth += 150;
+    }
+    return nodewidth;
 }
 
 int koregui::OperationFlow
   ::initShaderOperations(kore::ShaderProgramPass* pass, int startcoord) {
-  return startcoord + 0;
+  koregui::FlowItem* stageit = new koregui::FlowItem(FLOW_PROGRAMPASS);
+  stageit->setProgramPass(pass);
+  stageit->setPos(startcoord, 40);
+  _scene.addItem(stageit);
+  int passwidth = startcoord;
+  std::vector<kore::NodePass*> & nodepasses =
+    pass->getNodePasses();
+  if (nodepasses.size() == 0) passwidth += 155;
+  for (uint i = 0; i < nodepasses.size(); i++) {
+    passwidth = initNodeOperations(nodepasses[i], passwidth);
+  }
+  return passwidth;
 }
 
 int koregui::OperationFlow
-  ::initFBOOperations(kore::FrameBufferStage* stage, int startcoord) {
-  return startcoord + 0;
+    ::initFBOOperations(kore::FrameBufferStage* stage, int startcoord) {
+  koregui::FlowItem* stageit = new koregui::FlowItem(FLOW_FRAMEBUFFERSTAGE);
+  stageit->setFrameBufferStage(stage);
+  stageit->setPos(startcoord, 0);
+  _scene.addItem(stageit);
+  int stagewidth = startcoord;
+  std::vector<kore::ShaderProgramPass*> &progpasses =
+  stage->getShaderProgramPasses();
+  if (progpasses.size() == 0) stagewidth += 155;
+  for (uint i = 0; i < progpasses.size(); i++) {
+   stagewidth = initShaderOperations(progpasses[i], stagewidth);
+  }
+  return stagewidth;
 }
 
 void koregui::OperationFlow::mousePressEvent(QMouseEvent * event) {
-  QGraphicsItem* item = itemAt(event->pos());
+  /*QGraphicsItem* item = itemAt(event->pos());
   if (item) {
-    
-  }
+  }*/
   showFlow();
-
   QGraphicsView::mousePressEvent(event);
 }

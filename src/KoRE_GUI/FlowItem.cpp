@@ -32,14 +32,14 @@ koregui::FlowItem::FlowItem(EFlowType flowType, QGraphicsItem* parent)
     _programpass(NULL),
     _nodepass(NULL),
     _op(NULL),
-    _itemheight(30),
-    _itemwidth(50),
+    _itemheight(35),
+    _itemwidth(150),
     QGraphicsItem(parent){
 
 }
 
 koregui::FlowItem::~FlowItem(void) {
-
+  kore::Log::getInstance()->write("Deleted Flow Item\n");
 }
 
 void koregui::FlowItem::refresh(void) {
@@ -47,7 +47,7 @@ void koregui::FlowItem::refresh(void) {
 }
 
 QRectF koregui::FlowItem::boundingRect() const {
-  return QRectF(0,0,100,100);
+  return QRectF(0,0,150,35);
 }
 
 void koregui::FlowItem::paint(QPainter* painter,
@@ -76,11 +76,19 @@ void koregui::FlowItem::paint(QPainter* painter,
     break;
   case FLOW_PROGRAMPASS:
     b.setColor(QColor(252,210,89));
-    //t.setText(_programpass->getShaderProgram()->getName().c_str());
+    if(_programpass->getShaderProgram()) {
+      t.setText(_programpass->getShaderProgram()->getName().c_str());
+    } else {
+      t.setText("<empty>");
+    }
     break;
   case FLOW_NODEPASS:
     b.setColor(QColor(35,203,173));
-    //t.setText(_nodepass->getSceneNode()->getName().c_str());
+    if(_nodepass->getSceneNode()) {
+      t.setText(_nodepass->getSceneNode()->getName().c_str());
+    } else {
+      t.setText("<empty>");
+    }
     break;
   case FLOW_OPERATION:
     b.setColor(QColor(250,123,28));
@@ -91,12 +99,12 @@ void koregui::FlowItem::paint(QPainter* painter,
     t.setText("UNKNOWN");
   }
   painter->setBrush(b);
-  painter->drawRect(0,0,100,100);
+  painter->drawRect(0,0,150,35);
 
   // text
   p.setColor(QColor(33,33,33));
   p.setStyle(Qt::PenStyle::SolidLine);
   p.setWidth(2);
   painter->setPen(p);
-  painter->drawStaticText(0, 0, t);
+  painter->drawStaticText(10, 10, t);
 }
