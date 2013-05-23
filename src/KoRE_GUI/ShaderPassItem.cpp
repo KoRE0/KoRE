@@ -48,6 +48,10 @@ koregui::ShaderPassItem::ShaderPassItem(QGraphicsItem* parent)
 }
 
 koregui::ShaderPassItem::~ShaderPassItem(void) {
+
+   for (uint i = 0; i <_uniforms.size(); i++) delete _uniforms[i];
+   for (uint j = 0; j <_uniforms.size(); j++) delete _attributes[j];
+   for (uint k = 0; k <_uniforms.size(); k++) delete _sampler[k];
    koregui::FrameBufferStageItem * fbs
      = static_cast<koregui::FrameBufferStageItem*>(parentItem());
    if (fbs) {

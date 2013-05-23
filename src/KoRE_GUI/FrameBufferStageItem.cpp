@@ -49,6 +49,9 @@ koregui::FrameBufferStageItem::FrameBufferStageItem(QGraphicsItem* parent)
 }
 
 koregui::FrameBufferStageItem::~FrameBufferStageItem(void){
+  while (_programs.size() > 0) {
+    delete(_programs[0]);
+  }
   kore::RenderManager::getInstance()->removeFrameBufferStage(_bufferstage);
 }
 
@@ -137,6 +140,7 @@ void koregui::FrameBufferStageItem
     if (*it == pass) {
       _bufferstage->removeProgramPass((*it)->getProgramPass());
       _programs.erase(it);
+      refresh();
       return;
     }
   }
