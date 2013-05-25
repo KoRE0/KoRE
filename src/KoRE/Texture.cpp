@@ -72,7 +72,9 @@ bool kore::Texture::init(const STextureProperties& properties,
   }
 
   GLerror::gl_ErrorCheckStart();
-  if(_handle != KORE_GLUINT_HANDLE_INVALID) {
+  bool isInitialized = _handle != KORE_GLUINT_HANDLE_INVALID;
+
+  if(_handle == KORE_GLUINT_HANDLE_INVALID) {
     glGenTextures(1, &_handle);
   }
 
@@ -80,7 +82,7 @@ bool kore::Texture::init(const STextureProperties& properties,
   
   switch(texTarget) {
   case GL_TEXTURE_1D:
-    if (_handle != KORE_GLUINT_HANDLE_INVALID) {
+    if (isInitialized) {
       glTexImage1D(texTarget,
         0,
         _properties.internalFormat,
@@ -100,7 +102,7 @@ bool kore::Texture::init(const STextureProperties& properties,
       pixelData);
     break;
   case GL_TEXTURE_2D:
-    if (_handle != KORE_GLUINT_HANDLE_INVALID) {
+    if (isInitialized) {
       glTexImage2D(texTarget,
         0,
         _properties.internalFormat,
@@ -122,7 +124,7 @@ bool kore::Texture::init(const STextureProperties& properties,
       pixelData);
     break;
   case GL_TEXTURE_3D:
-    if (_handle != KORE_GLUINT_HANDLE_INVALID) {
+    if (isInitialized) {
       glTexImage3D(texTarget,
         0,
         _properties.internalFormat,
