@@ -48,6 +48,7 @@ koregui::RenderViewer::RenderViewer(QWidget *parent)
   _scene.setParent(this);
   setScene(&_scene);
   setMinimumSize(400,400);
+  setRenderHint(QPainter::Antialiasing, true);
   connect(&_pathanim, SIGNAL(timeout()), this, SLOT(animatePath()));
   _pathanim.start(200);
 }

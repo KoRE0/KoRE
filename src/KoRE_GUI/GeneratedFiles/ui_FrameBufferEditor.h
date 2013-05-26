@@ -47,10 +47,11 @@ public:
     {
         if (FrameBufferEditor->objectName().isEmpty())
             FrameBufferEditor->setObjectName(QStringLiteral("FrameBufferEditor"));
-        FrameBufferEditor->resize(611, 414);
+        FrameBufferEditor->resize(898, 414);
         FrameBufferEditor->setMinimumSize(QSize(480, 300));
         FrameBufferEditor->setMaximumSize(QSize(16777215, 16777215));
         FrameBufferEditor->setMouseTracking(false);
+        FrameBufferEditor->setWindowOpacity(3);
         FrameBufferEditor->setStyleSheet(QLatin1String("QToolTip\n"
 "{\n"
 "     border: 1px solid black;\n"
@@ -210,8 +211,8 @@ public:
 "\n"
 "QComboBox::down-arrow\n"
 "{\n"
-"     image: url(:/down_arrow.png"
-                        ");\n"
+"     image: url(assets/icons/dow"
+                        "n_arrow.png);\n"
 "}\n"
 "\n"
 "QGroupBox:focus\n"
@@ -243,8 +244,8 @@ public:
 "      border-radius: 2px;\n"
 "      background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #ffa02f, stop: 1 #d7801a);\n"
 "      width: 14px;\n"
-"      subcon"
-                        "trol-position: right;\n"
+" "
+                        "     subcontrol-position: right;\n"
 "      subcontrol-origin: margin;\n"
 "}\n"
 "\n"
@@ -280,8 +281,8 @@ public:
 "\n"
 "QScrollBar::handle:vertical\n"
 "{\n"
-"      background: QLinearGradi"
-                        "ent( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 0.5 #d7801a, stop: 1 #ffa02f);\n"
+"      background: Q"
+                        "LinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 0.5 #d7801a, stop: 1 #ffa02f);\n"
 "      min-height: 20px;\n"
 "      border-radius: 2px;\n"
 "}\n"
@@ -315,8 +316,8 @@ public:
 "}\n"
 "\n"
 "\n"
-"QScrollBar::add-page:vertical,"
-                        " QScrollBar::sub-page:vertical\n"
+"QScrollBar::add-pag"
+                        "e:vertical, QScrollBar::sub-page:vertical\n"
 "{\n"
 "      background: none;\n"
 "}\n"
@@ -355,8 +356,8 @@ public:
 "{\n"
 "    text-align: center;\n"
 "    spacing: 1px; /* spacing between items in the tool bar */\n"
-"    background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #323232"
-                        ", stop: 0.5 #242424, stop:1 #323232);\n"
+"    background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, sto"
+                        "p:0 #323232, stop: 0.5 #242424, stop:1 #323232);\n"
 "}\n"
 "\n"
 "QDockWidget::close-button:hover, QDockWidget::float-button:hover\n"
@@ -390,9 +391,9 @@ public:
 "\n"
 "QToolBar::handle\n"
 "{\n"
-"     spacing: 3px; /* spacing between items in the t"
-                        "ool bar */\n"
-"     background: url(:/images/handle.png);\n"
+"     spacing: 3px; /* spacing between ite"
+                        "ms in the tool bar */\n"
+"     background: url(assets/icons/handle.png);\n"
 "}\n"
 "\n"
 "QMenu::separator\n"
@@ -436,10 +437,10 @@ public:
 "    top: 1px;\n"
 "}\n"
 "\n"
-"QTabBar::tab:last\n"
+"QTabBar::tab:l"
+                        "ast\n"
 "{\n"
-" "
-                        "   margin-right: 0; /* the last selected tab has nothing to overlap with on the right */\n"
+"    margin-right: 0; /* the last selected tab has nothing to overlap with on the right */\n"
 "    border-top-right-radius: 3px;\n"
 "}\n"
 "\n"
@@ -472,9 +473,9 @@ public:
 "    padding-bottom: 3px;*/\n"
 "    border-top-left-radius: 3px;\n"
 "    border-top-right-radius: 3px;\n"
-"    background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:1 #212121, stop:0.4 #343434, stop:0.2 #343434, stop:0.1 #ffaa00);\n"
-""
-                        "}\n"
+"    background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:1 #212121, stop:0.4 #343434, stop:0.2 #343434, stop"
+                        ":0.1 #ffaa00);\n"
+"}\n"
 "\n"
 "QRadioButton::indicator:checked, QRadioButton::indicator:unchecked{\n"
 "    color: #b1b1b1;\n"
@@ -514,19 +515,20 @@ public:
 "\n"
 "QCheckBox::indicator:checked\n"
 "{\n"
-"    image:url(:/images/checkbox.png);\n"
+"    image:url(assets/icons/checkbox.png);\n"
 "}\n"
 "\n"
 "QCheckBox::indicator:disabled, QRadioButton::indicator:disabled\n"
 "{\n"
-"    border: 1px solid #444;\n"
-""
-                        "}"));
+"    bor"
+                        "der: 1px solid #444;\n"
+"}"));
         FrameBufferEditor->setLocale(QLocale(QLocale::English, QLocale::UnitedStates));
         gridLayout_2 = new QGridLayout(FrameBufferEditor);
         gridLayout_2->setSpacing(6);
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        gridLayout_2->setContentsMargins(9, -1, -1, -1);
         nameEdit = new QLineEdit(FrameBufferEditor);
         nameEdit->setObjectName(QStringLiteral("nameEdit"));
         QFont font;
@@ -571,8 +573,8 @@ public:
         gridLayout_2->addWidget(newbutton, 1, 5, 1, 1);
 
         tableWidget = new QTableWidget(FrameBufferEditor);
-        if (tableWidget->columnCount() < 5)
-            tableWidget->setColumnCount(5);
+        if (tableWidget->columnCount() < 6)
+            tableWidget->setColumnCount(6);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
         tableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
@@ -583,6 +585,8 @@ public:
         tableWidget->setHorizontalHeaderItem(3, __qtablewidgetitem3);
         QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
         tableWidget->setHorizontalHeaderItem(4, __qtablewidgetitem4);
+        QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
+        tableWidget->setHorizontalHeaderItem(5, __qtablewidgetitem5);
         tableWidget->setObjectName(QStringLiteral("tableWidget"));
         tableWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         tableWidget->setShowGrid(false);
@@ -645,13 +649,15 @@ public:
         QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("FrameBufferEditor", "Attachment", 0));
         QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);
-        ___qtablewidgetitem1->setText(QApplication::translate("FrameBufferEditor", "PixelType", 0));
+        ___qtablewidgetitem1->setText(QApplication::translate("FrameBufferEditor", "Resolution", 0));
         QTableWidgetItem *___qtablewidgetitem2 = tableWidget->horizontalHeaderItem(2);
         ___qtablewidgetitem2->setText(QApplication::translate("FrameBufferEditor", "Format", 0));
         QTableWidgetItem *___qtablewidgetitem3 = tableWidget->horizontalHeaderItem(3);
         ___qtablewidgetitem3->setText(QApplication::translate("FrameBufferEditor", "InternalFormat", 0));
         QTableWidgetItem *___qtablewidgetitem4 = tableWidget->horizontalHeaderItem(4);
-        ___qtablewidgetitem4->setText(QApplication::translate("FrameBufferEditor", "TexName", 0));
+        ___qtablewidgetitem4->setText(QApplication::translate("FrameBufferEditor", "PixelType", 0));
+        QTableWidgetItem *___qtablewidgetitem5 = tableWidget->horizontalHeaderItem(5);
+        ___qtablewidgetitem5->setText(QApplication::translate("FrameBufferEditor", "TexName", 0));
         closeButton->setText(QApplication::translate("FrameBufferEditor", "Close", 0));
         addattach->setText(QApplication::translate("FrameBufferEditor", "Add", 0));
         newattach->setText(QApplication::translate("FrameBufferEditor", "New", 0));

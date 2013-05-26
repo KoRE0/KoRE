@@ -39,6 +39,7 @@ koregui::SceneViewer::SceneViewer(koregui::RenderViewer* renderview, QWidget *pa
   _scene.setBackgroundBrush(QBrush(QColor(23,23,23)));
   setScene(&_scene);
   setMinimumSize(800,600);
+  setRenderHint(QPainter::Antialiasing, true);
 }
 
 koregui::SceneViewer::~SceneViewer() {

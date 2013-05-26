@@ -50,6 +50,7 @@ namespace koregui {
     void refresh(void);
 
   private:
+    void setInternalFormatCombo(GLuint internalFormat, QComboBox* cbox);
     Ui::FrameBufferEditor ui;
     kore::FrameBuffer* _currentbuffer;
     FrameBufferStageItem* _currentitem;
