@@ -63,6 +63,11 @@ namespace kore {
     void addFinishOperation(Operation* op);
     void removeFinishOperation(Operation* op);
 
+    inline const EOperationExecutionType getExecutionType() const {return _executionType;}
+    inline void setExecutionType(EOperationExecutionType exType) {_executionType = exType;}
+    inline void setExecuted(bool executed) {_executed = executed;}
+    inline const bool getExecuted() const {return _executed;}
+
   private:
     const FrameBuffer* _frameBuffer;
     std::vector<Operation*> _startupOperations;
@@ -73,6 +78,9 @@ namespace kore {
     uint64 _id;
     GLenum* _activeBuffers;
     uint _numActiveBuffers;
+
+    EOperationExecutionType _executionType;
+    bool _executed;
   };
 }
 #endif  // KORE_FRAMEBUFFERSTAGE_H_

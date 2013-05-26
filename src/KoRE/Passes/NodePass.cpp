@@ -20,11 +20,15 @@
 #include "KoRE/Passes/NodePass.h"
 
 kore::NodePass::NodePass(void)
-  : _node(NULL) {
+  : _node(NULL),
+    _executionType(EXECUTE_REPEATING),
+    _executed(false) {
 }
 
 kore::NodePass::NodePass(const SceneNode* node)
-  : _node(node) {
+  : _node(node),
+    _executionType(EXECUTE_REPEATING),
+    _executed(false) {
 }
 
 kore::NodePass::~NodePass(void) {

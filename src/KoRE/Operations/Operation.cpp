@@ -20,7 +20,10 @@
 #include "KoRE/Operations/Operation.h"
 #include "Kore/RenderManager.h"
 
-kore::Operation::Operation(void) : _type(OP_UNDEFINED) {
+kore::Operation::Operation(void)
+  : _type(OP_UNDEFINED),
+    _executionType(EXECUTE_REPEATING),
+    _executed(false) {
   _renderManager = RenderManager::getInstance();
 }
 

@@ -23,11 +23,15 @@
 
 
 kore::ShaderProgramPass::ShaderProgramPass(void)
-  : _program(NULL) {
+  : _program(NULL),
+    _executionType(EXECUTE_REPEATING),
+    _executed(false) {
 }
 
 kore::ShaderProgramPass::ShaderProgramPass(ShaderProgram* prog)
-  : _program(NULL) {
+  : _program(NULL),
+    _executionType(EXECUTE_REPEATING),
+    _executed(false) {
   setShaderProgram(prog);
 }
 

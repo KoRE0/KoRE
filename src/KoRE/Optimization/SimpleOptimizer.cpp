@@ -40,6 +40,12 @@ void kore::SimpleOptimizer::
   operationList.clear();
 
   for (uint iFBO = 0; iFBO < stages.size(); ++iFBO) {
+    if (stages[iFBO]->getExecutionType() == EXECUTE_ONCE && stages[iFBO]->getExecuted()) {
+      continue;;
+    }
+
+    stages[iFBO]->setExecuted(true);
+
     // FBO stage internal startup
     const std::vector<Operation*>& fboInternalStartupOps =
       stages[iFBO]->getInternalStartupOperations();
@@ -56,6 +62,13 @@ void kore::SimpleOptimizer::
     const std::vector<ShaderProgramPass*>& programPasses =
        stages[iFBO]->getShaderProgramPasses();
     for (uint iProgram = 0; iProgram < programPasses.size(); ++iProgram) {
+      if (programPasses[iProgram]->getExecutionType() == EXECUTE_ONCE
+          && programPasses[iProgram]->getExecuted()) {
+        continue;
+      }
+
+      programPasses[iProgram]->setExecuted(true);
+
       // Program pass internal startup
       const std::vector<Operation*>& programInternalStartupOps =
         programPasses[iProgram]->getInternalStartupOperations();
@@ -75,6 +88,13 @@ void kore::SimpleOptimizer::
         programPasses[iProgram]->getNodePasses();
 
       for (uint iNode = 0; iNode < nodePasses.size(); ++iNode) {
+        if (nodePasses[iNode]->getExecutionType() == EXECUTE_ONCE
+          && nodePasses[iNode]->getExecuted()) {
+            continue;
+        }
+
+        nodePasses[iNode]->setExecuted(true);
+
         // Node pass startup
         const std::vector<Operation*>& nodeStartupOps =
           nodePasses[iNode]->getStartupOperations();
@@ -129,3 +149,4 @@ void kore::SimpleOptimizer::
     }
   }  // FrameBuffer passes
 }
+

@@ -46,6 +46,11 @@ namespace kore {
     OP_BINDBUFFER
   };
 
+  enum EOperationExecutionType {
+    EXECUTE_ONCE,
+    EXECUTE_REPEATING
+  };
+
   class SceneNodeComponent;
   class RenderManager;
   class Operation {
@@ -62,6 +67,11 @@ namespace kore {
 
     inline const EOperationType getType() const {return _type;}
     
+    inline const EOperationExecutionType getExecutionType() const {return _executionType;}
+    inline void setExecutionType(EOperationExecutionType exType) {_executionType = exType;}
+    inline void setExecuted(bool executed) {_executed = executed;}
+    inline const bool getExecuted() const {return _executed;}
+    
   private:
     virtual void doExecute(void) const = 0;
 
@@ -69,6 +79,9 @@ namespace kore {
   protected:
     EOperationType _type;
     RenderManager* _renderManager;
+
+    EOperationExecutionType _executionType;
+    bool _executed;
   };
 }
 #endif  // CORE_INCLUDE_CORE_OPERATION_H_

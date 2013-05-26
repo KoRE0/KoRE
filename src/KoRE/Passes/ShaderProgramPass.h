@@ -58,6 +58,11 @@ namespace kore {
     void addFinishOperation(Operation* op);
     void removeFinishOperation(Operation* op);
 
+    inline const EOperationExecutionType getExecutionType() const {return _executionType;}
+    inline void setExecutionType(EOperationExecutionType exType) {_executionType = exType;}
+    inline void setExecuted(bool executed) {_executed = executed;}
+    inline const bool getExecuted() const {return _executed;}
+
 
   private:
     uint64 _id;
@@ -68,6 +73,10 @@ namespace kore {
     std::vector<Operation*> _internalStartup;
     std::vector<Operation*> _internalFinish;
     std::vector<NodePass*> _nodePasses;
+
+    EOperationExecutionType _executionType;
+    bool _executed;
   };
+
 }
 #endif  // KORE_SHADERPROGRAMPASS_H_
