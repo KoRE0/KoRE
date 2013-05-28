@@ -26,7 +26,10 @@
 kore::FrameBufferStage::FrameBufferStage(void)
   : _frameBuffer(NULL),
     _activeBuffers(NULL),
-    _numActiveBuffers(0){
+    _numActiveBuffers(0),
+    _executionType(EXECUTE_REPEATING),
+    _executed(false)
+{
 }
 
 kore::FrameBufferStage::~FrameBufferStage(void) {

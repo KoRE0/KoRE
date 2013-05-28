@@ -49,12 +49,20 @@ namespace kore {
     void addFinishOperation(Operation* op);
     void removeFinishOperation(Operation* op);
 
+    inline const EOperationExecutionType getExecutionType() const {return _executionType;}
+    inline void setExecutionType(EOperationExecutionType exType) {_executionType = exType;}
+    inline void setExecuted(bool executed) {_executed = executed;}
+    inline const bool getExecuted() const {return _executed;}
+
   private:
     const SceneNode* _node;
     uint64 _id;
     std::vector<Operation*> _startupOperations;
     std::vector<Operation*> _finishOperations;
     std::vector<Operation*> _operations;
+
+    EOperationExecutionType _executionType;
+    bool _executed;
   };
 }
 #endif  // KORE_NODESTAGE_H_
