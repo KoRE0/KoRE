@@ -80,7 +80,8 @@ kore::Texture*
 
     if (tex->init(texProperties, name, &imageData[0])) {
       ResourceManager::getInstance()->addTexture(tex);
-      IDManager::getInstance()->registerURL(tex->getID(), filepath);
+      std::string url = IDManager::getInstance()->genURL("", filepath, 0);
+      IDManager::getInstance()->registerURL(tex->getID(), url);
       kore::Log::getInstance()
         ->write("[DEBUG] Texture '%s' successfully loaded.\n",
         filepath.c_str());
