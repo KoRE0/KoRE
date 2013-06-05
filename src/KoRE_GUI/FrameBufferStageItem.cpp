@@ -66,6 +66,10 @@ void koregui::FrameBufferStageItem::refresh(void){
     _programs[i]->setPos(-10, _bufferheight);
     _bufferheight += _programs[i]->getHeight() + 20;
   }
+  for (uint i = 0; i < _outputs.size(); i++) {
+    _outputs[i]->setPos(200, 50 + 50 * i);
+    _outputs[i]->show();
+  }
 }
 
 QRectF koregui::FrameBufferStageItem::boundingRect() const{
@@ -124,6 +128,14 @@ void koregui::FrameBufferStageItem
   ::setFrameBuffer(kore::FrameBuffer* framebuffer) {
   _frameBuffer = framebuffer;
   _bufferstage->setFrameBuffer(_frameBuffer);
+  for (uint i = 0; i < _outputs.size(); i++) {
+    delete(_outputs[i]);
+  }
+  _outputs.clear();
+  std::vector<kore::ShaderData> sdata = _frameBuffer->getOutputs();
+  for (uint i = 0; i < sdata.size(); i++) {
+    _outputs.push_back(new ShaderDataItem(&sdata[i], NULL, this));
+  }
   refresh();
 }
 

@@ -44,6 +44,10 @@ namespace kore {
     inline const uint numDrawBuffers() const {return _activeBuffers.size();}
     const Texture* getTexture(const std::string& name) const;
 
+    inline std::vector<ShaderData>& getOutputs(void) {
+      return _textureOutputs;
+    }
+
     /*! \brief Change the name of the framebuffer. It is applied if the new 
     *          name does not exists. ResourceManager will be notified.
     *   \param name The new name.
