@@ -84,10 +84,12 @@ void koregui::FrameBufferEditor::addNewAttachment(void) {
   QWidget* reswidget = new QWidget();
   QHBoxLayout* hlay = new QHBoxLayout();
   QLineEdit* lineedit = new QLineEdit("512");
+  lineedit->setValidator(new QIntValidator());
   hlay->addWidget(lineedit);
   QLabel* label = new QLabel("x");
   hlay->addWidget(label);
   lineedit = new QLineEdit("512");
+  lineedit->setValidator(new QIntValidator());
   hlay->addWidget(lineedit);
   QCheckBox* cbox = new QCheckBox("auto");
   cbox->setFixedWidth(50);
@@ -147,40 +149,55 @@ void koregui::FrameBufferEditor::addNewAttachment(void) {
 
 void koregui::FrameBufferEditor::applySettings(void) {
   if(!_currentbuffer) return;
+  uint colortarget = 0;
   for(int i = 0; i < ui.tableWidget->rowCount(); i++) {
     kore::STextureProperties props;
     props.targetType = GL_TEXTURE_2D;
 
-    QHBoxLayout* hlay = static_cast<QHBoxLayout*>(ui.tableWidget->cellWidget(i, 1)->layout());
+    QHBoxLayout* hlay =
+      static_cast<QHBoxLayout*>(ui.tableWidget->cellWidget(i, 1)->layout());
     QLineEdit* res = static_cast<QLineEdit*>(hlay->itemAt(0)->widget());
-    kore::Log::getInstance()->write("res: %s x", res->text().toStdString().c_str());
-
-    
+    uint resx = res->text().toUInt();
     res = static_cast<QLineEdit*>(hlay->itemAt(2)->widget());
-    kore::Log::getInstance()->write("children: %s\n", res->text().toStdString().c_str());
-    /*QHBoxLayout* hlay = new QHBoxLayout();
-    QLineEdit* lineedit = new QLineEdit("512");
-    hlay->addWidget(lineedit);
-    QLabel* label = new QLabel("x");
-    hlay->addWidget(label);
-    lineedit = new QLineEdit("512");
-    hlay->addWidget(lineedit);
-    QCheckBox* cbox = new QCheckBox("auto");
-    cbox->setFixedWidth(50);
-    hlay->addWidget(cbox);
-    hlay->setContentsMargins(QMargins(0,0,0,0));
-    reswidget->setLayout(hlay);*/
+    uint resy = res->text().toUInt();
+    QCheckBox* cb = static_cast<QCheckBox*>(hlay->itemAt(3)->widget());
+    bool autores = (cb->isChecked())?true:false;
 
-    QComboBox* cbox = static_cast<QComboBox*>(ui.tableWidget->cellWidget(i, 2));
+    props.width = resx;
+    props.height = resy;
+
+    QComboBox* cbox =
+      static_cast<QComboBox*>(ui.tableWidget->cellWidget(i, 2));
     props.format = cbox->itemData(cbox->currentIndex()).toUInt();
     cbox = static_cast<QComboBox*>(ui.tableWidget->cellWidget(i, 3));
     props.internalFormat = cbox->itemData(cbox->currentIndex()).toUInt();
     cbox = static_cast<QComboBox*>(ui.tableWidget->cellWidget(i, 4));
     props.pixelType = cbox->itemData(cbox->currentIndex()).toUInt();
 
-    //if (_currentbuffer) {
-    //  _currentbuffer->addTextureAttachment(props, "newAttachTex", GL_COLOR_ATTACHMENT0);
-    //}
+    cbox = static_cast<QComboBox*>(ui.tableWidget->cellWidget(i, 0));
+    GLuint target = cbox->itemData(cbox->currentIndex()).toUInt();
+
+    switch(target) {
+    case GL_COLOR_ATTACHMENT0:
+      _currentbuffer->addTextureAttachment(props,
+                                           ("Color " + colortarget),
+                                           GL_COLOR_ATTACHMENT0 + colortarget);
+      colortarget++;
+      break;
+    case GL_DEPTH_ATTACHMENT:
+      _currentbuffer->addTextureAttachment(props,
+                                           "Depth",
+                                           GL_DEPTH_ATTACHMENT);
+      break;
+    case GL_STENCIL_ATTACHMENT:
+      _currentbuffer->addTextureAttachment(props,
+                                           "Stencil",
+                                           GL_STENCIL_ATTACHMENT);
+      break;
+    default:
+      // ERROR
+      break;
+    }
   }
   refresh();
 }
@@ -189,7 +206,7 @@ void koregui::FrameBufferEditor::refresh(void) {
   if(_currentbuffer) ui.nameEdit->setText(_currentbuffer->getName().c_str());
   ui.tableWidget->clearContents();
   ui.tableWidget->setRowCount(0);
-  //_currentbuffer->
+  //
 }
 
 void koregui::FrameBufferEditor::framebufferChanged(int index) {
