@@ -52,6 +52,7 @@
 #include "KoRE/Passes/NodePass.h"
 #include "KoRE/Events.h"
 #include "Kore/Operations/OperationFactory.h"
+#include "iostream"
 
 kore::SceneNode* rotationNode = NULL;
 kore::SceneNode* lightNode = NULL;
@@ -309,8 +310,8 @@ int main(void) {
   simpleShader->setName("normal mapping Shader");
   // load resources
   kore::ResourceManager::getInstance()
-    //->loadScene("./assets/meshes/TestEnv.dae");
-    ->loadScene("./assets/meshes/triangle.dae");
+    ->loadScene("./assets/meshes/TestEnv.dae");
+    //->loadScene("./assets/meshes/triangle.dae");
 
   // texture loading
   kore::Texture* testTexture =
@@ -345,10 +346,8 @@ int main(void) {
 
   GLenum drawBuffers[] = {GL_COLOR_ATTACHMENT0};
   kore::FrameBufferStage* backBufferStage = new kore::FrameBufferStage;
-  backBufferStage->setFrameBuffer(kore::FrameBuffer::BACKBUFFER,
-                                  GL_FRAMEBUFFER,
-                                  drawBuffers,
-                                  1);
+  backBufferStage->setFrameBuffer(kore::FrameBuffer::BACKBUFFER);
+  backBufferStage->setActiveAttachments(drawBuffers,1);
 
   kore::ShaderProgramPass* shaderProgPass = new kore::ShaderProgramPass;
   //shaderProgPass->setShaderProgram(simpleShader);
@@ -366,10 +365,10 @@ int main(void) {
 
   kore::RenderManager::getInstance()->addFramebufferStage(backBufferStage);
 
- /* std::vector<kore::SceneNode*> vBigCubeNodes;
+  std::vector<kore::SceneNode*> vBigCubeNodes;
   kore::SceneManager::getInstance()
     ->getSceneNodesByName("Cube", vBigCubeNodes);
-  rotationNode = vBigCubeNodes[0]; */
+  rotationNode = vBigCubeNodes[0]; 
 
   glClearColor(1.0f,1.0f,1.0f,1.0f);
 
@@ -399,7 +398,8 @@ int main(void) {
   while (running) {
     time = the_timer.timeSinceLastCall();
     kore::SceneManager::getInstance()->update();
-
+    
+   //  
     if (glfwGetKey(GLFW_KEY_UP) || glfwGetKey('W')) {
       pCamera->moveForward(cameraMoveSpeed * static_cast<float>(time));
     }
