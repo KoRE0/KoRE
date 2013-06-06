@@ -67,8 +67,9 @@ void koregui::FrameBufferStageItem::refresh(void){
     _bufferheight += _programs[i]->getHeight() + 20;
   }
   for (uint i = 0; i < _outputs.size(); i++) {
-    _outputs[i]->setPos(200, 50 + 50 * i);
+    _outputs[i]->setPos(192, _bufferheight);
     _outputs[i]->show();
+    _bufferheight += 30;
   }
 }
 
@@ -101,6 +102,16 @@ void koregui::FrameBufferStageItem::paint(QPainter* painter,
   painter->setPen(p);
   painter->drawStaticText(10,10, text);
   painter->drawImage(_bufferwidth - 26, 10, QImage("./assets/icons/gear.png"));
+
+  for (uint i = 0; i<_outputs.size(); i++) {
+    text.setText((_outputs[i]->getData()->name.c_str()));
+    font.setFamily("Consolas");
+    painter->setFont(font);
+    p.setStyle(Qt::PenStyle::SolidLine);
+    p.setColor(QColor(220,220,220));
+    painter->setPen(p);
+    painter->drawStaticText(14,_bufferheight - 30 - i * 30, text);
+  }
 }
 
 void koregui::FrameBufferStageItem

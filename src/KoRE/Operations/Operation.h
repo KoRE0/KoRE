@@ -43,7 +43,8 @@ namespace kore {
     OP_VIEWPORT,
     OP_FUNCTION,
     OP_DRAWINDIRECT,
-    OP_BINDBUFFER
+    OP_BINDBUFFER,
+    OP_CLEAR
   };
 
   enum EOperationExecutionType {
