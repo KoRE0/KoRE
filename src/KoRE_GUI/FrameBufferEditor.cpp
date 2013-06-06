@@ -180,7 +180,7 @@ void koregui::FrameBufferEditor::applySettings(void) {
     switch(target) {
     case GL_COLOR_ATTACHMENT0:
       _currentbuffer->addTextureAttachment(props,
-                                           ("Color " + colortarget),
+                                           "Color",
                                            GL_COLOR_ATTACHMENT0 + colortarget);
       colortarget++;
       break;
@@ -199,6 +199,7 @@ void koregui::FrameBufferEditor::applySettings(void) {
       break;
     }
   }
+  _currentitem->setFrameBuffer(_currentbuffer);
   refresh();
 }
 
