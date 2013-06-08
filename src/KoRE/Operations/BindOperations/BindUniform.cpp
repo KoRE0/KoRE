@@ -76,20 +76,20 @@ void kore::BindUniform::doExecute(void) const {
 
   switch (_componentUniform->type) {
     case GL_FLOAT:
-      glUniform1fv(_shaderUniform->location, 1,
+      glUniform1fv(_shaderUniform->location, _componentUniform->size,
                   static_cast<GLfloat*>(_componentUniform->data));
     break;
 
     case GL_FLOAT_VEC2:
-      glUniform2fv(_shaderUniform->location, 1,
+      glUniform2fv(_shaderUniform->location, _componentUniform->size,
                           static_cast<GLfloat*>(_componentUniform->data));
       break;
     case GL_FLOAT_VEC3:
-      glUniform3fv(_shaderUniform->location, 1,
+      glUniform3fv(_shaderUniform->location, _componentUniform->size,
                     static_cast<GLfloat*>(_componentUniform->data));
       break;
     case GL_FLOAT_VEC4:
-        glUniform4fv(_shaderUniform->location, 1,
+        glUniform4fv(_shaderUniform->location, _componentUniform->size,
                      static_cast<GLfloat*>(_componentUniform->data));
       break;
     case GL_DOUBLE: 
@@ -97,15 +97,15 @@ void kore::BindUniform::doExecute(void) const {
                   *static_cast<GLdouble*>(_componentUniform->data));
     break;
     case GL_DOUBLE_VEC2: 
-      glUniform2dv(_shaderUniform->location, 1,
+      glUniform2dv(_shaderUniform->location, _componentUniform->size,
                   static_cast<GLdouble*>(_componentUniform->data));
     break;
     case GL_DOUBLE_VEC3: 
-      glUniform3dv(_shaderUniform->location, 1,
+      glUniform3dv(_shaderUniform->location, _componentUniform->size,
                   static_cast<GLdouble*>(_componentUniform->data));
     break;
     case GL_DOUBLE_VEC4: 
-      glUniform4dv(_shaderUniform->location, 1,
+      glUniform4dv(_shaderUniform->location, _componentUniform->size,
                    static_cast<GLdouble*>(_componentUniform->data));
     break;
     case GL_BOOL: 
@@ -115,17 +115,17 @@ void kore::BindUniform::doExecute(void) const {
     break;
     case GL_BOOL_VEC2:
     case GL_INT_VEC2: 
-      glUniform2iv(_shaderUniform->location, 1,
+      glUniform2iv(_shaderUniform->location, _componentUniform->size,
                    static_cast<GLint*>(_componentUniform->data));
     break;
     case GL_BOOL_VEC3:
     case GL_INT_VEC3: 
-      glUniform3iv(_shaderUniform->location, 1,
+      glUniform3iv(_shaderUniform->location, _componentUniform->size,
                     static_cast<GLint*>(_componentUniform->data));
     break;
     case GL_BOOL_VEC4:
     case GL_INT_VEC4:
-      glUniform4iv(_shaderUniform->location, 1,
+      glUniform4iv(_shaderUniform->location, _componentUniform->size,
                    static_cast<GLint*>(_componentUniform->data));
     break;
   case GL_UNSIGNED_INT:
@@ -133,89 +133,89 @@ void kore::BindUniform::doExecute(void) const {
                   *static_cast<GLuint*>(_componentUniform->data));
   break;
   case GL_UNSIGNED_INT_VEC2:
-      glUniform2uiv(_shaderUniform->location, 1,
+      glUniform2uiv(_shaderUniform->location, _componentUniform->size,
                    static_cast<GLuint*>(_componentUniform->data));
   break;
   case GL_UNSIGNED_INT_VEC3:
-    glUniform3uiv(_shaderUniform->location, 1,
+    glUniform3uiv(_shaderUniform->location, _componentUniform->size,
                   static_cast<GLuint*>(_componentUniform->data));
   break;
   case GL_UNSIGNED_INT_VEC4:
-    glUniform4uiv(_shaderUniform->location, 1,
+    glUniform4uiv(_shaderUniform->location, _componentUniform->size,
                   static_cast<GLuint*>(_componentUniform->data));
   break;
   case GL_FLOAT_MAT2:
-    glUniformMatrix2fv(_shaderUniform->location, 1,
+    glUniformMatrix2fv(_shaderUniform->location, _componentUniform->size,
       GL_FALSE, static_cast<GLfloat*>(_componentUniform->data));
   break;
   case GL_FLOAT_MAT3: 
-    glUniformMatrix3fv(_shaderUniform->location, 1,
+    glUniformMatrix3fv(_shaderUniform->location, _componentUniform->size,
       GL_FALSE, static_cast<GLfloat*>(_componentUniform->data));
   break;
   case GL_FLOAT_MAT4:
-    glUniformMatrix4fv(_shaderUniform->location, 1,
+    glUniformMatrix4fv(_shaderUniform->location, _componentUniform->size,
       GL_FALSE, static_cast<GLfloat*>(_componentUniform->data));
   break;
   case GL_FLOAT_MAT2x3: 
-    glUniformMatrix2x3fv(_shaderUniform->location, 1,
+    glUniformMatrix2x3fv(_shaderUniform->location, _componentUniform->size,
      GL_FALSE, static_cast<GLfloat*>(_componentUniform->data));
   break;
   case GL_FLOAT_MAT2x4: 
-     glUniformMatrix2x4fv(_shaderUniform->location, 1,
+     glUniformMatrix2x4fv(_shaderUniform->location, _componentUniform->size,
                           GL_FALSE,
                           static_cast<GLfloat*>(_componentUniform->data));
   break;
   case GL_FLOAT_MAT3x2: 
-    glUniformMatrix3x2fv(_shaderUniform->location, 1,
+    glUniformMatrix3x2fv(_shaderUniform->location, _componentUniform->size,
                           GL_FALSE,
                           static_cast<GLfloat*>(_componentUniform->data));
   break;
   case GL_FLOAT_MAT3x4: 
-    glUniformMatrix3x4fv(_shaderUniform->location, 1,
+    glUniformMatrix3x4fv(_shaderUniform->location, _componentUniform->size,
                      GL_FALSE, static_cast<GLfloat*>(_componentUniform->data));
   break;
   case GL_FLOAT_MAT4x2: 
-    glUniformMatrix4x2fv(_shaderUniform->location, 1,
+    glUniformMatrix4x2fv(_shaderUniform->location, _componentUniform->size,
                     GL_FALSE, static_cast<GLfloat*>(_componentUniform->data));
   break;
   case GL_FLOAT_MAT4x3: 
-      glUniformMatrix3x4fv(_shaderUniform->location, 1,
+      glUniformMatrix3x4fv(_shaderUniform->location, _componentUniform->size,
         GL_FALSE, static_cast<GLfloat*>(_componentUniform->data));
   break;
   case GL_DOUBLE_MAT2: 
-    glUniformMatrix2dv(_shaderUniform->location, 1,
+    glUniformMatrix2dv(_shaderUniform->location, _componentUniform->size,
       GL_FALSE, static_cast<GLdouble*>(_componentUniform->data));
   break;
   case GL_DOUBLE_MAT3: 
-    glUniformMatrix3dv(_shaderUniform->location, 1,
+    glUniformMatrix3dv(_shaderUniform->location, _componentUniform->size,
       GL_FALSE, static_cast<GLdouble*>(_componentUniform->data));
   break;
   case GL_DOUBLE_MAT4: 
-    glUniformMatrix4dv(_shaderUniform->location, 1,
+    glUniformMatrix4dv(_shaderUniform->location, _componentUniform->size,
       GL_FALSE, static_cast<GLdouble*>(_componentUniform->data));
   break;
   case GL_DOUBLE_MAT2x3: 
-    glUniformMatrix2x3dv(_shaderUniform->location, 1,
+    glUniformMatrix2x3dv(_shaderUniform->location, _componentUniform->size,
       GL_FALSE, static_cast<GLdouble*>(_componentUniform->data));
   break;
   case GL_DOUBLE_MAT2x4:
-    glUniformMatrix2x4dv(_shaderUniform->location, 1,
+    glUniformMatrix2x4dv(_shaderUniform->location, _componentUniform->size,
       GL_FALSE, static_cast<GLdouble*>(_componentUniform->data));
   break;
   case GL_DOUBLE_MAT3x2:
-    glUniformMatrix3x2dv(_shaderUniform->location, 1,
+    glUniformMatrix3x2dv(_shaderUniform->location, _componentUniform->size,
       GL_FALSE, static_cast<GLdouble*>(_componentUniform->data));
   break;
   case GL_DOUBLE_MAT3x4:
-    glUniformMatrix3x4dv(_shaderUniform->location, 1,
+    glUniformMatrix3x4dv(_shaderUniform->location, _componentUniform->size,
       GL_FALSE, static_cast<GLdouble*>(_componentUniform->data));
   break;
   case GL_DOUBLE_MAT4x2:
-    glUniformMatrix4x2dv(_shaderUniform->location, 1,
+    glUniformMatrix4x2dv(_shaderUniform->location, _componentUniform->size,
       GL_FALSE, static_cast<GLdouble*>(_componentUniform->data));
   break;
   case GL_DOUBLE_MAT4x3:
-    glUniformMatrix4x3dv(_shaderUniform->location, 1,
+    glUniformMatrix4x3dv(_shaderUniform->location, _componentUniform->size,
       GL_FALSE, static_cast<GLdouble*>(_componentUniform->data));
   break;
   // Note(dlazarek): Currently, we handle texture-bindings outside of 

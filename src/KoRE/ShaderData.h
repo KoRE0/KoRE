@@ -33,7 +33,7 @@ namespace kore {
     virtual ~ShaderData(void) {};
 
     GLenum type;      // e.g. GL_FLOAT_VEC3
-    GLuint size;      // number of components in units of type (always 1)
+    GLuint size;      // number of components in units of type (always 1 for non-array uniforms)
     std::string name;
     void* data;
     SceneNodeComponent* component;
