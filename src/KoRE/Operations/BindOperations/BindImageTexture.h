@@ -30,14 +30,15 @@ namespace kore {
     public:
       BindImageTexture();
       BindImageTexture(const ShaderData* texData,
-                      const ShaderInput* shaderInput);
+                      const ShaderInput* shaderInput, GLuint access = GL_READ_WRITE);
       virtual ~BindImageTexture();
 
       virtual void update(void);
       virtual void reset(void);
       void connect(const ShaderData* texData,
-        const ShaderInput* shaderInput);
+        const ShaderInput* shaderInput, GLuint access);
   private:
+	GLuint _access;
 
     GLuint internalFormatToImageFormat(const GLuint internalFormat) const;
     void init();
