@@ -52,66 +52,77 @@ kore::Camera::Camera()
   tmp.type = GL_FLOAT_MAT4;
   tmp.name = "view Matrix";
   tmp.data = glm::value_ptr(_matView);
+  tmp.component = this;
   _shaderData.push_back(tmp);
 
   tmp = ShaderData();
   tmp.type = GL_FLOAT_MAT4;
   tmp.name = "inverse view Matrix";
   tmp.data = glm::value_ptr(_matViewInverse);
+  tmp.component = this;
   _shaderData.push_back(tmp);
 
   tmp = ShaderData();
   tmp.type = GL_FLOAT_MAT4;
   tmp.name = "projection Matrix";
   tmp.data = glm::value_ptr(_matProjection);
+  tmp.component = this;
   _shaderData.push_back(tmp);
 
   tmp = ShaderData();
   tmp.type = GL_FLOAT_MAT4;
   tmp.name = "view projection Matrix";
   tmp.data = glm::value_ptr(_matViewProj);
+  tmp.component = this;
   _shaderData.push_back(tmp);
 
   tmp = ShaderData();
   tmp.type = GL_FLOAT;
   tmp.name = "FOV degree";
   tmp.data = &_fFovDeg;
+  tmp.component = this;
   _shaderData.push_back(tmp);
 
   tmp = ShaderData();
   tmp.type = GL_FLOAT;
   tmp.name = "near Plane";
   tmp.data = &_fNear;
+  tmp.component = this;
   _shaderData.push_back(tmp);
 
   tmp = ShaderData();
   tmp.type = GL_FLOAT;
   tmp.name = "far Plane";
   tmp.data = &_fFar;
+  tmp.component = this;
   _shaderData.push_back(tmp);
 
   tmp = ShaderData();
   tmp.type = GL_FLOAT;
   tmp.name = "focal length";
   tmp.data = &_fFocalLength;
+  tmp.component = this;
   _shaderData.push_back(tmp);
 
   tmp = ShaderData();
   tmp.type = GL_FLOAT;
   tmp.name = "width";
   tmp.data = &_fWidth;
+  tmp.component = this;
   _shaderData.push_back(tmp);
 
   tmp = ShaderData();
   tmp.type = GL_FLOAT;
   tmp.name = "height";
   tmp.data = &_fHeight;
+  tmp.component = this;
   _shaderData.push_back(tmp);
 
   tmp = ShaderData();
   tmp.type = GL_FLOAT;
   tmp.name = "ratio";
   tmp.data = &_fRatio;
+  tmp.component = this;
   _shaderData.push_back(tmp);
 
   _type = COMPONENT_CAMERA;

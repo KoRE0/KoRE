@@ -49,6 +49,9 @@ koregui::FrameBufferStageItem::FrameBufferStageItem(QGraphicsItem* parent)
 }
 
 koregui::FrameBufferStageItem::~FrameBufferStageItem(void){
+  while (_programs.size() > 0) {
+    delete(_programs[0]);
+  }
   kore::RenderManager::getInstance()->removeFrameBufferStage(_bufferstage);
 }
 
@@ -62,6 +65,11 @@ void koregui::FrameBufferStageItem::refresh(void){
   for (uint i = 0; i < _programs.size(); i++) {
     _programs[i]->setPos(-10, _bufferheight);
     _bufferheight += _programs[i]->getHeight() + 20;
+  }
+  for (uint i = 0; i < _outputs.size(); i++) {
+    _outputs[i]->setPos(192, _bufferheight);
+    _outputs[i]->show();
+    _bufferheight += 30;
   }
 }
 
@@ -94,6 +102,16 @@ void koregui::FrameBufferStageItem::paint(QPainter* painter,
   painter->setPen(p);
   painter->drawStaticText(10,10, text);
   painter->drawImage(_bufferwidth - 26, 10, QImage("./assets/icons/gear.png"));
+
+  for (uint i = 0; i<_outputs.size(); i++) {
+    text.setText((_outputs[i]->getData()->name.c_str()));
+    font.setFamily("Consolas");
+    painter->setFont(font);
+    p.setStyle(Qt::PenStyle::SolidLine);
+    p.setColor(QColor(220,220,220));
+    painter->setPen(p);
+    painter->drawStaticText(14,_bufferheight - 30 - i * 30, text);
+  }
 }
 
 void koregui::FrameBufferStageItem
@@ -121,6 +139,14 @@ void koregui::FrameBufferStageItem
   ::setFrameBuffer(kore::FrameBuffer* framebuffer) {
   _frameBuffer = framebuffer;
   _bufferstage->setFrameBuffer(_frameBuffer);
+  for (uint i = 0; i < _outputs.size(); i++) {
+    delete(_outputs[i]);
+  }
+  _outputs.clear();
+  std::vector<kore::ShaderData>& sdata = _frameBuffer->getOutputs();
+  for (uint i = 0; i < sdata.size(); i++) {
+    _outputs.push_back(new ShaderDataItem(&sdata[i], NULL, this));
+  }
   refresh();
 }
 
@@ -137,6 +163,7 @@ void koregui::FrameBufferStageItem
     if (*it == pass) {
       _bufferstage->removeProgramPass((*it)->getProgramPass());
       _programs.erase(it);
+      refresh();
       return;
     }
   }

@@ -87,6 +87,7 @@ int main(int argc, char *argv[]) {
 
   // demo startup loading
   kore::ResourceManager::getInstance()->loadScene("./assets/meshes/TestEnv.dae");
+  kore::ResourceManager::getInstance()->loadScene("./assets/meshes/FullScreenTriangle.dae");
   std::vector<kore::SceneNode*> finder;
   kore::SceneManager::getInstance()->getSceneNodesByName("Cube", finder);
   kore::SceneNode* cube = (finder.size() > 0) ? finder[0] : NULL;
@@ -105,6 +106,8 @@ int main(int argc, char *argv[]) {
   if (tex2) pTexComponent1->addTexture(tex2);
   if (flat) flat->addComponent(pTexComponent1);
   kore::SceneManager::getInstance()->update();
+
+  // set scene to show in sceneviewer
   sview->showScene(kore::SceneManager::getInstance()->getRootNode());
 
   return app.exec();

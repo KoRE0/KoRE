@@ -93,21 +93,22 @@ bool koregui::BindPathItem::checkBinding(koregui::ShaderInputItem* target) {
 
 bool koregui::BindPathItem::initBinding(void) {
   kore::NodePass* nodePass = NULL;
-  // see if nodePass already exists
-  std::vector<kore::NodePass*> npasses =
-    _end->getShaderPass()->getProgramPass()->getNodePasses();
-  for (uint i = 0; i < npasses.size(); i++) {
-    if(npasses[i]->getSceneNode() == _start->getNodeItem()->getSceneNode()) {
-      nodePass = npasses[i];
-      break;
+  if(_start->getData()->component != NULL) {
+    // see if nodePass already exists
+    std::vector<kore::NodePass*> npasses =
+      _end->getShaderPass()->getProgramPass()->getNodePasses();
+    for (uint i = 0; i < npasses.size(); i++) {
+      if(npasses[i]->getSceneNode() == _start->getNodeItem()->getSceneNode()) {
+        nodePass = npasses[i];
+        break;
+      }
+    }
+    // if not, create new
+    if(!nodePass) {
+      nodePass = new kore::NodePass(_start->getNodeItem()->getSceneNode());
+      _end->getShaderPass()->getProgramPass()->addNodePass(nodePass);
     }
   }
-  // if not, create new
-  if(!nodePass) {
-    nodePass = new kore::NodePass(_start->getNodeItem()->getSceneNode());
-    _end->getShaderPass()->getProgramPass()->addNodePass(nodePass);
-  }
-
   kore::ShaderInput* target = const_cast<kore::ShaderInput*>(_end->getInput());
   kore::ShaderProgram* prog = const_cast<kore::ShaderProgram*>(
     _end->getShaderPass()->getProgramPass()->getShaderProgram());
@@ -125,7 +126,7 @@ bool koregui::BindPathItem::initBinding(void) {
       }
       kore::RenderMesh* _renderOP = new kore::RenderMesh(
         static_cast<kore::MeshComponent*>(_start->getData()->component));
-      nodePass->addOperation(_renderOP);
+      nodePass->addFinishOperation(_renderOP);
     }
    return true;
   }
@@ -142,7 +143,15 @@ bool koregui::BindPathItem::initBinding(void) {
       _bindOP = new kore::BindUniform(_start->getData(),
                                       _end->getInput());
     }
-    nodePass->addOperation(_bindOP);
+    if(nodePass) {
+      nodePass->addOperation(_bindOP);
+    } else {
+      // non-node-binding
+      kore::ShaderProgramPass* progpass = 
+        static_cast<kore::ShaderProgramPass*>(_end->getShaderPass()
+                                                  ->getProgramPass());
+      progpass->addStartupOperation(_bindOP);
+    }
     return true;
   }
   return false;
@@ -153,13 +162,19 @@ void koregui::BindPathItem::removeBinding() {
   std::vector<kore::NodePass*> npasses =
     _end->getShaderPass()->getProgramPass()->getNodePasses();
   for (uint i = 0; i < npasses.size(); i++) {
-    if(npasses[i]->getSceneNode() == _start->getNodeItem()->getSceneNode()) {
+    if(_start->getNodeItem() &&
+       npasses[i]->getSceneNode() == _start->getNodeItem()->getSceneNode()) {
       nodePass = npasses[i];
       break;
     }
   }
   if (nodePass) {
     nodePass->removeOperation(_bindOP);
+    if(nodePass->getOperations().size() == 0) {
+      _end->getShaderPass()->getProgramPass()->removeNodePass(nodePass);
+    }
+  } else {
+    _end->getShaderPass()->getProgramPass()->removeStartupOperation(_bindOP);
   }
 }
 

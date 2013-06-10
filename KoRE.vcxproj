@@ -226,6 +226,7 @@
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindUniform.cpp" />
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindOperation.cpp" />
     <ClCompile Include="src\KoRE\Operations\BindOperations\BindAtomicCounterBuffer.cpp" />
+    <ClCompile Include="src\KoRE\Operations\ClearOp.cpp" />
     <ClCompile Include="src\KoRE\Operations\ColorMaskOp.cpp" />
     <ClCompile Include="src\KoRE\Operations\DrawIndirectOp.cpp" />
     <ClCompile Include="src\KoRE\Operations\EnableDisableOp.cpp" />
@@ -281,6 +282,7 @@
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindUniform.h" />
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindOperation.h" />
     <ClInclude Include="src\KoRE\Operations\BindOperations\BindAtomicCounterBuffer.h" />
+    <ClInclude Include="src\KoRE\Operations\ClearOp.h" />
     <ClInclude Include="src\KoRE\Operations\ColorMaskOp.h" />
     <ClInclude Include="src\KoRE\Operations\DrawIndirectOp.h" />
     <ClInclude Include="src\KoRE\Operations\EnableDisableOp.h" />

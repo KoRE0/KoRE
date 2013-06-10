@@ -67,8 +67,9 @@ namespace kore {
     void translate(const glm::vec3& dir,
                    const ETransfpomSpace relativeTo = SPACE_LOCAL);
 
-    void setTranslation(const glm::vec3& position,
-                        const ETransfpomSpace relativeTo = SPACE_LOCAL);
+    void setTranslation(const glm::vec3& position
+                        //,const ETransfpomSpace relativeTo = SPACE_LOCAL
+                        );
 
     void rotate(const GLfloat& angle, const glm::vec3& axis, 
                 const ETransfpomSpace relativeTo = SPACE_LOCAL);

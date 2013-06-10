@@ -39,6 +39,7 @@ koregui::ShaderInputItem::ShaderInputItem(const kore::ShaderInput* input,
 }
 
 koregui::ShaderInputItem::~ShaderInputItem(void) {
+  if(_binding) delete(_binding);
 }
 
 void koregui::ShaderInputItem::reset(void) {

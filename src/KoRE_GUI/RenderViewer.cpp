@@ -48,6 +48,7 @@ koregui::RenderViewer::RenderViewer(QWidget *parent)
   _scene.setParent(this);
   setScene(&_scene);
   setMinimumSize(400,400);
+  setRenderHint(QPainter::Antialiasing, true);
   connect(&_pathanim, SIGNAL(timeout()), this, SLOT(animatePath()));
   _pathanim.start(200);
 }
@@ -69,33 +70,27 @@ void koregui::RenderViewer::keyPressEvent(QKeyEvent * event) {
   if (event->key() == Qt::Key_Escape) QGuiApplication::quit();
   if (event->key() == Qt::Key_Shift) setDragMode(ScrollHandDrag);
   if (event->key() == Qt::Key_Delete) {
-    QList<QGraphicsItem*> sceneset = _scene.selectedItems();
-    for (unsigned int i = 0; i < sceneset.size(); i++) {
-      QGraphicsItem* itemPtr = sceneset[i];
+    _activePath = NULL;
+    while (_scene.selectedItems().size() > 0) {
+      QGraphicsItem* itemPtr = _scene.selectedItems()[0];
       // Deletion of BindPathItem
       if(itemPtr->data(0) == QVariant("BINDPATH")) {
-        _activePath = NULL;
-        _scene.removeItem(itemPtr);
         delete(itemPtr);
       }
-//       Deletion of FrameBufferStages
-//             if (itemPtr->data(0) == QVariant("FRAMEBUFFERSTAGE")) {
-//               /*auto it = std::find(_framebufferStages.begin(),
-//                                   _framebufferStages.end(),
-//                                   itemPtr);
-//               if (it != _framebufferStages.end()) {
-//                 _framebufferStages.erase(it);
-//               }
-//               _scene.removeItem(itemPtr);
-//               delete(itemPtr);*/
-//             }
-//             // Deletion of ShaderProgramPasses
-//             if (itemPtr->data(0) == QVariant("SHADERPROGRAMPASS")) {
-//               //_scene.removeItem(itemPtr);
-//               //delete(itemPtr);
-//             }
-      
-
+      //Deletion of FrameBufferStages
+      if (itemPtr->data(0) == QVariant("FRAMEBUFFERSTAGE")) {
+        auto it = std::find(_framebufferStages.begin(),
+                            _framebufferStages.end(),
+                            itemPtr);
+        if (it != _framebufferStages.end()) {
+          _framebufferStages.erase(it);
+        }
+        delete(itemPtr);
+      }
+      // Deletion of ShaderProgramPasses
+      if (itemPtr->data(0) == QVariant("SHADERPROGRAMPASS")) {
+        delete(itemPtr);
+      }
     }
   }
   QGraphicsView::keyPressEvent(event);

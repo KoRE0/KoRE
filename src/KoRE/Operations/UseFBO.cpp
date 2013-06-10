@@ -55,6 +55,10 @@ void kore::UseFBO::doExecute(void) const {
   _renderManager->
     bindFrameBuffer(_frameBufferTarget, _frameBuffer->getHandle());
 
+  // TODO(dospelt)TEST ONLY, implement Clear Operation
+  //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  //==
+
   _renderManager->drawBuffers(_frameBuffer->getHandle(),
                          _drawBuffers.size(),
                          (_drawBuffers.size() > 0) ? &_drawBuffers[0] : NULL);

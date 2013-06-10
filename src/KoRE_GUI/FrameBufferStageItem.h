@@ -64,6 +64,7 @@ namespace koregui {
     uint _bufferwidth;
 
     std::vector<ShaderPassItem*> _programs;
+    std::vector<ShaderDataItem*> _outputs;
   };
 }
 #endif  // FRAMEBUFFERSTAGEITEM_H_
