@@ -37,6 +37,21 @@ void kore::BindImageTexture::init() {
 }
 
 kore::BindImageTexture::~BindImageTexture() {
+  if (!isValid()) {
+    return;
+  }
+
+  // Try to invalidate the binding to prevent bugs when the program closes
+  STextureInfo* pTexInfo = static_cast<STextureInfo*>(_componentUniform->data); 
+
+  glBindImageTexture(_shaderUniform->imgUnit,
+                      0,
+                      0,
+                      GL_TRUE,
+                      0,
+                      GL_READ_WRITE,
+                      //internalFormatToImageFormat(pTexInfo->internalFormat));
+                      pTexInfo->internalFormat);
 }
 
 void kore::BindImageTexture::
@@ -69,17 +84,9 @@ void kore::BindImageTexture::doExecute(void) const {
                      GL_TRUE,
                      0,
                      access,
-                     //internalFormatToImageFormat(pTexInfo->internalFormat));
                      pTexInfo->internalFormat);
 
 
-  /*glBindImageTexture(0,
-                     pTexInfo->texLocation,
-                     0,
-                     GL_FALSE,
-                     0,
-                     access,
-                     internalFormatToImageFormat(pTexInfo->internalFormat)); */
   GLerror::gl_ErrorCheckFinish("BindImageTexture::execute");
 }
 

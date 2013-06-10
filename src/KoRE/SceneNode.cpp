@@ -26,6 +26,7 @@
 #include "KoRE/Common.h"
 #include "KoRE/SceneManager.h"
 #include "Kore/IDManager.h"
+#include "iostream"
 
 kore::SceneNode::SceneNode(void)
                        :_tag(0),
@@ -189,16 +190,17 @@ void
 }
 
 void kore::SceneNode::
-  setTranslation(const glm::vec3& position,
-                 const ETransfpomSpace relativeTo /*= SPACE_LOCAL*/) {
+  setTranslation(const glm::vec3& position
+                 //,const ETransfpomSpace relativeTo /*= SPACE_LOCAL*/
+                 ) {
    glm::mat4 local = _transform->getLocal();
-  if (relativeTo == SPACE_WORLD) {
+  /*if (relativeTo == SPACE_WORLD) {
     glm::vec3 localPos = glm::vec3(glm::inverse(_transform->getGlobal()) *
                                    glm::vec4(position, 1.0f));
     local[3] = glm::vec4(localPos, 1.0f);
-  } else {
+  } else {*/
     local[3] = glm::vec4(position, 1.0f);
-  }
+  //}
   _transform->setLocal(local);
   _dirty = true;
 }
