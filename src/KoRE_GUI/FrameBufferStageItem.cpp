@@ -143,7 +143,7 @@ void koregui::FrameBufferStageItem
     delete(_outputs[i]);
   }
   _outputs.clear();
-  std::vector<kore::ShaderData> sdata = _frameBuffer->getOutputs();
+  std::vector<kore::ShaderData>& sdata = _frameBuffer->getOutputs();
   for (uint i = 0; i < sdata.size(); i++) {
     _outputs.push_back(new ShaderDataItem(&sdata[i], NULL, this));
   }

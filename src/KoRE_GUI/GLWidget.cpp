@@ -84,6 +84,7 @@ void GLWidget::initializeGL() {
     // enable culling and depthtest
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
+    glEnable(GL_TEXTURE_2D);
     glCullFace(GL_BACK);
 }
 

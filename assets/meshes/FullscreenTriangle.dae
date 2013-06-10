@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.66.1 r55078</authoring_tool>
     </contributor>
-    <created>2013-05-19T18:19:26</created>
-    <modified>2013-05-19T18:19:26</modified>
+    <created>2013-06-07T16:55:25</created>
+    <modified>2013-06-07T16:55:25</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -15,7 +15,7 @@
     <geometry id="Triangle-mesh" name="Triangle">
       <mesh>
         <source id="Triangle-mesh-positions">
-          <float_array id="Triangle-mesh-positions-array" count="9">3 -1 0 -1 -1 0 -1 3 0</float_array>
+          <float_array id="Triangle-mesh-positions-array" count="9">2 0 0 0 0 0 0 2 0</float_array>
           <technique_common>
             <accessor source="#Triangle-mesh-positions-array" count="3" stride="3">
               <param name="X" type="float"/>
@@ -25,21 +25,12 @@
           </technique_common>
         </source>
         <source id="Triangle-mesh-normals">
-          <float_array id="Triangle-mesh-normals-array" count="3">0 0 -1</float_array>
+          <float_array id="Triangle-mesh-normals-array" count="3">0 0 1</float_array>
           <technique_common>
             <accessor source="#Triangle-mesh-normals-array" count="1" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="Triangle-mesh-map-0">
-          <float_array id="Triangle-mesh-map-0-array" count="6">0 2 2 0 0 0</float_array>
-          <technique_common>
-            <accessor source="#Triangle-mesh-map-0-array" count="3" stride="2">
-              <param name="S" type="float"/>
-              <param name="T" type="float"/>
             </accessor>
           </technique_common>
         </source>
@@ -49,9 +40,8 @@
         <polylist count="1">
           <input semantic="VERTEX" source="#Triangle-mesh-vertices" offset="0"/>
           <input semantic="NORMAL" source="#Triangle-mesh-normals" offset="1"/>
-          <input semantic="TEXCOORD" source="#Triangle-mesh-map-0" offset="2" set="0"/>
           <vcount>3 </vcount>
-          <p>2 0 0 0 0 1 1 0 2</p>
+          <p>1 0 0 0 2 0</p>
         </polylist>
       </mesh>
       <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>

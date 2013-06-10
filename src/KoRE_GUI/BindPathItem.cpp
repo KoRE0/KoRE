@@ -126,7 +126,7 @@ bool koregui::BindPathItem::initBinding(void) {
       }
       kore::RenderMesh* _renderOP = new kore::RenderMesh(
         static_cast<kore::MeshComponent*>(_start->getData()->component));
-      nodePass->addOperation(_renderOP);
+      nodePass->addFinishOperation(_renderOP);
     }
    return true;
   }
@@ -162,13 +162,19 @@ void koregui::BindPathItem::removeBinding() {
   std::vector<kore::NodePass*> npasses =
     _end->getShaderPass()->getProgramPass()->getNodePasses();
   for (uint i = 0; i < npasses.size(); i++) {
-    if(npasses[i]->getSceneNode() == _start->getNodeItem()->getSceneNode()) {
+    if(_start->getNodeItem() &&
+       npasses[i]->getSceneNode() == _start->getNodeItem()->getSceneNode()) {
       nodePass = npasses[i];
       break;
     }
   }
   if (nodePass) {
     nodePass->removeOperation(_bindOP);
+    if(nodePass->getOperations().size() == 0) {
+      _end->getShaderPass()->getProgramPass()->removeNodePass(nodePass);
+    }
+  } else {
+    _end->getShaderPass()->getProgramPass()->removeStartupOperation(_bindOP);
   }
 }
 
