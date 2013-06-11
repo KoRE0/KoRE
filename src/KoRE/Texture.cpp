@@ -150,7 +150,6 @@ bool kore::Texture::init(const STextureProperties& properties,
   default:
     break;
   }
-
   glBindTexture(texTarget, 0);
 
   bool bSuccess = GLerror::gl_ErrorCheckFinish("Texture::init()");
