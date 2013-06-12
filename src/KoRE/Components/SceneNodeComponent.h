@@ -53,6 +53,8 @@ namespace kore {
     inline const std::vector<ShaderData>&
     getShaderData() const {return _shaderData;};
 
+    inline SceneNode* getSceneNode() {return _sceneNode;}
+
   protected:
     std::string name;
     SceneNode* _sceneNode;

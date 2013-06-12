@@ -141,6 +141,9 @@ void kore::FrameBuffer::
   Texture* pTex = new Texture;
   bool bSuccess = pTex->init(properties, name);
   if (bSuccess) {
+    // TEST HARDCODED
+    pTex->genMipmapHierarchy();
+    //
     ResourceManager::getInstance()->addTexture(pTex);
     addTextureAttachment(pTex, attatchment);
   } else {

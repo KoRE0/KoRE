@@ -1,0 +1,12 @@
+#version 330
+// vertex position in modelspace
+layout(location = 0) in vec3 v_position;
+
+out vec2 UV;
+
+void main()
+{
+  vec3 biased = v_position * 2.0f + vec3(-1, -1, 0);
+  gl_Position = vec4(biased, 1.0f);
+  UV = v_position.xy;
+}

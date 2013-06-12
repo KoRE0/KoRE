@@ -26,10 +26,10 @@ kore::BindImageTexture::BindImageTexture() : BindOperation() {
 }
 
 kore::BindImageTexture::
-  BindImageTexture(const ShaderData* texData, const ShaderInput* shaderInput)
+  BindImageTexture(const ShaderData* texData, const ShaderInput* shaderInput, GLuint access /* = GL_READ_WRITE */)
   : BindOperation() {
     init();
-    connect(texData, shaderInput);
+    connect(texData, shaderInput, access);
 }
 
 void kore::BindImageTexture::init() {
@@ -37,10 +37,24 @@ void kore::BindImageTexture::init() {
 }
 
 kore::BindImageTexture::~BindImageTexture() {
+  if (!isValid()) {
+    return;
+  }
+
+  // Try to invalidate the binding to prevent bugs when the program closes
+  STextureInfo* pTexInfo = static_cast<STextureInfo*>(_componentUniform->data); 
+
+  glBindImageTexture(_shaderUniform->imgUnit,
+                      0,
+                      0,
+                      GL_TRUE,
+                      0,
+                      GL_READ_WRITE,
+                      pTexInfo->internalFormat);
 }
 
 void kore::BindImageTexture::
-  connect(const ShaderData* texData, const ShaderInput* shaderInput) {
+  connect(const ShaderData* texData, const ShaderInput* shaderInput, GLuint access) {
     if (!texData || !shaderInput) {
       // Make invalid:
       _shaderUniform = NULL;
@@ -48,6 +62,7 @@ void kore::BindImageTexture::
       return;
     }
 
+	_access = access;
     _componentUniform = texData;
     _shaderUniform = shaderInput;
 }
@@ -60,26 +75,14 @@ void kore::BindImageTexture::doExecute(void) const {
   glUniform1i(_shaderUniform->location, _shaderUniform->imgUnit);
   STextureInfo* pTexInfo = static_cast<STextureInfo*>(_componentUniform->data); 
 
-  GLuint access =
-    _shaderUniform->shader->getImageAccessParam(_shaderUniform->imgUnit);
-
   glBindImageTexture(_shaderUniform->imgUnit,
                      pTexInfo->texLocation,
                      0,
                      GL_TRUE,
                      0,
-                     access,
-                     //internalFormatToImageFormat(pTexInfo->internalFormat));
+					 _access,
                      pTexInfo->internalFormat);
 
-
-  /*glBindImageTexture(0,
-                     pTexInfo->texLocation,
-                     0,
-                     GL_FALSE,
-                     0,
-                     access,
-                     internalFormatToImageFormat(pTexInfo->internalFormat)); */
   GLerror::gl_ErrorCheckFinish("BindImageTexture::execute");
 }
 

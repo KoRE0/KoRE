@@ -26,12 +26,34 @@
 kore::ClearOp::ClearOp() :
     kore::Operation() {
   _type = OP_CLEAR;
+  _clearcolor = glm::vec4(0,0,0,1);
+  _clear_bit = GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT;
+}
+
+kore::ClearOp::ClearOp(bool color,
+                       bool depth,
+                       bool stencil,
+                       glm::vec4 clearcolor) :
+                       _clearcolor(clearcolor),
+                       kore::Operation() {
+  _type = OP_CLEAR;
+  _clear_bit = 0;
+  if (color) _clear_bit = _clear_bit | GL_COLOR_BUFFER_BIT;
+  if (depth) _clear_bit = _clear_bit | GL_DEPTH_BUFFER_BIT;
+  if (stencil) _clear_bit = _clear_bit | GL_STENCIL_BUFFER_BIT;
 }
 
 kore::ClearOp::~ClearOp() {
 }
 
 void kore::ClearOp::doExecute(void) const {
+  if (_clear_bit != 0) {
+    glClearColor(_clearcolor.x,
+                 _clearcolor.y,
+                 _clearcolor.z,
+                 _clearcolor.w);
+    glClear(_clear_bit);
+  }
 }
 
 void kore::ClearOp::update(void) {
@@ -46,4 +68,15 @@ bool kore::ClearOp::dependsOn(const void* thing) const {
 
 bool kore::ClearOp::isValid(void) const {
   return true;
+}
+
+void kore::ClearOp::connect(bool color,
+                            bool depth,
+                            bool stencil,
+                            glm::vec4 clearcolor) {
+  _clearcolor = clearcolor;
+  _clear_bit = 0;
+  if (color) _clear_bit = _clear_bit | GL_COLOR_BUFFER_BIT;
+  if (depth) _clear_bit = _clear_bit | GL_DEPTH_BUFFER_BIT;
+  if (stencil) _clear_bit = _clear_bit | GL_STENCIL_BUFFER_BIT;
 }

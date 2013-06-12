@@ -56,8 +56,8 @@ const aiScene* kore::SceneLoader::readScene(const std::string& szScenePath) {
     );
 
   if (!pAiScene) {
-    Log::getInstance()->write("[ERROR] Scene '%s' could not be read\n",
-                              szScenePath.c_str());
+    Log::getInstance()->write("[ERROR] Scene '%s' could not be read\n%s\n",
+                              szScenePath.c_str(), _aiImporter.GetErrorString());
     return NULL;
   }
 
@@ -274,6 +274,7 @@ void kore::SceneLoader::loadSceneGraph(const aiNode* ainode,
       TexturesComponent* texComponent =
         genTexComponentFromTextures(aiscene->mMaterials[aimesh->mMaterialIndex]);
 
+
       // If there are textures, the texComponent is valid (non-NULL).
       if (texComponent != NULL) {
         node->addComponent(texComponent);
@@ -301,6 +302,7 @@ void kore::SceneLoader::loadSceneGraph(const aiNode* ainode,
 
       // Look up Material in the resourceManager and add it to a new
       // MaterialComponent
+      MaterialComponent* materialComponent = new MaterialComponent;
       std::string matURL =
         idMgr->genURL(materialName(), szScenePath, aimesh->mMaterialIndex);
       uint64 matID = idMgr->getID(matURL);
@@ -315,9 +317,11 @@ void kore::SceneLoader::loadSceneGraph(const aiNode* ainode,
       TexturesComponent* texComponent =
         genTexComponentFromTextures(aiscene->mMaterials[aimesh->mMaterialIndex]);
 
+
+
       // If there are textures, the texComponent is valid (non-NULL).
       if (texComponent != NULL) {
-        node->addComponent(texComponent);
+        copyNode->addComponent(texComponent);
       }
     }
   }
@@ -499,7 +503,7 @@ kore::TexturesComponent* kore::SceneLoader::
    for (uint i = 0; i < vTextures.size(); ++i) {
      texComp->addTexture(vTextures[i]);
    }
-
+   
    return texComp;
 }
 

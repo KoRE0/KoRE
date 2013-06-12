@@ -28,7 +28,7 @@ namespace kore {
     public:
 
       ClearOp();
-      //ClearOp(bool color, bool depth, bool stencil, glm::vec4 clearcolor);
+      ClearOp(bool color, bool depth, bool stencil, glm::vec4 clearcolor);
       virtual ~ClearOp();
 
       virtual void update(void);
@@ -36,13 +36,13 @@ namespace kore {
       virtual bool dependsOn(const void* thing) const;
       virtual bool isValid(void) const;
 
-      //void connect(const GLuint glType, const EEnableDisable enableDisable);
+      void connect(bool color, bool depth, bool stencil, glm::vec4 clearcolor);
 
   private:
       virtual void doExecute(void) const;
 
-      bool _enable;
-      GLuint _glType;
+      glm::vec4 _clearcolor;
+      GLbitfield _clear_bit;
   };
 }
 
