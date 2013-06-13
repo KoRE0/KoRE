@@ -48,7 +48,7 @@ bool kore::IndexedBuffer::create(GLuint bufferTarget,
 
   GLerror::gl_ErrorCheckStart();
   glGenBuffers(1, &_handle);
-  glBindBuffer(bufferTarget, _handle);
+  renderMgr->bindBuffer(bufferTarget, _handle);
   glBufferData(bufferTarget, sizeInBytes, data, usageHint);
   bool success = GLerror::gl_ErrorCheckFinish("IndexedBuffer::create");
 
