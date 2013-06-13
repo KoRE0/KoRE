@@ -34,6 +34,7 @@
 #include "KoRE_GUI/RenderViewer.h"
 
 #include "KoRE/RenderManager.h"
+#include "KoRE/Operations/ClearOp.h"
 
 koregui::FrameBufferStageItem::FrameBufferStageItem(QGraphicsItem* parent)
                                           : _frameBuffer(NULL),
@@ -146,6 +147,19 @@ void koregui::FrameBufferStageItem
   std::vector<kore::ShaderData>& sdata = _frameBuffer->getOutputs();
   for (uint i = 0; i < sdata.size(); i++) {
     _outputs.push_back(new ShaderDataItem(&sdata[i], NULL, this));
+  }
+
+  std::vector<kore::Operation*>& startop =_bufferstage->getStartupOperations();
+  bool hasclear = false;
+  for (uint i = 0; i < startop.size(); i++) {
+    if (startop[i]->getType() == kore::OP_CLEAR) {
+      hasclear = true;
+    }
+  }
+  if(hasclear) {
+    kore::ClearOp* pCop =
+      new kore::ClearOp(true, true, true, glm::vec4(0.1,0.1,0.1,1.0));
+    _bufferstage->addStartupOperation(pCop);
   }
   refresh();
 }

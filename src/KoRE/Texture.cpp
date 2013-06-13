@@ -151,7 +151,6 @@ bool kore::Texture::init(const STextureProperties& properties,
   default:
     break;
   }
-
   RenderManager::getInstance()->bindTexture(texTarget, 0);
 
   bool bSuccess = GLerror::gl_ErrorCheckFinish("Texture::init()");

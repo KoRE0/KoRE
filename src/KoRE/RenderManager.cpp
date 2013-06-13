@@ -38,7 +38,8 @@ kore::RenderManager::RenderManager(void)
     _vao(0),
     _viewport(0,0,0,0),
     _activeTextureUnitIndex(0),
-    _screenRes(0,0) {
+    _screenRes(0,0),
+    _shaderProgram(KORE_GLUINT_HANDLE_INVALID) {
 
   //sync internal states with opengl-states:
   
@@ -209,11 +210,13 @@ void kore::RenderManager::bindTexture(const GLuint textureTarget,
 
 void kore::RenderManager::bindSampler(const GLuint textureUnit,
                                       const GLuint samplerHandle) {
-  if (_boundSamplers[textureUnit] != samplerHandle) {
-    activeTexture(textureUnit);
-    glBindSampler(textureUnit, samplerHandle);
-    _boundSamplers[textureUnit] = samplerHandle;
-  }
+  //if (_boundSamplers[textureUnit] != samplerHandle) {
+  //  activeTexture(textureUnit);
+  //  glBindSampler(textureUnit, samplerHandle);
+  //  _boundSamplers[textureUnit] = samplerHandle;
+  //}
+  activeTexture(textureUnit);
+  glBindSampler(textureUnit, samplerHandle);
 }
 
 void kore::RenderManager::activeTexture(const GLuint activeTextureUnitIndex) {
@@ -231,15 +234,18 @@ void kore::RenderManager::bindFrameBuffer(const GLuint fboTarget,
       _boundFrameBuffers[READ_FRAMEBUFFER] = fboHandle;
       _boundFrameBuffers[DRAW_FRAMEBUFFER] = fboHandle;
       glBindFramebuffer(GL_FRAMEBUFFER, fboHandle);
+      _shaderProgram = KORE_GLUINT_HANDLE_INVALID;
     } else if (fboTarget == GL_READ_FRAMEBUFFER) {
       if (_boundFrameBuffers[READ_FRAMEBUFFER] != fboHandle) {
         _boundFrameBuffers[READ_FRAMEBUFFER] = fboHandle;
         glBindFramebuffer(GL_READ_FRAMEBUFFER, fboHandle);
+        _shaderProgram = KORE_GLUINT_HANDLE_INVALID;
       } 
     } else if (fboHandle == GL_DRAW_FRAMEBUFFER) {
       if (_boundFrameBuffers[DRAW_FRAMEBUFFER]) {
         _boundFrameBuffers[DRAW_FRAMEBUFFER] = fboHandle;
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fboHandle);
+        _shaderProgram = KORE_GLUINT_HANDLE_INVALID;
       }
     }
   }
