@@ -210,11 +210,13 @@ void kore::RenderManager::bindTexture(const GLuint textureTarget,
 
 void kore::RenderManager::bindSampler(const GLuint textureUnit,
                                       const GLuint samplerHandle) {
-  if (_boundSamplers[textureUnit] != samplerHandle) {
-    activeTexture(textureUnit);
-    glBindSampler(textureUnit, samplerHandle);
-    _boundSamplers[textureUnit] = samplerHandle;
-  }
+  //if (_boundSamplers[textureUnit] != samplerHandle) {
+  //  activeTexture(textureUnit);
+  //  glBindSampler(textureUnit, samplerHandle);
+  //  _boundSamplers[textureUnit] = samplerHandle;
+  //}
+  activeTexture(textureUnit);
+  glBindSampler(textureUnit, samplerHandle);
 }
 
 void kore::RenderManager::activeTexture(const GLuint activeTextureUnitIndex) {
