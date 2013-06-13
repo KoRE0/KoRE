@@ -19,7 +19,6 @@
 
 #include "KoRE/Passes/FrameBufferStage.h"
 #include "KoRE/Operations/UseFBO.h"
-#include "KoRE/Operations/ClearOp.h"
 #include "KoRE/ResourceManager.h"
 #include "KoRE/Log.h"
 #include <algorithm>
@@ -93,9 +92,6 @@ void kore::FrameBufferStage::
                    _frameBuffer->getDrawBuffers(),
                    _frameBuffer->numDrawBuffers());
   _internalStartup.push_back(pUseFBO);
-  // temp test
-  ClearOp* pCop = new ClearOp(true,true,true,glm::vec4(1,0,0,1));
-  _internalStartup.push_back(pCop);
 }
 
 void kore::FrameBufferStage::removeProgramPass(ShaderProgramPass* progPass) {

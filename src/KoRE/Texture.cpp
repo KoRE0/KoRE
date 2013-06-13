@@ -168,8 +168,8 @@ bool kore::Texture::init(const STextureProperties& properties,
 
 void kore::Texture::genMipmapHierarchy() {
   if (_handle != KORE_GLUINT_HANDLE_INVALID) {
-    glBindTexture(_properties.targetType, _handle);
-    glTexParameteri(_properties.targetType, GL_GENERATE_MIPMAP, GL_TRUE);
-    glGenerateMipmap(_properties.targetType);
+    //glBindTexture(_properties.targetType, _handle);
+    //glTexParameteri(_properties.targetType, GL_GENERATE_MIPMAP, GL_FALSE);
+    //glGenerateMipmap(_properties.targetType);
   }
 }
