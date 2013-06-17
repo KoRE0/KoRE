@@ -89,8 +89,8 @@ void kore::FrameBufferStage::
 
   UseFBO* pUseFBO = new UseFBO;
   pUseFBO->connect(_frameBuffer, GL_FRAMEBUFFER,
-                   _frameBuffer->getDrawBuffers(),
-                   _frameBuffer->numDrawBuffers());
+                    _activeBuffers,
+                    _numActiveBuffers);
   _internalStartup.push_back(pUseFBO);
 }
 

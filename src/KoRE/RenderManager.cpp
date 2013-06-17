@@ -256,32 +256,6 @@ void kore::RenderManager::bindFrameBuffer(const GLuint fboTarget,
   }
 }
 
-void kore::RenderManager::drawBuffers(const GLuint fboHandle,
-                                      const uint num,
-                                      const GLuint* buffers) {
-  bool different = false;
-  for (uint i = 0; i < GL_MAX_DRAW_BUFFERS; ++i) {
-    bool hasBuffer = false;
-    for (uint iBuffer = 0; iBuffer < num; ++iBuffer) {
-      if (GL_COLOR_ATTACHMENT0 + i == buffers[iBuffer]) {
-        hasBuffer = true;
-        if (_drawBuffers[fboHandle][i] != true) {
-          _drawBuffers[fboHandle][i] = true;
-          different = true;
-        }
-      }
-    }
-    if (!hasBuffer && _drawBuffers[fboHandle][i] == true) {
-      _drawBuffers[fboHandle][i] = false;
-      different = true;
-    }
-  }
-
-  if (different) {
-    glDrawBuffers(num, buffers);
-  }
-}
-
 void kore::RenderManager::addFramebufferStage(FrameBufferStage* stage) {
   _frameBufferStages.push_back(stage);
 }

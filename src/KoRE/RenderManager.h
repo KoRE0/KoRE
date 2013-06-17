@@ -149,11 +149,6 @@ namespace kore {
                         const uint bindingPoint,
                         const GLuint bufferHandle);
 
-    /*! \brief Wrapper for glDrawBuffers(..) */
-    void drawBuffers(const GLuint fboHandle,
-                     const uint num,
-                     const GLuint* buffers);
-
    /* void removeOperation(const Operation* operation);
     void removeShaderProgramPass(const ShaderProgramPass* progPass);
     void removeNodePass(const NodePass* nodePass);
