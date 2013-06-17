@@ -107,6 +107,8 @@ namespace kore {
     inline std::vector<FrameBufferStage*>&
       getFrameBufferStages() {return _frameBufferStages;}
 
+    inline ShaderData* getShdScreenRes(){return &_shdScreenRes;}
+
     glm::ivec2 getRenderResolution() const;
     const glm::ivec4& getViewport() const;
     void setViewport(const glm::ivec4& newViewport);
@@ -198,6 +200,7 @@ namespace kore {
     glm::bvec4 _colorMask;
     std::map<GLuint, uint> _vTexTargetMap;
     std::map<GLuint, uint> _vBufferTargetMap;
+    kore::ShaderData _shdScreenRes;
     //////////////////////////////////////////////////////////////////////////
   };
 };

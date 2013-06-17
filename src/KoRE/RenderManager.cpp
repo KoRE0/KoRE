@@ -39,7 +39,7 @@ kore::RenderManager::RenderManager(void)
     _viewport(0,0,0,0),
     _activeTextureUnitIndex(0),
     _screenRes(0,0),
-    _shaderProgram(KORE_GLUINT_HANDLE_INVALID) {
+    _shaderProgram(KORE_GLUINT_HANDLE_INVALID){
 
   //sync internal states with opengl-states:
   
@@ -99,6 +99,11 @@ kore::RenderManager::RenderManager(void)
                                  GL_MAX_COMBINED_ATOMIC_COUNTERS);
 
   activeTexture(0);  // Activate texture unit 0 by default
+
+  _shdScreenRes.data = &_screenRes;
+  _shdScreenRes.name = "screenRes";
+  _shdScreenRes.type = GL_INT_VEC2;
+  _shdScreenRes.size = 1;
 }
 
 kore::RenderManager::~RenderManager(void) {
