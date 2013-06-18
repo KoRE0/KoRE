@@ -35,3 +35,5 @@
 #include "ViewportOp.h"
 #include "BindBuffer.h"
 #include "DrawIndirectOp.h"
+#include "OperationFactory.h"
+#include "ClearOp.h"

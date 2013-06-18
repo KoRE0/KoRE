@@ -39,7 +39,7 @@ kore::RenderManager::RenderManager(void)
     _viewport(0,0,0,0),
     _activeTextureUnitIndex(0),
     _screenRes(0,0),
-    _shaderProgram(KORE_GLUINT_HANDLE_INVALID) {
+    _shaderProgram(KORE_GLUINT_HANDLE_INVALID){
 
   //sync internal states with opengl-states:
   
@@ -99,6 +99,11 @@ kore::RenderManager::RenderManager(void)
                                  GL_MAX_COMBINED_ATOMIC_COUNTERS);
 
   activeTexture(0);  // Activate texture unit 0 by default
+
+  _shdScreenRes.data = &_screenRes;
+  _shdScreenRes.name = "screenRes";
+  _shdScreenRes.type = GL_INT_VEC2;
+  _shdScreenRes.size = 1;
 }
 
 kore::RenderManager::~RenderManager(void) {
@@ -248,32 +253,6 @@ void kore::RenderManager::bindFrameBuffer(const GLuint fboTarget,
         _shaderProgram = KORE_GLUINT_HANDLE_INVALID;
       }
     }
-  }
-}
-
-void kore::RenderManager::drawBuffers(const GLuint fboHandle,
-                                      const uint num,
-                                      const GLuint* buffers) {
-  bool different = false;
-  for (uint i = 0; i < GL_MAX_DRAW_BUFFERS; ++i) {
-    bool hasBuffer = false;
-    for (uint iBuffer = 0; iBuffer < num; ++iBuffer) {
-      if (GL_COLOR_ATTACHMENT0 + i == buffers[iBuffer]) {
-        hasBuffer = true;
-        if (_drawBuffers[fboHandle][i] != true) {
-          _drawBuffers[fboHandle][i] = true;
-          different = true;
-        }
-      }
-    }
-    if (!hasBuffer && _drawBuffers[fboHandle][i] == true) {
-      _drawBuffers[fboHandle][i] = false;
-      different = true;
-    }
-  }
-
-  if (different) {
-    glDrawBuffers(num, buffers);
   }
 }
 

@@ -21,6 +21,7 @@
 #include "KoRE/Log.h"
 #include "KoRE/GLerror.h"
 #include "KoRE/IDManager.h"
+#include "KoRE/RenderManager.h"
 
 kore::Texture::Texture()
                     : _handle(KORE_GLUINT_HANDLE_INVALID),
@@ -78,7 +79,7 @@ bool kore::Texture::init(const STextureProperties& properties,
     glGenTextures(1, &_handle);
   }
 
-  glBindTexture(texTarget, _handle);
+  RenderManager::getInstance()->bindTexture(texTarget, _handle);
   
   switch(texTarget) {
   case GL_TEXTURE_1D:
@@ -150,7 +151,7 @@ bool kore::Texture::init(const STextureProperties& properties,
   default:
     break;
   }
-  glBindTexture(texTarget, 0);
+  RenderManager::getInstance()->bindTexture(texTarget, 0);
 
   bool bSuccess = GLerror::gl_ErrorCheckFinish("Texture::init()");
   if (!bSuccess) {
@@ -168,8 +169,7 @@ bool kore::Texture::init(const STextureProperties& properties,
 
 void kore::Texture::genMipmapHierarchy() {
   if (_handle != KORE_GLUINT_HANDLE_INVALID) {
-    glBindTexture(_properties.targetType, _handle);
-    glTexParameteri(_properties.targetType, GL_GENERATE_MIPMAP, GL_TRUE);
+    RenderManager::getInstance()->bindTexture(_properties.targetType, _handle);
     glGenerateMipmap(_properties.targetType);
   }
 }

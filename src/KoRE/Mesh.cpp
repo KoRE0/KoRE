@@ -22,6 +22,7 @@
 
 #include "KoRE/Mesh.h"
 #include "KoRE/ResourceManager.h"
+#include "KoRE/RenderManager.h"
 #include "KoRE/DataTypes.h"
 #include "KoRE/Log.h"
 
@@ -142,8 +143,11 @@ createAttributeBuffers(const kore::EMeshBufferType bufferType) {
                               _name.c_str());
     return;
   }
+  
+  RenderManager* renderer = RenderManager::getInstance();
   glGenVertexArrays(1,&_VAOloc);
-  glBindVertexArray(_VAOloc);
+  renderer->bindVAO(_VAOloc);
+  
 
   GLuint uVBO;
   glGenBuffers(1, &uVBO);
@@ -156,7 +160,7 @@ createAttributeBuffers(const kore::EMeshBufferType bufferType) {
                       (rAttArray.numValues / rAttArray.numComponents);
   }
 
-  glBindBuffer(GL_ARRAY_BUFFER, uVBO);
+  renderer->bindVBO(uVBO);
   glBufferData(GL_ARRAY_BUFFER,
               (uBufferSizeByte),
                NULL,
@@ -217,13 +221,13 @@ createAttributeBuffers(const kore::EMeshBufferType bufferType) {
   }  // End Interleaved
 
   _VBOloc = uVBO;
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  renderer->bindVBO(0);
 
   // Load indices into IBO
   if (_indices.size() > 0) {
     GLuint uIBO;
     glGenBuffers(1, &uIBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, uIBO);
+    renderer->bindIBO(uIBO);
 
     // TODO(dlazarek) implement other index-sizes (currently assumung a 
     // byte-size of 4 for each element)
@@ -232,6 +236,6 @@ createAttributeBuffers(const kore::EMeshBufferType bufferType) {
                  &_indices[0],
                  GL_STATIC_DRAW);
     _IBOloc = uIBO;
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    renderer->bindIBO(0);
   }
 }

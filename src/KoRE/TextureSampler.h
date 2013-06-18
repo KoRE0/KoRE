@@ -27,7 +27,7 @@ namespace kore {
       type(GL_SAMPLER_2D),
       wrapping(glm::uvec3(GL_REPEAT)),
       magfilter(GL_LINEAR),
-      minfilter(GL_LINEAR_MIPMAP_LINEAR) {
+      minfilter(GL_LINEAR) { //GL_LINEAR_MIPMAP_LINEAR
     }
 
     bool operator== (const TexSamplerProperties& other) const {
