@@ -78,29 +78,43 @@ void kore::FrameBuffer::destroy() {
   _textureInfos.clear();
 }
 
-void kore::FrameBuffer::addTextureAttachment(const Texture* tex,
-                                             GLuint attatchment) {
+void kore::FrameBuffer::addTextureAttachment(Texture* tex,
+                                             GLuint attachment) {
   // check if we have a valid FrameBuffer
   if (!tex || _handle == 0 || _handle == KORE_GLUINT_HANDLE_INVALID) {
     return;
   }
 
-  // check if attachment is already bound, clear for overwrite
-  for (uint i = 0; i<_activeBuffers.size(); i++) {
-    if (attatchment == _activeBuffers[i]) {
-      _textures.erase(_textures.begin()+i);
-      _textureInfos.erase(_textureInfos.begin()+i);
-      _textureOutputs.erase(_textureOutputs.begin()+i);
-      _activeBuffers.erase(_activeBuffers.begin()+i);
-      break;
-    }
-  }
-
+  // check if texture is already attached
   if (std::find(_textures.begin(), _textures.end(), tex) != _textures.end()) {
     Log::getInstance()
       ->write("[ERROR] '%s' : Cannot attach '%s', Texture already attached!\n",
-              _name.c_str(), tex->getName().c_str());
+      _name.c_str(), tex->getName().c_str());
     return;
+  }
+
+  STextureInfo* texInfo = NULL;
+  ShaderData* textureData = NULL;
+
+  // check if attachment is already bound, overwrite
+  const kore::Texture* oldTex = getTexture(attachment);
+  if (oldTex != NULL) {
+    for (uint i = 0; i < _textures.size(); i++) {
+      if (_textures[i] == oldTex) {
+         _textures[i] = tex;
+         texInfo = _textureInfos[i];
+         textureData = &_textureOutputs[i];
+         break;
+      }
+    }
+  // create new attachment
+  } else {
+    texInfo = new STextureInfo;
+    _textureInfos.push_back(texInfo);
+    _textures.push_back(tex);
+
+    _textureOutputs.push_back(ShaderData());
+    textureData = &_textureOutputs[_textureOutputs.size() - 1];
   }
 
   kore::RenderManager::getInstance()->bindFrameBuffer(GL_FRAMEBUFFER, _handle);
@@ -108,26 +122,19 @@ void kore::FrameBuffer::addTextureAttachment(const Texture* tex,
     ->bindTexture(tex->getProperties().targetType, _handle);
 
   glFramebufferTexture2D(GL_FRAMEBUFFER,
-                         attatchment,
+                         attachment,
                          tex->getProperties().targetType,
                          tex->getHandle(), 0);
-  _textures.push_back(tex);
 
-  _activeBuffers.push_back(attatchment);
-
-  STextureInfo* texInfo = new STextureInfo;
   texInfo->texLocation = tex->getHandle();
   texInfo->texTarget = tex->getProperties().targetType;
   texInfo->internalFormat = tex->getProperties().internalFormat;
-  _textureInfos.push_back(texInfo);
-
-  ShaderData textureData;
-  textureData.name = tex->getName();
-  textureData.type =
+  
+  textureData->name = tex->getName();
+  textureData->type =
     TextureSampler::getSamplerTypeFromTexType(tex->getProperties().targetType);
-  textureData.data = texInfo;
-  textureData.component = NULL;
-  _textureOutputs.push_back(textureData);
+  textureData->data = texInfo;
+  textureData->component = NULL;
 }
 
 void kore::FrameBuffer::
@@ -163,10 +170,29 @@ const kore::Texture*
     return NULL;
 }
 
+const kore::Texture*
+  kore::FrameBuffer::getTexture(GLuint attachment) const {
+  auto it = _attachments.find(attachment);
+  if (it != _attachments.end()) {
+    return it->second;
+  }
+  return NULL;
+}
+
 bool kore::FrameBuffer::checkFBOcompleteness() {
   if (_handle == KORE_GLUINT_HANDLE_INVALID) {
     return false;
   }
   RenderManager::getInstance()->bindFrameBuffer(GL_FRAMEBUFFER, _handle);
   return GLerror::gl_ValidateFBO(_name);
+}
+
+const std::vector<GLenum> kore::FrameBuffer::getAttachments( void ) const {
+  std::vector<GLenum> activebuf;
+  activebuf.resize(_attachments.size());
+  int i = 0;
+  for (auto it = _attachments.begin(); it != _attachments.end(); it++) {
+    activebuf[i++] = it->first;
+  }
+  return activebuf;
 }

@@ -25,13 +25,11 @@
 
 kore::FrameBufferStage::FrameBufferStage(void)
   : _frameBuffer(NULL),
-    _activeBuffers(NULL),
-    _numActiveBuffers(0),
     _executionType(EXECUTE_REPEATING),
     _executed(false)
 {
+  _activeBuffers.push_back(GL_COLOR_ATTACHMENT0);
 }
-
 kore::FrameBufferStage::~FrameBufferStage(void) {
   for (uint i = 0; i < _startupOperations.size(); ++i) {
     KORE_SAFE_DELETE(_startupOperations[i]);
@@ -50,16 +48,22 @@ kore::FrameBufferStage::~FrameBufferStage(void) {
   }
 }
 
-void kore::FrameBufferStage::setActiveAttachments(GLenum* activeBuffers,
-                                                  uint numBuffers) {
-  _activeBuffers = activeBuffers;
-  _numActiveBuffers = numBuffers;
+void kore::FrameBufferStage::setActiveAttachments(const std::vector<GLenum>& attachments) {
+  _activeBuffers.clear();
+  for (uint i = 0; i < attachments.size(); i++) {
+    if(attachments[i] != GL_DEPTH_ATTACHMENT
+        || attachments[i] != GL_DEPTH_STENCIL_ATTACHMENT
+        || attachments[i] != GL_STENCIL_ATTACHMENT)
+    _activeBuffers.push_back(attachments[i]);
+  }
+  _activeBuffers = attachments;
+  
   for (uint i = 0; i < _internalStartup.size(); i++) {
     if (_internalStartup[i]->getType() == OP_USEFBO) {
       static_cast<UseFBO*>(_internalStartup[i])->connect(_frameBuffer,
                                                          GL_FRAMEBUFFER,
-                                                         activeBuffers,
-                                                         numBuffers);
+                                                         &_activeBuffers[0],
+                                                         _activeBuffers.size());
       return;
     }
   }
@@ -78,8 +82,11 @@ void kore::FrameBufferStage::
 void kore::FrameBufferStage::
   setFrameBuffer(const FrameBuffer* frameBuffer) {
 
-  for (uint i = 0; i < _startupOperations.size(); ++i) {
-    KORE_SAFE_DELETE(_startupOperations[i]);
+  for (uint i = 0; i < _internalStartup.size(); ++i) {
+    KORE_SAFE_DELETE(_internalStartup[i]);
+  }
+  for (uint i = 0; i < _internalFinish.size(); ++i) {
+    KORE_SAFE_DELETE(_internalFinish[i]);
   }
 
   _internalStartup.clear();
@@ -87,10 +94,15 @@ void kore::FrameBufferStage::
 
   _frameBuffer = frameBuffer;
 
+  if (_frameBuffer == kore::FrameBuffer::BACKBUFFER) {
+    _activeBuffers.clear();
+    _activeBuffers.push_back(GL_BACK_LEFT);
+  }
+
   UseFBO* pUseFBO = new UseFBO;
   pUseFBO->connect(_frameBuffer, GL_FRAMEBUFFER,
-                    _activeBuffers,
-                    _numActiveBuffers);
+                   &_activeBuffers[0],
+                   _activeBuffers.size());
   _internalStartup.push_back(pUseFBO);
 }
 

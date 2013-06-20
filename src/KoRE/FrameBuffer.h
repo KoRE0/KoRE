@@ -38,11 +38,9 @@ namespace kore {
     static const FrameBuffer* BACKBUFFER;
 
     inline const GLuint getHandle() const {return _handle;}
-    inline const GLenum* getDrawBuffers() const {
-      return (_activeBuffers.size()==0)? NULL : &_activeBuffers[0];
-    }
-    inline const uint numDrawBuffers() const {return _activeBuffers.size();}
     const Texture* getTexture(const std::string& name) const;
+    const Texture* getTexture(GLuint attachment) const;
+    const std::vector<GLenum> getAttachments(void) const;
 
     inline std::vector<ShaderData>& getOutputs(void) {
       return _textureOutputs;
@@ -62,7 +60,7 @@ namespace kore {
     *   \param attatchment The OpenGL attatchment-point to attatch.
     *                       the texture to (e.g. GL_COLOR_ATTATCHMENT0).
     */
-    void addTextureAttachment(const Texture* ptr, GLuint attatchment);
+    void addTextureAttachment(Texture* ptr, GLuint attachment);
 
     /*! \brief Request creation of a texture with the provided properties and
     *          attatch it to the FrameBuffer.
@@ -95,7 +93,6 @@ namespace kore {
     std::map<uint, Texture*> _attachments;
     std::vector<STextureInfo*> _textureInfos;
     GLuint _handle;
-    std::vector<GLenum> _activeBuffers;
   };
 };
 #endif  // SRC_KORE_FRAMEBUFFER_H_

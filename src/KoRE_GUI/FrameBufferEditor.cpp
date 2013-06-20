@@ -78,6 +78,7 @@ void koregui::FrameBufferEditor::addNewAttachment(void) {
   combo->addItem("COLOR", QVariant(GL_COLOR_ATTACHMENT0));
   combo->addItem("DEPTH", QVariant(GL_DEPTH_ATTACHMENT));
   combo->addItem("STENCIL", QVariant(GL_STENCIL_ATTACHMENT));
+  combo->addItem("DEPTH/STENCIL", QVariant(GL_DEPTH_STENCIL_ATTACHMENT));
   ui.tableWidget->setCellWidget(ui.tableWidget->rowCount() -1, 0, combo);
 
   // Resolution
@@ -313,6 +314,7 @@ void koregui::FrameBufferEditor::setInternalFormatCombo(GLuint internalFormat,
     break;
   case GL_DEPTH_STENCIL:
     cbox->addItem("DEPTH24_STENCIL8", QVariant(GL_DEPTH24_STENCIL8));
+    cbox->addItem("DEPTH32F_STENCIL8", QVariant(GL_DEPTH32F_STENCIL8));
   default:
     // TODO(dospelt) ERROR!
     break;

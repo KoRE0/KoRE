@@ -161,6 +161,7 @@ void koregui::FrameBufferStageItem
       new kore::ClearOp(true, true, true, glm::vec4(0.1,0.1,0.1,1.0));
     _bufferstage->addStartupOperation(pCop);
   }
+  _bufferstage->setActiveAttachments(_frameBuffer->getAttachments());
   refresh();
 }
 

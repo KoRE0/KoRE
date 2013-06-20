@@ -43,10 +43,9 @@ namespace kore {
     inline std::vector<Operation*>&
       getInternalFinishOperations() {return _internalFinish;}
     inline const FrameBuffer* getFrameBuffer() {return _frameBuffer;}
-    inline const GLenum* getActiveAttachments() {return _activeBuffers;}
-    inline const uint numActiveAttachments() {return _numActiveBuffers;}
+    inline const std::vector<GLenum>& getActiveAttachments() {return _activeBuffers;}
 
-    void setActiveAttachments(GLenum* activeBuffers, uint numBuffers);
+    void setActiveAttachments(const std::vector<GLenum>& activeBuffers);
 
     void setFrameBuffer(const kore::FrameBuffer* frameBuffer);
 
@@ -76,8 +75,7 @@ namespace kore {
     std::vector<Operation*> _internalFinish;
     std::vector<ShaderProgramPass*> _programPasses;
     uint64 _id;
-    GLenum* _activeBuffers;
-    uint _numActiveBuffers;
+    std::vector<GLenum> _activeBuffers;
 
     EOperationExecutionType _executionType;
     bool _executed;
