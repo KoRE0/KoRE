@@ -60,10 +60,13 @@ void kore::FrameBufferStage::setActiveAttachments(const std::vector<GLenum>& att
   
   for (uint i = 0; i < _internalStartup.size(); i++) {
     if (_internalStartup[i]->getType() == OP_USEFBO) {
-      static_cast<UseFBO*>(_internalStartup[i])->connect(_frameBuffer,
-                                                         GL_FRAMEBUFFER,
-                                                         &_activeBuffers[0],
-                                                         _activeBuffers.size());
+      UseFBO* ufbo = static_cast<UseFBO*>(_internalStartup[i]);
+      if(_activeBuffers.size() > 0) {
+        ufbo->connect(_frameBuffer,
+                      GL_FRAMEBUFFER,
+                      &_activeBuffers[0],
+                      _activeBuffers.size());
+      }
       return;
     }
   }
@@ -100,9 +103,11 @@ void kore::FrameBufferStage::
   }
 
   UseFBO* pUseFBO = new UseFBO;
-  pUseFBO->connect(_frameBuffer, GL_FRAMEBUFFER,
-                   &_activeBuffers[0],
-                   _activeBuffers.size());
+  if(_activeBuffers.size()>0) {
+    pUseFBO->connect(_frameBuffer, GL_FRAMEBUFFER,
+      &_activeBuffers[0],
+      _activeBuffers.size());
+  }
   _internalStartup.push_back(pUseFBO);
 }
 
