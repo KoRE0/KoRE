@@ -23,6 +23,7 @@
 #include <vector>
 #include "KoRE/SceneNode.h"
 #include "KoRE/Operations/Operation.h"
+#include "Kore/Operations/BindOperations/BindTexture.h"
 
 namespace kore {
   class NodePass {

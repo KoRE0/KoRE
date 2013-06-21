@@ -23,7 +23,7 @@
 #include "KoRE/Operations/BindOperations/BindOperation.h"
 #include "KoRE/Texture.h"
 #include "KoRE/TextureSampler.h"
-#include "KoRE/RenderManager.h"
+
 
 namespace kore {
   class BindTexture: public BindOperation {

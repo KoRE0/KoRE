@@ -19,7 +19,7 @@
 
 #include "KoRE/Operations/BindOperations/BindImageTexture.h"
 #include "KoRE/GLerror.h"
-
+#include "KoRE/RenderManager.h"
 
 kore::BindImageTexture::BindImageTexture() : BindOperation() {
   init();

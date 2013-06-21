@@ -20,6 +20,7 @@
 
 #include "KoRE/Operations/BindOperations/BindTexture.h"
 #include "KoRE/GLerror.h"
+#include "KoRE/RenderManager.h"
 
 kore::BindTexture::BindTexture()
 : BindOperation() {
