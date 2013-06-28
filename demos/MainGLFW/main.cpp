@@ -137,8 +137,9 @@ void setUpNMRendering(kore::SceneNode* renderNode,
                       kore::LightComponent* light) {
 
         kore::NodePass* nodePass = new kore::NodePass;
-        const kore::ShaderProgram* nmShader = 
+        kore::ShaderProgram* nmShader = 
             programPass->getShaderProgram();
+
         kore::MeshComponent* pMeshComponent =
             static_cast<kore::MeshComponent*>
             (renderNode->getComponent(kore::COMPONENT_MESH));
@@ -307,6 +308,14 @@ int main(void) {
   nmShader->loadShader("./assets/shader/normalmapping.frag",
                         GL_FRAGMENT_SHADER);
   nmShader->init();
+  kore::TexSamplerProperties props;
+  props.minfilter = GL_LINEAR_MIPMAP_NEAREST;
+  props.magfilter = GL_LINEAR;
+  props.type = GL_SAMPLER_2D;
+  props.wrapping = glm::vec3(GL_REPEAT);
+
+  nmShader->setSamplerProperties(0,props);
+  nmShader->setSamplerProperties(1,props);
   simpleShader->setName("normal mapping Shader");
   // load resources
   kore::ResourceManager::getInstance()
@@ -321,10 +330,12 @@ int main(void) {
   kore::Texture* stoneTexture =
     kore::ResourceManager::getInstance()->
     loadTexture("./assets/textures/stonewall.png");
+  stoneTexture->genMipmapHierarchy();
 
   kore::Texture* stoneNormalmap =
     kore::ResourceManager::getInstance()->
     loadTexture("./assets/textures/stonewall_NM_height.png");
+  stoneNormalmap->genMipmapHierarchy();
 
   // find camera
   kore::SceneNode* pCameraNode = kore::SceneManager::getInstance()
@@ -344,10 +355,13 @@ int main(void) {
                   getSceneNodesByComponent(kore::COMPONENT_MESH, vRenderNodes);
 
 
-  GLenum drawBuffers[] = {GL_COLOR_ATTACHMENT0};
+  std::vector<GLenum> drawBufs;
+  drawBufs.clear();
+  drawBufs.push_back(GL_COLOR_ATTACHMENT0);
   kore::FrameBufferStage* backBufferStage = new kore::FrameBufferStage;
+  backBufferStage->setActiveAttachments(drawBufs);
   backBufferStage->setFrameBuffer(kore::FrameBuffer::BACKBUFFER);
-  backBufferStage->setActiveAttachments(drawBuffers,1);
+
 
   kore::ShaderProgramPass* shaderProgPass = new kore::ShaderProgramPass;
   //shaderProgPass->setShaderProgram(simpleShader);
