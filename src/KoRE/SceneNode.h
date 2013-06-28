@@ -81,7 +81,9 @@ namespace kore {
                         const glm::vec3& v3Up,
                         const glm::vec3& v3Forward,
                         const ETransfpomSpace relativeTo = SPACE_LOCAL);
-
+    void setTransform(glm::mat4& trans 
+      //,const ETransfpomSpace relativeTo /*=SPACE_LOCAL*/
+                      );
   private:
     uint _tag;
     std::string _name;

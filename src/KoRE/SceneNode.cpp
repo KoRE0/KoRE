@@ -189,6 +189,17 @@ void
   _dirty = true;
 }
 
+// TODO: Implement space-changes, right now only Local space 
+void kore::SceneNode::setTransform( glm::mat4& trans 
+                                   //,const ETransfpomSpace relativeTo /*=SPACE_LOCAL*/
+                                  )
+{
+  _transform->setLocal(trans);
+  _dirty = true;
+}
+
+
+
 void kore::SceneNode::
   setTranslation(const glm::vec3& position
                  //,const ETransfpomSpace relativeTo /*= SPACE_LOCAL*/
