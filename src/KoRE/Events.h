@@ -25,7 +25,7 @@
 #define KORE_SRC_KORE_EVENTS_H_
 
 #include "KoRE/Common.h"
-
+using namespace kore;
 /**********************************************************************//**
 * This header-file includes different types of events and event-handlers for different
 * parameters.

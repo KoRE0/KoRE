@@ -25,6 +25,8 @@
 #include "KoRE/Components/MeshComponent.h"
 #include "KoRE/Mesh.h"
 
+using namespace kore;
+
 kore::MeshLoader* kore::MeshLoader::getInstance() {
   static MeshLoader clInstance;
   return &clInstance;

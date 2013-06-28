@@ -8,6 +8,8 @@
 #include "KoRE/FrameBuffer.h"
 #include "KoRE/ShaderProgram.h"
 
+using namespace kore;
+
 kore::IDManager::IDManager(void)
  : _counter(0), 
    _internalPathName("_INTERNAL_"),

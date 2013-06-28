@@ -18,7 +18,7 @@
 */
 
 #include "KoRE/Components/Material.h"
-
+using namespace kore;
 kore::Material::Material() : _name("UNNAMED"), kore::BaseResource() {
 }
 

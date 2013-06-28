@@ -41,6 +41,7 @@
 
 #include "KoRE/Log.h"
 
+namespace kore{
 // Typedefs:
 typedef unsigned int uint;
 // typedef uint64_t uint64;
@@ -69,5 +70,5 @@ typedef double float64;
 //#define STATIC_ASSERT(expression) {int __static_assert_checkArray[1]; __static_assert_checkArray[expression-1];}
 
 
-
+}
 #endif  // CORE_INCLUDE_CORE_COMMON_H_
