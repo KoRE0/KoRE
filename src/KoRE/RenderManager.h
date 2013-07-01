@@ -128,6 +128,7 @@ namespace kore {
 
     void setGLcapability(GLuint cap, bool enable);
     void setColorMask(bool red, bool green, bool blue, bool alpha);
+	void setCullFace(GLenum face);
 
     void bindTexture(const GLuint textureUnit,
                      const GLuint textureTarget,

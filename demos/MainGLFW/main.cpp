@@ -51,7 +51,10 @@
 #include "Kore/Passes/ShaderProgramPass.h"
 #include "KoRE/Passes/NodePass.h"
 #include "KoRE/Events.h"
+#include "Kore/Operations/Operations.h"
 #include "Kore/Operations/OperationFactory.h"
+#include "KoRE/Operations/CullFaceOp.h"
+#include "KoRE/Operations/EnableDisableOp.h"
 #include "iostream"
 
 kore::SceneNode* rotationNode = NULL;
@@ -289,9 +292,6 @@ int main(void) {
 
   // enable culling and depthtest
   glEnable(GL_DEPTH_TEST);
-  glEnable(GL_CULL_FACE);
-  glCullFace(GL_BACK);
-
 
   // load shader
   kore::ShaderProgram* simpleShader = new kore::ShaderProgram;
@@ -375,6 +375,8 @@ int main(void) {
 
   }
 
+  backBufferStage->addStartupOperation(new kore::EnableDisableOp(GL_CULL_FACE, kore::EnableDisableOp::ENABLE));
+  backBufferStage->addStartupOperation(new kore::CullFaceOp(GL_BACK));
   backBufferStage->addProgramPass(shaderProgPass);
 
   kore::RenderManager::getInstance()->addFramebufferStage(backBufferStage);

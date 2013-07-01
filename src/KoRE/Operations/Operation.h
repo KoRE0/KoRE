@@ -44,7 +44,8 @@ namespace kore {
     OP_FUNCTION,
     OP_DRAWINDIRECT,
     OP_BINDBUFFER,
-    OP_CLEAR
+    OP_CLEAR,
+	OP_CULLFACE
   };
 
   enum EOperationExecutionType {

@@ -390,6 +390,17 @@ void kore::RenderManager::setColorMask(bool red,
   glColorMask(red, green, blue, alpha);
 }
 
+void kore::RenderManager::setCullFace(GLenum face)
+{
+		if((face == GL_FRONT) || (face == GL_BACK)  ) {
+			glCullFace(face);
+		}
+		else {
+			Log::getInstance()->write("[ERROR] RenderManager::setCullFace - "
+				" no valid face");
+		}
+}
+
 void kore::RenderManager::setGLcapability(GLuint cap, bool enable) {
   if (glIsEnabled(cap) == static_cast<GLboolean>(enable)) {
     return;

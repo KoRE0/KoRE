@@ -182,6 +182,9 @@
     <ClCompile Include="src\KoRE\Operations\ClearOp.cpp">
       <Filter>src\Operations</Filter>
     </ClCompile>
+    <ClCompile Include="src\KoRE\Operations\CullFaceOp.cpp">
+      <Filter>src\Operations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\KoRE\Operations\SelectNodes.h">
@@ -378,6 +381,9 @@
       <Filter>src\Resources</Filter>
     </ClInclude>
     <ClInclude Include="src\KoRE\Operations\ClearOp.h">
+      <Filter>src\Operations</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KoRE\Operations\CullFaceOp.h">
       <Filter>src\Operations</Filter>
     </ClInclude>
   </ItemGroup>

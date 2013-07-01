@@ -17,24 +17,32 @@
   along with KoRE.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "BindOperations/BindAtomicCounterBuffer.h"
-#include "BindOperations/BindAttribute.h"
-#include "BindOperations/BindImageTexture.h"
-#include "BindOperations/BindTexture.h"
-#include "BindOperations/BindUniform.h"
-#include "ColorMaskOp.h"
-#include "EnableDisableOp.h"
-#include "FunctionOp.h"
-#include "MemoryBarrierOp.h"
-#include "OperationFactory.h"
-#include "RenderMesh.h"
-#include "ResetAtomicCounterBuffer.h"
-#include "SelectNodes.h"
-#include "UseFBO.h"
-#include "UseShaderProgram.h"
-#include "ViewportOp.h"
-#include "BindBuffer.h"
-#include "DrawIndirectOp.h"
-#include "OperationFactory.h"
-#include "ClearOp.h"
-#include "CullFaceOp.h"
+#include "KoRE/Common.h"
+#include "KoRE/Operations/Operation.h"
+
+#ifndef KORE_SRC_KORE_OPERATIONS_CULLFACEOP_H_
+#define KORE_SRC_KORE_OPERATIONS_CULLFACEOP_H_
+
+namespace kore {
+  class CullFaceOp : public Operation {
+    public:
+
+      CullFaceOp();
+      CullFaceOp(const GLenum face);
+      virtual ~CullFaceOp();
+
+      virtual void update(void);
+      virtual void reset(void);
+      virtual bool dependsOn(const void* thing) const;
+      virtual bool isValid(void) const;
+
+      void connect(const GLenum face);
+
+  private:
+      virtual void doExecute(void) const;
+
+      GLenum _face;
+  };
+}
+
+#endif
